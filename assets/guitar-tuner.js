@@ -144,7 +144,7 @@ if (app) {
     const detected = detectPitchAutoCorrelate(timeBuffer, audioContext.sampleRate, {
       minFrequency: 40,
       maxFrequency: 5000,
-      rmsThreshold: 0.0035,
+      rmsThreshold: 0.0018,
       correlationThreshold: 0.68
     });
 

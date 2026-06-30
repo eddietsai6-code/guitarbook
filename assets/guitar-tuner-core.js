@@ -117,7 +117,7 @@ export function detectPitchAutoCorrelate(
   {
     minFrequency = 50,
     maxFrequency = 2000,
-    rmsThreshold = 0.0035,
+    rmsThreshold = 0.0018,
     correlationThreshold = 0.68
   } = {}
 ) {

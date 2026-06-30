@@ -2,6 +2,7 @@
   "name": "guitarbook",
   "version": "0.1.0",
   "private": false,
+  "type": "module",
   "description": "A static GuitarBook acoustic-guitar teaching website template.",
   "homepage": "https://guitarbook.pages.dev/",
   "repository": {
@@ -10,6 +11,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "node --check assets/app.js && node --check assets/data.js && node --check assets/guitar-tuner.js && node --check assets/guitar-tuner-core.js"
+    "test": "node --check assets/app.js && node --check assets/data.js && node --check assets/guitar-tuner.js && node --check assets/guitar-tuner-core.js && node --test tests/core.test.mjs"
   }
 }
