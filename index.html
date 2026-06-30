@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GuitarBook Template</title>
-    <link rel="stylesheet" href="./assets/styles.css?v=20260701-needle" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20260701-readout" />
   </head>
   <body>
     <main>
@@ -71,10 +71,6 @@
                 <div class="guitar-tuner-face">
                   <div class="guitar-tuner-scale" aria-hidden="true"></div>
                   <div class="guitar-tuner-center-band" aria-hidden="true"></div>
-                  <div class="guitar-tuner-frequency" aria-hidden="true">
-                    <span id="guitarTunerFrequency">--</span>
-                    <small>Hz</small>
-                  </div>
                   <div class="guitar-tuner-cents" aria-hidden="true">
                     <span id="guitarTunerCents">0</span>
                     <small>Cents</small>
@@ -88,6 +84,10 @@
                 <div class="guitar-tuner-note-line">
                   <span id="guitarTunerNote">--</span>
                   <small id="guitarTunerOctave"></small>
+                </div>
+                <div class="guitar-tuner-frequency" aria-hidden="true">
+                  <span id="guitarTunerFrequency">--</span>
+                  <small>Hz</small>
                 </div>
                 <p id="guitarTunerTarget"></p>
               </section>

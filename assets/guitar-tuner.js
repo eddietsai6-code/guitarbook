@@ -37,10 +37,12 @@ if (app) {
   let activeMode = "chromatic";
 
   function buildScale() {
-    for (let cents = -50; cents <= 50; cents += 5) {
+    const scaleMarks = [-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50];
+
+    for (const cents of scaleMarks) {
       const tick = document.createElement("span");
       tick.className = "guitar-tuner-tick";
-      if (cents % 10 === 0) tick.classList.add("is-major");
+      if (cents % 20 === 0) tick.classList.add("is-major");
       if (cents === 0) tick.classList.add("is-center");
       tick.style.setProperty("--angle", `${centsToNeedleDegrees(cents)}deg`);
       scale.appendChild(tick);

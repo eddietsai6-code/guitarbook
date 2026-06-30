@@ -3504,7 +3504,8 @@ main {
   width: 2px;
   height: 18px;
   background: rgba(18, 16, 13, 0.72);
-  transform: rotate(var(--angle)) translateY(calc(-1 * var(--scale-radius)));
+  border-radius: 999px;
+  transform: translateX(-50%) rotate(var(--angle)) translateY(calc(-1 * var(--scale-radius)));
   transform-origin: 50% var(--scale-radius);
 }
 
@@ -3532,16 +3533,15 @@ main {
 }
 
 .guitar-tuner-frequency {
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  transform: translateX(-50%);
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  color: rgba(18, 16, 13, 0.76);
-  font-size: 38px;
-  font-weight: 800;
+  justify-content: center;
+  gap: 6px;
+  color: #e0bc73;
+  font-family: var(--font-geist);
+  font-size: clamp(20px, 4vw, 32px);
+  font-weight: 900;
+  line-height: 1;
 }
 
 .guitar-tuner-frequency small,
@@ -3594,7 +3594,9 @@ main {
   min-height: 118px;
   display: grid;
   place-items: center;
+  align-content: center;
   gap: 6px;
+  padding: 14px;
   border: 1px solid rgba(224, 188, 115, 0.34);
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(255, 244, 211, 0.08), rgba(0, 0, 0, 0.12));
@@ -3826,8 +3828,12 @@ main {
 }
 
 .hero-tuner-card .guitar-tuner-frequency {
-  top: 46%;
-  font-size: 25px;
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.hero-tuner-card .guitar-tuner-frequency small {
+  font-size: 9px;
 }
 
 .hero-tuner-card .guitar-tuner-cents {
@@ -3851,16 +3857,18 @@ main {
 }
 
 .hero-tuner-card .guitar-tuner-readout {
-  min-height: 72px;
+  min-height: 78px;
+  gap: 3px;
+  padding: 8px 10px;
 }
 
 .hero-tuner-card .guitar-tuner-note-line {
-  font-size: 54px;
+  font-size: 46px;
+  line-height: 0.92;
 }
 
 .hero-tuner-card .guitar-tuner-readout p {
-  min-height: 16px;
-  font-size: 11px;
+  display: none;
 }
 
 .hero-tuner-card .guitar-tuner-mode {
