@@ -3841,6 +3841,15 @@ main {
   height: 46px;
 }
 
+.hero-tuner-card .guitar-tuner-needle {
+  bottom: -16px;
+  height: 76%;
+}
+
+.hero-tuner-card .guitar-tuner-pivot {
+  bottom: -16px;
+}
+
 .hero-tuner-card .guitar-tuner-readout {
   min-height: 72px;
 }
