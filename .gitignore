@@ -6,5 +6,6 @@ dist/
 *.tmp
 tmp/
 screenshots/
+.wrangler/
 .DS_Store
 Thumbs.db
