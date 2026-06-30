@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GuitarBook Template</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-label="GuitarBook">
+        <div class="hero-copy">
+          <p class="marker-caption">Dear acoustic guitar players,</p>
+          <div class="text-pressure-stage hero-pressure-stage">
+            <h1 id="heroPressure" class="text-pressure-title hero-pressure flex" data-text="GuitarBook" aria-label="GuitarBook"></h1>
+          </div>
+          <p class="intro-copy">
+            A clean acoustic-guitar lesson framework where every song has a stage, technique tags, practice steps, and pass standards,
+            <span>not just “easy or hard”.</span>
+          </p>
+          <div id="heroStats" class="stat-row" aria-label="Catalog stats"></div>
+          <div class="hero-actions">
+            <a class="pill-button" href="#catalog">Open catalog</a>
+            <a class="quiet-link" href="#levels">View stages</a>
+          </div>
+          <p class="preorder-note">Guitar teaching template · public framework without media resources.</p>
+        </div>
+
+        <div id="heroLanyard" class="guitar-lanyard lanyard-wrapper" aria-label="GuitarBook template badge lanyard">
+          <canvas class="lanyard-canvas" width="560" height="820" aria-hidden="true"></canvas>
+          <span class="lanyard-a11y">GuitarBook template badge</span>
+        </div>
+
+        <div class="hero-product" aria-label="Guitar tuner">
+          <div class="hero-guitar-silhouette" aria-hidden="true">
+            <span class="guitar-head"></span>
+            <span class="guitar-neck"></span>
+            <span class="guitar-body"></span>
+            <span class="guitar-soundhole"></span>
+            <span class="guitar-bridge"></span>
+            <span class="guitar-string guitar-string-1"></span>
+            <span class="guitar-string guitar-string-2"></span>
+            <span class="guitar-string guitar-string-3"></span>
+            <span class="guitar-string guitar-string-4"></span>
+            <span class="guitar-string guitar-string-5"></span>
+            <span class="guitar-string guitar-string-6"></span>
+          </div>
+          <p class="scribble-caption caption-left">tune first</p>
+          <svg class="arrow arrow-left" viewBox="0 0 120 76" aria-hidden="true">
+            <path d="M7 16 C38 7, 76 17, 101 52" />
+            <path d="M96 42 L104 56 L87 53" />
+          </svg>
+          <div class="guitar-tuner-app hero-tuner-card" id="guitarTunerApp">
+            <section class="guitar-tuner-panel" aria-describedby="guitarTunerStatus">
+              <header class="guitar-tuner-top">
+                <div>
+                  <p id="guitarTunerModeLabel" class="guitar-tuner-kicker">12-TET</p>
+                  <h3>Guitar Tuner</h3>
+                </div>
+                <div class="guitar-tuner-lamp" aria-hidden="true"></div>
+              </header>
+
+              <div
+                class="guitar-tuner-meter"
+                role="meter"
+                aria-label="Cents offset"
+                aria-valuemin="-50"
+                aria-valuemax="50"
+                aria-valuenow="0"
+              >
+                <div class="guitar-tuner-face">
+                  <div class="guitar-tuner-scale" aria-hidden="true"></div>
+                  <div class="guitar-tuner-center-band" aria-hidden="true"></div>
+                  <div class="guitar-tuner-frequency" aria-hidden="true">
+                    <span id="guitarTunerFrequency">--</span>
+                    <small>Hz</small>
+                  </div>
+                  <div class="guitar-tuner-cents" aria-hidden="true">
+                    <span id="guitarTunerCents">0</span>
+                    <small>Cents</small>
+                  </div>
+                  <div class="guitar-tuner-needle" id="guitarTunerNeedle" aria-hidden="true"></div>
+                  <div class="guitar-tuner-pivot" aria-hidden="true"></div>
+                </div>
+              </div>
+
+              <section class="guitar-tuner-readout" aria-live="polite">
+                <div class="guitar-tuner-note-line">
+                  <span id="guitarTunerNote">--</span>
+                  <small id="guitarTunerOctave"></small>
+                </div>
+                <p id="guitarTunerTarget"></p>
+              </section>
+
+              <div class="guitar-tuner-modes" role="group" aria-label="Tuning mode">
+                <button class="guitar-tuner-mode is-active" type="button" data-mode="chromatic" aria-pressed="true">
+                  <span>12-TET</span>
+                  <small>Any 12-TET note</small>
+                </button>
+                <button class="guitar-tuner-mode" type="button" data-mode="guitar" aria-pressed="false">
+                  <span>Guitar</span>
+                  <small>6=E2 5=A2 4=D3 3=G3 2=B3 1=E4</small>
+                </button>
+              </div>
+
+              <footer class="guitar-tuner-controls">
+                <button class="guitar-tuner-start" id="guitarTunerStart" type="button">Start</button>
+                <input id="guitarTunerA4" type="hidden" value="440" />
+                <div class="guitar-tuner-level" aria-hidden="true">
+                  <span id="guitarTunerLevel"></span>
+                </div>
+              </footer>
+
+              <p class="guitar-tuner-status" id="guitarTunerStatus">Ready</p>
+            </section>
+          </div>
+          <div class="pencil-object" aria-hidden="true"></div>
+          <span class="sticker sticker-beat" aria-hidden="true">pick</span>
+        </div>
+      </section>
+
+      <section class="product-row" aria-label="Lesson-note samples">
+        <div class="showcase-object notebook-blue">
+          <p class="scribble-caption">starter grades</p>
+          <svg class="arrow" viewBox="0 0 120 76" aria-hidden="true">
+            <path d="M9 18 C42 11, 76 20, 104 54" />
+            <path d="M98 44 L106 58 L89 55" />
+          </svg>
+          <div class="mini-notebook">
+            <span>Debut-G2</span>
+            <strong>chord book</strong>
+          </div>
+        </div>
+        <div class="showcase-copy">
+          <p class="marker-caption">Like making</p>
+          <h2>our level path. our way.</h2>
+          <p>Make every class easier to scan: what to practice, why it matters, and how the student passes it.</p>
+        </div>
+        <div class="showcase-object notebook-pink">
+          <p class="scribble-caption">advanced stack</p>
+          <svg class="arrow" viewBox="0 0 120 76" aria-hidden="true">
+            <path d="M12 58 C42 24, 76 15, 108 21" />
+            <path d="M96 13 L111 20 L98 31" />
+          </svg>
+          <div class="mini-notebook">
+            <span>G6-G8</span>
+            <strong>style notes</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section levels-section" id="levels" aria-label="Stage standards">
+        <div class="section-heading">
+          <p class="marker-caption">three-stage guitar path</p>
+          <h2>each stage gets a playable target.</h2>
+          <p>Difficulty becomes observable: first-position basics, C/G harmony, full fingerstyle pieces, full-neck accompaniment, style control, and arranging.</p>
+        </div>
+        <div
+          id="levelBoard"
+          class="level-board circular-gallery chroma-grid"
+          tabindex="0"
+          role="region"
+          aria-label="Circular grade gallery. Drag, scroll, or use arrow keys to choose a grade."
+        ></div>
+        <div id="levelSongPicker" class="level-song-picker" aria-live="polite"></div>
+      </section>
+
+      <section class="section catalog-section" id="catalog" aria-label="Catalog">
+        <div class="section-heading wide">
+          <p class="marker-caption">peel one song</p>
+          <h2>placeholder songs, ready for structure.</h2>
+          <p>Add real songs later by stage, source, type, style, and technique. This public template only ships placeholder data.</p>
+        </div>
+
+        <form class="filters" id="filters" aria-label="Filter catalog">
+          <label>
+            <span>search</span>
+            <input id="queryInput" type="search" placeholder="Song, artist, style, technique" autocomplete="off" />
+          </label>
+          <label>
+            <span>source</span>
+            <select id="sourceFilter">
+              <option value="all">All sources</option>
+            </select>
+          </label>
+          <label>
+            <span>type</span>
+            <select id="categoryFilter">
+              <option value="all">All types</option>
+            </select>
+          </label>
+          <label>
+            <span>grade</span>
+            <select id="levelFilter">
+              <option value="all">All stages</option>
+            </select>
+          </label>
+        </form>
+
+        <div id="techCloud" class="tech-cloud" aria-label="Technique quick filters"></div>
+      </section>
+
+      <section class="section lesson-section" id="lesson" aria-label="Song lesson page">
+        <div class="section-heading">
+          <p class="marker-caption">lesson page</p>
+          <h2>send one neat note after class.</h2>
+          <p>Each song can become a reusable lesson page with goals, focus points, common issues, pass standards, audio, and score placeholders.</p>
+        </div>
+        <article id="songDetail" class="lesson-card" aria-live="polite"></article>
+      </section>
+    </main>
+
+    <footer class="footer-band sponsor-footer" aria-label="GuitarBook supporters">
+      <div class="sponsor-footer-head">
+        <strong class="decrypt-text" data-decrypt-text="Support future maintenance">Support future maintenance</strong>
+        <p class="sponsor-footer-note decrypt-text" data-decrypt-text="This public template uses placeholders only. Replace support assets with your own licensed material later.">This public template uses placeholders only. Replace support assets with your own licensed material later.</p>
+        <button class="support-toggle" type="button" aria-expanded="false" aria-controls="supportFolder">Support</button>
+        <div class="support-folder-popover" id="supportFolder" aria-hidden="true">
+          <div class="support-folder-stage">
+            <div class="support-qr-grid" aria-label="Support amount placeholders">
+              <figure class="support-qr-card">
+                <figcaption><span>Support placeholder</span><strong>10</strong></figcaption>
+                <div class="support-qr-frame">
+                  <div class="support-qr-placeholder" aria-label="support image placeholder">10</div>
+                </div>
+              </figure>
+              <figure class="support-qr-card">
+                <figcaption><span>Support placeholder</span><strong>20</strong></figcaption>
+                <div class="support-qr-frame">
+                  <div class="support-qr-placeholder" aria-label="support image placeholder">20</div>
+                </div>
+              </figure>
+              <figure class="support-qr-card">
+                <figcaption><span>Support placeholder</span><strong>50</strong></figcaption>
+                <div class="support-qr-frame">
+                  <div class="support-qr-placeholder" aria-label="support image placeholder">50</div>
+                </div>
+              </figure>
+            </div>
+            <div class="folder support-folder" aria-label="Support placeholder folder">
+              <div class="folder__back">
+                <span class="redpacket-seal" aria-hidden="true">GB</span>
+                <div class="folder__front"></div>
+                <div class="folder__front right"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="logoloop logoloop--horizontal logoloop--fade logoloop--scale-hover sponsor-logoloop" role="region" aria-label="Website sponsor avatars">
+        <div class="logoloop__track">
+          <ul class="logoloop__list" role="list">
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor GuitarBook"><span class="logoloop__node avatar-face avatar-emerald">GB</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor Mina"><span class="logoloop__node avatar-face avatar-sky">MN</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor Kai"><span class="logoloop__node avatar-face avatar-coral">K</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor June"><span class="logoloop__node avatar-face avatar-gold">JN</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor Ray"><span class="logoloop__node avatar-face avatar-ink">RY</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor Nori"><span class="logoloop__node avatar-face avatar-rose">NO</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor Alex"><span class="logoloop__node avatar-face avatar-mint">AX</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" aria-label="Sponsor Sam"><span class="logoloop__node avatar-face avatar-blue">SM</span></a></li>
+          </ul>
+          <ul class="logoloop__list" role="list" aria-hidden="true">
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-emerald">GB</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-sky">MN</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-coral">K</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-gold">JN</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-ink">RY</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-rose">NO</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-mint">AX</span></a></li>
+            <li class="logoloop__item" role="listitem"><a class="logoloop__link" href="#lesson" tabindex="-1"><span class="logoloop__node avatar-face avatar-blue">SM</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./assets/data.js"></script>
+    <script src="./assets/app.js"></script>
+    <script type="module" src="./assets/guitar-tuner.js"></script>
+  </body>
+</html>
