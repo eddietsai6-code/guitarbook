@@ -96,7 +96,7 @@ test("RSL acoustic levels expose one cover per Debut and G1-G8 grade", () => {
   });
 });
 
-test("songs expose placeholder audio versions and mapped score assets", () => {
+test("songs expose real playable audio versions and mapped score assets", () => {
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
@@ -105,19 +105,28 @@ test("songs expose placeholder audio versions and mapped score assets", () => {
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
     assert.ok(Array.isArray(song.audio), `${song.id} should expose audio versions`);
-    assert.ok(song.audio.length >= 3, `${song.id} should include multiple placeholder versions`);
+    assert.ok(song.audio.length >= 1, `${song.id} should include at least one real audio version`);
     assert.equal(song.scoreImages.length, song.scoreImageCount, `${song.id} should match its score image count`);
 
     song.audio.forEach((version) => {
       assert.ok(version.title, `${song.id} audio version should have a title`);
-      assert.ok(version.src.startsWith(`./assets/audio-placeholders/${song.id}/`), `${song.id} should use placeholder audio paths`);
+      assert.ok(
+        version.src.startsWith(`./assets/audio/rockschool/acoustic-guitar/${song.id}/`),
+        `${song.id} should use the project audio asset folder`
+      );
       assert.equal(path.isAbsolute(version.src), false, `${song.id} audio path should be relative`);
+      assert.doesNotMatch(version.src, /^(?:[a-z]:|file:\/\/)/i, `${song.id} should not use a local absolute audio path`);
+      assert.doesNotMatch(version.src, /(?:slow|slower|practice|practise|0\.75|0\.85|75%|85%)/i);
       assert.equal(
         fs.existsSync(path.join(process.cwd(), version.src.replace("./", ""))),
-        false,
-        `${song.id} placeholder audio should not require a real file`
+        true,
+        `${song.id} audio file should exist`
       );
     });
+
+    const audioDir = path.join(process.cwd(), "assets", "audio", "rockschool", "acoustic-guitar", song.id);
+    const audioFiles = fs.existsSync(audioDir) ? fs.readdirSync(audioDir).filter((name) => /\.mp3$/i.test(name)) : [];
+    assert.equal(audioFiles.length, song.audio.length, `${song.id} should not have unmapped audio files`);
 
     song.scoreImages.forEach((image, index) => {
       assert.equal(path.isAbsolute(image.src), false, `${song.id} score ${index + 1} should use a relative path`);

@@ -1,6 +1,6 @@
-# Guitar Web Template
+# GuitarBook
 
-This is a clean static template for the GuitarBook acoustic-guitar teaching website.
+This is a static acoustic-guitar teaching site for browsing a graded RSL Acoustic Guitar song catalog with score pages, audio versions, filters, lesson notes, and a browser-based tuner.
 
 Baseline source template checked on 2026-06-30:
 
@@ -12,17 +12,11 @@ Baseline source template checked on 2026-06-30:
 
 - `index.html`: page sections and buttons
 - `assets/styles.css`: standalone responsive styling
-- `assets/data.js`: placeholder guitar levels and songs
-- `assets/app.js`: complete interactive script for filters, level buttons, song cards, tabs, and placeholders
+- `assets/data.js`: Debut and Grade 1-8 acoustic-guitar catalog data
+- `assets/app.js`: interactive script for filters, level buttons, song cards, audio, scores, tabs, and tuner controls
+- `assets/audio/rockschool/acoustic-guitar/`: project-relative MP3 assets for mapped catalog songs
 - `assets/guitar-tuner.js` and `assets/guitar-tuner-core.js`: browser-based 12-TET and guitar tuner
-
-## What Is Not Included
-
-- No audio files
-- No score images
-- No payment QR images
-- No source-project commercial score or audio references
-- No external audio player dependency
+- `scores/acoustic-guitar/`: mapped score page images for catalog songs
 
 ## How To Use
 
@@ -34,10 +28,6 @@ Or run the local syntax smoke test:
 npm.cmd test
 ```
 
-To turn this into a real guitar site, edit `assets/data.js` first:
+## Publishing Note
 
-- Replace `levels` with your own teaching levels.
-- Replace `songs` with your own guitar songs.
-- Keep `audioSlots` and `scoreSlots` as placeholders until you are ready to connect real licensed assets.
-
-When you are ready to connect real media, add new fields instead of putting private resources into the template by default.
+The catalog references commercial songs, score pages, and audio assets. Confirm you have the required publishing rights before making the media publicly available through GitHub or Cloudflare Pages.

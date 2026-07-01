@@ -181,24 +181,77 @@
     makeSong({ id: "rsl-acoustic-g8-i-need-something", title: "I Need Something", artist: "Newton Faulkner", level: "g8", pdfPages: "57-64", scoreImageCount: 8 })
   ];
 
+  const audioFilesBySong = {
+    "rsl-acoustic-debut-brown-eyed-girl": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-debut-chasing-cars": ["full-mix.mp3", "backing-track-1.mp3", "backing-track-2.mp3"],
+    "rsl-acoustic-debut-if-i-were-a-boy": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-debut-learn-to-fly": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-debut-no-woman-no-cry": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-debut-yellow": ["full-mix.mp3", "backing-track-1.mp3", "backing-track-2.mp3"],
+    "rsl-acoustic-g1-beautiful": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g1-free-fallin": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g1-let-it-be": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g1-someone-like-you": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g1-stella-by-starlight": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g1-the-unforgiven": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g2-all-along-the-watchtower": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g2-lover-you-shouldve-come-over": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g2-sittin-on-the-dock-of-the-bay": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g2-the-a-team": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g2-wild-wood": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g2-wonderwall": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-best-of-you": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-bless-the-broken-road": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-everything-has-changed": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-i-dont-want-to-miss-a-thing": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-thinking-out-loud": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-when-you-say-nothing-at-all": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g4-baby-now-that-ive-found-you": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g4-big-yellow-taxi": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g4-fearless": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g4-layla": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g4-little-lion-man": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g4-nothing-else-matters": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g5-blackbird": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g5-brothers-in-arms": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g5-shape-of-my-heart": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g5-songbird": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g5-tears-in-heaven": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g5-wanted-dead-or-alive": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g6-dont-know-why": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g6-here-there-and-everywhere": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g6-man-in-the-mirror": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g6-pride-and-joy": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g6-the-boxer": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g6-what-a-friend-we-have-in-jesus": ["solo.mp3"],
+    "rsl-acoustic-g7-and-so-it-goes": ["solo.mp3"],
+    "rsl-acoustic-g7-georgia-on-my-mind": ["solo.mp3"],
+    "rsl-acoustic-g7-neon": ["solo.mp3"],
+    "rsl-acoustic-g7-our-spanish-love-song": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g7-teardrop": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g7-woke-up-dreaming": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g8-first-rule-of-thumb": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g8-i-need-something": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g8-jerrys-breakdown": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g8-kind-hearted-woman": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g8-midnight-express": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g8-tears-for-jerusalem": ["full-mix.mp3"]
+  };
+
+  const audioTitleByFile = {
+    "full-mix.mp3": "Full mix",
+    "backing-track.mp3": "Backing track",
+    "backing-track-1.mp3": "Backing track 1",
+    "backing-track-2.mp3": "Backing track 2",
+    "solo.mp3": "Solo"
+  };
+
   function audioVersionsFor(songId) {
-    return [
-      {
-        id: "demo",
-        title: "Demo",
-        src: `./assets/audio-placeholders/${songId}/demo.mp3`
-      },
-      {
-        id: "slow-practice",
-        title: "Slow Practice",
-        src: `./assets/audio-placeholders/${songId}/slow-practice.mp3`
-      },
-      {
-        id: "backing-track",
-        title: "Backing Track",
-        src: `./assets/audio-placeholders/${songId}/backing-track.mp3`
-      }
-    ];
+    return (audioFilesBySong[songId] || []).map((fileName) => ({
+      id: fileName.replace(/\.mp3$/i, ""),
+      title: audioTitleByFile[fileName] || fileName.replace(/\.mp3$/i, ""),
+      src: `./assets/audio/rockschool/acoustic-guitar/${songId}/${fileName}`
+    }));
   }
 
   function scoreImagesFor(songId, title, count) {
@@ -235,12 +288,16 @@
       practiceOrder: teaching.practiceOrder,
       commonIssues: teaching.commonIssues,
       passStandard: teaching.passStandard,
-      audio: audioVersionsFor(song.id),
+      audio: [],
       scoreImageCount,
       scoreImages: scoreImagesFor(song.id, song.title, scoreImageCount),
       teaching
     };
   }
+
+  songs.forEach((song) => {
+    song.audio = audioVersionsFor(song.id);
+  });
 
   window.GUITAR_LEVEL_DATA = { levels, songs };
 })();
