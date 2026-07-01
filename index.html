@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GuitarBook Template</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="./assets/styles.css?v=20260701-readout" />
     <script type="module" src="https://eddietsai6-code.github.io/audio-speed-player/dist/audio-speed-player-pro.js"></script>
   </head>
@@ -21,7 +22,7 @@
           </p>
           <div id="heroStats" class="stat-row" aria-label="Catalog stats"></div>
           <div class="hero-actions">
-            <a class="pill-button" href="#catalog">Open catalog</a>
+            <a class="pill-button" href="#lesson">Open lesson</a>
             <a class="quiet-link" href="#levels">View grades</a>
           </div>
           <p class="preorder-note">Guitar teaching template · public framework without media resources.</p>
@@ -164,46 +165,6 @@
           aria-label="Circular grade gallery. Drag, scroll, or use arrow keys to choose a grade."
         ></div>
         <div id="levelSongPicker" class="level-song-picker" aria-live="polite"></div>
-      </section>
-
-      <section class="section catalog-section" id="catalog" aria-label="Catalog">
-        <div class="section-heading wide">
-          <p class="marker-caption">peel one song</p>
-          <h2>placeholder songs, ready for structure.</h2>
-          <p>Add real songs later by grade, source, type, style, and technique. This public template only ships placeholder data.</p>
-        </div>
-
-        <form class="filters" id="filters" aria-label="Filter catalog">
-          <label>
-            <span>search</span>
-            <input id="queryInput" type="search" placeholder="Song, artist, style, technique" autocomplete="off" />
-          </label>
-          <label>
-            <span>source</span>
-            <select id="sourceFilter">
-              <option value="all">All sources</option>
-            </select>
-          </label>
-          <label>
-            <span>type</span>
-            <select id="categoryFilter">
-              <option value="all">All types</option>
-            </select>
-          </label>
-          <label>
-            <span>grade</span>
-            <select id="levelFilter">
-              <option value="all">All grades</option>
-            </select>
-          </label>
-        </form>
-
-        <div id="techCloud" class="tech-cloud" aria-label="Technique quick filters"></div>
-        <div class="catalog-head" aria-live="polite">
-          <strong id="resultCount">0 labels</strong>
-          <span id="activeSummary">all songs</span>
-        </div>
-        <div id="songList" class="song-label-grid"></div>
       </section>
 
       <section class="section lesson-section" id="lesson" aria-label="Song lesson page">

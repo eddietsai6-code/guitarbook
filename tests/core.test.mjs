@@ -42,6 +42,12 @@ function readIndexSource() {
   return fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 }
 
+function cssBlock(source, selector) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = source.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`));
+  return match ? match[1] : "";
+}
+
 test("detectPitchAutoCorrelate detects weak notes above C4", () => {
   const buffer = generateSineBuffer(329.627557, 0.004);
 
@@ -159,4 +165,35 @@ test("audio tab renders the external speed-player component contract", () => {
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /no-upload/);
   assert.match(appSource, /version-selector/);
+});
+
+test("audio tab does not expose internal source/debug text", () => {
+  const appSource = readAssetSource("app.js");
+
+  assert.doesNotMatch(appSource, /placeholder source/);
+  assert.doesNotMatch(appSource, /audio-template-note/);
+  assert.doesNotMatch(appSource, /Add licensed demo/);
+  assert.doesNotMatch(appSource, /<strong>\$\{escapeHtml\(activeSlot\.src\)\}<\/strong>/);
+});
+
+test("homepage does not render the song overview card grid shell", () => {
+  const indexSource = readIndexSource();
+
+  assert.doesNotMatch(indexSource, /id="songList"/);
+  assert.doesNotMatch(indexSource, /id="resultCount"/);
+  assert.doesNotMatch(indexSource, /id="activeSummary"/);
+  assert.doesNotMatch(indexSource, />all songs</);
+  assert.doesNotMatch(indexSource, /0 labels/);
+});
+
+test("score sheet images preserve white source rendering", () => {
+  const styles = readAssetSource("styles.css");
+  const imageRule = cssBlock(styles, ".score-card img");
+  const frameRule = cssBlock(styles, ".score-image-frame");
+
+  assert.match(frameRule, /background:\s*#ffffff/);
+  assert.match(imageRule, /background:\s*#ffffff/);
+  assert.match(imageRule, /filter:\s*none/);
+  assert.match(imageRule, /opacity:\s*1/);
+  assert.match(imageRule, /mix-blend-mode:\s*normal/);
 });

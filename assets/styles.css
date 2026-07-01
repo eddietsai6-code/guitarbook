@@ -2471,7 +2471,7 @@ main {
   border: 1.5px solid var(--color-charcoal);
   border-radius: 12px;
   overflow: hidden;
-  background: var(--color-dew-drop);
+  background: #ffffff;
 }
 
 .score-sheet {
@@ -2491,7 +2491,9 @@ main {
   height: auto;
   border: 1px solid rgba(43, 26, 7, 0.14);
   background: #ffffff;
-  filter: contrast(2.15) brightness(0.86) saturate(0.85);
+  filter: none;
+  opacity: 1;
+  mix-blend-mode: normal;
 }
 
 .evidence-tags {

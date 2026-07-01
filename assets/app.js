@@ -1587,11 +1587,6 @@
               version-selector
             ></audio-speed-player>
           </div>
-          <div class="resource-note audio-template-note">
-            <span>placeholder source</span>
-            <strong>${escapeHtml(activeSlot.src)}</strong>
-            <small>Add licensed demo, slow practice, backing-track, or stem audio later.</small>
-          </div>
         </div>
       </div>
     `;
