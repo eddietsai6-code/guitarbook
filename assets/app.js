@@ -418,7 +418,7 @@
     const hitCount = data.songs.filter((song) => song.category === "Hit Tune").length;
     const originalCount = data.songs.filter((song) => song.category === "Original").length;
     els.heroStats.innerHTML = `
-      <span><strong>${data.levels.length}</strong>stages</span>
+      <span><strong>${data.levels.length}</strong>grades</span>
       <span><strong>${data.songs.length}</strong>songs</span>
       <span><strong>${hitCount}</strong>Hit Tune</span>
       <span><strong>${originalCount}</strong>Original</span>
@@ -1256,6 +1256,25 @@
       .map((level) => {
         const active = state.level === level.id ? " is-active" : "";
         const expanded = state.levelPickerOpen && state.activeLevelPicker === level.id ? "true" : "false";
+        const media = level.cover
+          ? `
+            <div class="circular-media has-cover">
+              <img
+                class="circular-cover"
+                src="${escapeAttribute(level.cover)}"
+                alt="${escapeAttribute(`${level.label} RSL Acoustic cover`)}"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          `
+          : `
+            <div class="circular-media">
+              <span>${levelShort(level)}</span>
+              <strong>${levelCount(level.id)}</strong>
+              <em>songs</em>
+            </div>
+          `;
         return `
           <button
             type="button"
@@ -1265,11 +1284,7 @@
             aria-expanded="${expanded}"
             style="${chromaStyle(level)}"
           >
-            <div class="circular-media">
-              <span>${levelShort(level)}</span>
-              <strong>${levelCount(level.id)}</strong>
-              <em>songs</em>
-            </div>
+            ${media}
             <footer class="circular-caption chroma-info">
               <h3 class="name">${level.label}</h3>
               <span class="handle">${level.techniques[0] || "groove"}</span>

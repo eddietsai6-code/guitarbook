@@ -1435,7 +1435,7 @@ main {
 
 .level-board.circular-gallery.chroma-grid {
   position: relative;
-  height: 560px;
+  height: 620px;
   min-height: 0;
   display: block;
   max-width: 100%;
@@ -1471,8 +1471,8 @@ main {
   left: 50%;
   top: 50%;
   width: min(360px, calc(100vw - 72px));
-  min-height: 410px;
-  height: 410px;
+  min-height: 500px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -1549,6 +1549,36 @@ main {
     repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 42px),
     radial-gradient(circle at 24% 20%, rgba(255, 255, 255, 0.34), transparent 34%),
     rgba(255, 255, 255, 0.08);
+}
+
+.circular-media.has-cover {
+  width: min(268px, calc(100% - 36px));
+  aspect-ratio: 900 / 1198;
+  min-height: 0;
+  flex: 0 0 auto;
+  display: block;
+  margin: 16px auto 12px;
+  padding: 0;
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.24);
+  border-radius: 16px;
+  background: #111111;
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.circular-media.has-cover::before,
+.circular-media.has-cover::after {
+  display: none;
+}
+
+.circular-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #111111;
 }
 
 .circular-media::before {
@@ -3387,20 +3417,26 @@ main {
   }
 
   .level-board.circular-gallery.chroma-grid {
-    height: 500px;
+    height: 560px;
     padding: 0;
     --r: 220px;
   }
 
   .level-board.circular-gallery .level-label.circular-card {
     width: min(310px, calc(100vw - 48px));
-    min-height: 350px;
-    height: 350px;
+    min-height: 450px;
+    height: 450px;
   }
 
   .circular-media {
     min-height: 204px;
     margin: 12px;
+  }
+
+  .circular-media.has-cover {
+    width: min(238px, calc(100% - 32px));
+    min-height: 0;
+    margin: 12px auto 10px;
   }
 
   .level-board.circular-gallery .circular-media strong {
