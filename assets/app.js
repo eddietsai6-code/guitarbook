@@ -1326,16 +1326,16 @@
   function updateLevelGalleryLayout() {
     const root = els.levelBoard;
     if (!root || !levelGallery.cards.length) return;
-    levelGallery.cardStep = Math.min(360, Math.max(235, root.clientWidth * 0.36));
+    levelGallery.cardStep = Math.min(370, Math.max(245, root.clientWidth * 0.34));
 
     levelGallery.cards.forEach((card, index) => {
       const offset = index - levelGallery.current;
       const abs = Math.abs(offset);
-      const bend = Math.pow(Math.min(abs, 3.4), 1.65) * 24;
+      const bend = Math.pow(Math.min(abs, 3.4), 1.55) * 18;
       const translateX = offset * levelGallery.cardStep;
-      const rotate = offset * -4.5;
-      const scale = Math.max(0.68, 1 - abs * 0.085);
-      const alpha = abs > 4.1 ? 0 : Math.max(0.24, 1 - abs * 0.18);
+      const rotate = offset * -5.5;
+      const scale = Math.max(0.72, 1 - abs * 0.075);
+      const alpha = abs > 4.1 ? 0 : Math.max(0.3, 1 - abs * 0.15);
       const zIndex = Math.max(1, 100 - Math.round(abs * 10));
       card.style.setProperty("--tx", `${translateX}px`);
       card.style.setProperty("--ty", `${bend}px`);
@@ -1541,44 +1541,55 @@
   }
 
   function bindAudioProgress() {
-    // Template build: audio playback is intentionally disabled until licensed guitar media is added.
+    // The external speed-player component owns playback, progress, duration, and rate changes.
   }
 
   function renderAudio(song) {
     const slots = audioVersionSlots(song);
     const activeIndex = activeAudioVersionIndex(song, slots);
     const activeSlot = slots[activeIndex];
+    const playerLabel = `${song.title} - ${activeSlot.title}`;
 
     return `
       <div class="audio-workbench">
         <div class="audio-player-frame">
           <div class="audio-version-head">
-            <span>guitar audio placeholder</span>
-            <strong>${escapeHtml(activeSlot.title)}</strong>
-            <em>No guitar audio file is connected in this template.</em>
+            <div>
+              <span>audio placeholder</span>
+              <strong>${escapeHtml(activeSlot.title)}</strong>
+              <em>${escapeHtml(playerLabel)}</em>
+            </div>
+            <label class="audio-version-select-label">
+              <span>version</span>
+              <select data-audio-version-select aria-label="${escapeAttribute(song.title)} audio version">
+                ${slots
+                  .map(
+                    (slot) => `
+                      <option value="${slot.index}"${slot.index === activeIndex ? " selected" : ""}>
+                        ${escapeHtml(slot.title)}
+                      </option>
+                    `
+                  )
+                  .join("")}
+              </select>
+            </label>
           </div>
-          <div class="audio-version-selector" role="tablist" aria-label="${escapeAttribute(song.title)} audio versions">
-            ${slots
-              .map(
-                (slot) => `
-                  <button
-                    type="button"
-                    class="audio-version-button${slot.index === activeIndex ? " is-active" : ""}"
-                    role="tab"
-                    aria-selected="${slot.index === activeIndex ? "true" : "false"}"
-                    data-audio-version="${slot.index}"
-                  >
-                    <span>${slot.number}</span>
-                    <strong>${escapeHtml(slot.title)}</strong>
-                    <small>placeholder</small>
-                  </button>
-                `
-              )
-              .join("")}
+          <div class="audio-speed-player-shell">
+            <audio-speed-player
+              src="${escapeAttribute(activeSlot.src)}"
+              label="${escapeAttribute(playerLabel)}"
+              rate="1"
+              min-rate="0.5"
+              max-rate="1.5"
+              step="0.05"
+              engine="rubberband"
+              no-upload
+              version-selector
+            ></audio-speed-player>
           </div>
           <div class="resource-note audio-template-note">
-            <span>guitar audio area</span>
-            <strong>Accompaniment / fingerstyle audio placeholder</strong>
+            <span>placeholder source</span>
+            <strong>${escapeHtml(activeSlot.src)}</strong>
             <small>Add licensed demo, slow practice, backing-track, or stem audio later.</small>
           </div>
         </div>
@@ -1720,6 +1731,11 @@
         state.detailTab = "audio";
         renderSongDetail();
       });
+    });
+    els.songDetail.querySelector("[data-audio-version-select]")?.addEventListener("change", (event) => {
+      state.audioVersionBySong[song.id] = Number(event.target.value || 0);
+      state.detailTab = "audio";
+      renderSongDetail();
     });
 
     bindDetailTechButtons(els.songDetail);

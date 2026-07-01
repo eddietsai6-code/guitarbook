@@ -1435,7 +1435,7 @@ main {
 
 .level-board.circular-gallery.chroma-grid {
   position: relative;
-  height: 620px;
+  height: 670px;
   min-height: 0;
   display: block;
   max-width: 100%;
@@ -1470,18 +1470,22 @@ main {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(360px, calc(100vw - 72px));
-  min-height: 500px;
-  height: 500px;
+  width: min(340px, calc(100vw - 72px));
+  min-height: 540px;
+  height: 540px;
   display: flex;
   flex-direction: column;
   padding: 0;
-  border: 1px solid #333333;
-  border-radius: 24px;
+  border: 1.5px solid rgba(35, 31, 27, 0.86);
+  border-radius: 20px;
   overflow: hidden;
-  background: var(--card-gradient);
-  box-shadow: rgba(0, 0, 0, 0.18) 0 22px 46px;
-  color: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 245, 238, 0.96)),
+    var(--card-gradient);
+  box-shadow:
+    rgba(43, 26, 7, 0.12) 0 24px 54px,
+    rgba(43, 26, 7, 0.08) 0 2px 0;
+  color: var(--color-cocoa-ink);
   text-align: left;
   translate: 0 0;
   transform:
@@ -1494,9 +1498,7 @@ main {
   transition:
     border-color 260ms ease,
     box-shadow 260ms ease,
-    filter 260ms ease,
     opacity 260ms ease;
-  filter: grayscale(1) brightness(0.78);
   will-change: transform, opacity;
   cursor: grab;
   --mouse-x: 50%;
@@ -1522,8 +1524,9 @@ main {
 .level-board.circular-gallery .level-label.circular-card:hover,
 .level-board.circular-gallery .level-label.circular-card.is-active {
   border-color: var(--card-border);
-  box-shadow: rgba(0, 0, 0, 0.24) 0 28px 62px;
-  filter: none;
+  box-shadow:
+    rgba(43, 26, 7, 0.18) 0 30px 68px,
+    rgba(43, 26, 7, 0.1) 0 2px 0;
   translate: 0 0;
 }
 
@@ -1552,20 +1555,20 @@ main {
 }
 
 .circular-media.has-cover {
-  width: min(268px, calc(100% - 36px));
+  width: calc(100% - 24px);
   aspect-ratio: 900 / 1198;
   min-height: 0;
   flex: 0 0 auto;
   display: block;
-  margin: 16px auto 12px;
+  margin: 12px auto 12px;
   padding: 0;
   overflow: hidden;
-  border-color: rgba(255, 255, 255, 0.24);
-  border-radius: 16px;
-  background: #111111;
+  border: 1px solid rgba(35, 31, 27, 0.34);
+  border-radius: 12px;
+  background: #ffffff;
   box-shadow:
-    0 18px 38px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
+    0 14px 26px rgba(43, 26, 7, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .circular-media.has-cover::before,
@@ -1577,8 +1580,8 @@ main {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: #111111;
+  object-fit: cover;
+  background: #ffffff;
 }
 
 .circular-media::before {
@@ -1638,14 +1641,14 @@ main {
   grid-template-columns: 1fr auto;
   gap: 4px 16px;
   padding: 0 18px 18px;
-  color: #ffffff;
+  color: var(--color-cocoa-ink);
   font-family: var(--font-geist);
 }
 
 .circular-caption .name {
   grid-column: 1;
   margin: 0;
-  color: #ffffff;
+  color: var(--color-cocoa-ink);
   font-family: var(--font-geist);
   font-size: 25px;
   font-weight: 800;
@@ -1655,14 +1658,14 @@ main {
 .circular-caption .handle {
   grid-column: 2;
   justify-self: end;
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(43, 26, 7, 0.62);
   font-size: 14px;
 }
 
 .circular-caption .role {
   grid-column: 1 / -1;
   margin: 0;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(43, 26, 7, 0.72);
   font-family: var(--font-geist);
   font-size: 15px;
   line-height: 1.35;
@@ -1671,7 +1674,7 @@ main {
 .circular-caption .location {
   grid-column: 1 / -1;
   margin-top: 4px;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(43, 26, 7, 0.58);
   font-size: 14px;
 }
 
@@ -2280,6 +2283,41 @@ main {
   white-space: nowrap;
 }
 
+.audio-version-head em {
+  display: block;
+  margin-top: 4px;
+  color: rgba(202, 229, 224, 0.72);
+  font-size: 13px;
+}
+
+.audio-version-select-label {
+  display: grid;
+  gap: 6px;
+  min-width: 180px;
+}
+
+.audio-version-select-label select {
+  min-height: 42px;
+  padding: 8px 36px 8px 12px;
+  border: 1px solid rgba(184, 245, 230, 0.28);
+  border-radius: 10px;
+  background: #071419;
+  color: #effffb;
+  font-family: var(--font-geist);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.audio-speed-player-shell {
+  display: block;
+  padding: 8px;
+}
+
+.audio-speed-player-shell audio-speed-player {
+  display: block;
+  width: 100%;
+}
+
 .audio-version-selector {
   width: 100%;
   display: grid;
@@ -2384,6 +2422,10 @@ main {
 @media (max-width: 560px) {
   .audio-version-head {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .audio-version-select-label {
+    min-width: 0;
   }
 
   .audio-version-selector {
@@ -3417,15 +3459,15 @@ main {
   }
 
   .level-board.circular-gallery.chroma-grid {
-    height: 560px;
+    height: 570px;
     padding: 0;
     --r: 220px;
   }
 
   .level-board.circular-gallery .level-label.circular-card {
     width: min(310px, calc(100vw - 48px));
-    min-height: 450px;
-    height: 450px;
+    min-height: 480px;
+    height: 480px;
   }
 
   .circular-media {
@@ -3434,9 +3476,9 @@ main {
   }
 
   .circular-media.has-cover {
-    width: min(238px, calc(100% - 32px));
+    width: calc(100% - 22px);
     min-height: 0;
-    margin: 12px auto 10px;
+    margin: 11px auto 10px;
   }
 
   .level-board.circular-gallery .circular-media strong {

@@ -34,6 +34,14 @@ function loadGuitarData() {
   return sandbox.window.GUITAR_LEVEL_DATA;
 }
 
+function readAssetSource(name) {
+  return fs.readFileSync(new URL(`../assets/${name}`, import.meta.url), "utf8");
+}
+
+function readIndexSource() {
+  return fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
+}
+
 test("detectPitchAutoCorrelate detects weak notes above C4", () => {
   const buffer = generateSineBuffer(329.627557, 0.004);
 
@@ -86,4 +94,60 @@ test("RSL acoustic levels expose one cover per Debut and G1-G8 grade", () => {
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
   });
+});
+
+test("songs expose placeholder audio versions and mapped score assets", () => {
+  const data = loadGuitarData();
+  const levelIds = new Set(data.levels.map((level) => level.id));
+
+  assert.equal(data.songs.length, 54);
+
+  data.songs.forEach((song) => {
+    assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
+    assert.ok(Array.isArray(song.audio), `${song.id} should expose audio versions`);
+    assert.ok(song.audio.length >= 3, `${song.id} should include multiple placeholder versions`);
+    assert.equal(song.scoreImages.length, song.scoreImageCount, `${song.id} should match its score image count`);
+
+    song.audio.forEach((version) => {
+      assert.ok(version.title, `${song.id} audio version should have a title`);
+      assert.ok(version.src.startsWith(`./assets/audio-placeholders/${song.id}/`), `${song.id} should use placeholder audio paths`);
+      assert.equal(path.isAbsolute(version.src), false, `${song.id} audio path should be relative`);
+      assert.equal(
+        fs.existsSync(path.join(process.cwd(), version.src.replace("./", ""))),
+        false,
+        `${song.id} placeholder audio should not require a real file`
+      );
+    });
+
+    song.scoreImages.forEach((image, index) => {
+      assert.equal(path.isAbsolute(image.src), false, `${song.id} score ${index + 1} should use a relative path`);
+      assert.ok(
+        image.src.startsWith("./scores/acoustic-guitar/"),
+        `${song.id} score ${index + 1} should use the acoustic-guitar score folder`
+      );
+      assert.ok(
+        fs.existsSync(path.join(process.cwd(), image.src.replace("./", ""))),
+        `${song.id} score ${index + 1} should exist`
+      );
+    });
+
+    const scoreDir = path.join(process.cwd(), "scores", "acoustic-guitar", song.id);
+    const scoreFiles = fs.readdirSync(scoreDir).filter((name) => /^score-\d+\.png$/.test(name));
+    assert.equal(scoreFiles.length, song.scoreImages.length, `${song.id} should not have extra score images`);
+  });
+});
+
+test("audio tab renders the external speed-player component contract", () => {
+  const indexSource = readIndexSource();
+  const appSource = readAssetSource("app.js");
+
+  assert.match(indexSource, /audio-speed-player-pro\.js/);
+  assert.match(appSource, /<audio-speed-player/);
+  assert.match(appSource, /rate="1"/);
+  assert.match(appSource, /min-rate="0\.5"/);
+  assert.match(appSource, /max-rate="1\.5"/);
+  assert.match(appSource, /step="0\.05"/);
+  assert.match(appSource, /engine="rubberband"/);
+  assert.match(appSource, /no-upload/);
+  assert.match(appSource, /version-selector/);
 });
