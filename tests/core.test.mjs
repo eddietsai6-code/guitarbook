@@ -197,3 +197,21 @@ test("score sheet images preserve white source rendering", () => {
   assert.match(imageRule, /opacity:\s*1/);
   assert.match(imageRule, /mix-blend-mode:\s*normal/);
 });
+
+test("lesson media shells can shrink from the iPad layout to phone widths", () => {
+  const styles = readAssetSource("styles.css");
+  const lessonPaneRule = cssBlock(styles, ".lesson-pane");
+  const audioWorkbenchRule = cssBlock(styles, ".audio-workbench");
+  const audioFrameRule = cssBlock(styles, ".audio-player-frame");
+  const playerShellRule = cssBlock(styles, ".audio-speed-player-shell");
+  const scoreCardRule = cssBlock(styles, ".score-card");
+
+  assert.match(lessonPaneRule, /min-width:\s*0/);
+  assert.match(audioWorkbenchRule, /min-width:\s*0/);
+  assert.match(audioFrameRule, /min-width:\s*0/);
+  assert.match(audioFrameRule, /max-width:\s*100%/);
+  assert.match(playerShellRule, /min-width:\s*0/);
+  assert.match(playerShellRule, /max-width:\s*100%/);
+  assert.match(scoreCardRule, /min-width:\s*0/);
+  assert.match(scoreCardRule, /max-width:\s*100%/);
+});
