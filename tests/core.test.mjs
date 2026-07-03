@@ -42,6 +42,10 @@ function readIndexSource() {
   return fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 }
 
+function localAssetPathFromSrc(src) {
+  return src.replace("./", "").split(/[?#]/)[0];
+}
+
 function cssBlock(source, selector) {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = source.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`));
@@ -140,8 +144,13 @@ test("songs expose real playable audio versions and mapped score assets", () => 
         image.src.startsWith("./scores/acoustic-guitar/"),
         `${song.id} score ${index + 1} should use the acoustic-guitar score folder`
       );
+      assert.match(
+        image.src,
+        /\?v=20260703-rsl-clean$/,
+        `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
+      );
       assert.ok(
-        fs.existsSync(path.join(process.cwd(), image.src.replace("./", ""))),
+        fs.existsSync(path.join(process.cwd(), localAssetPathFromSrc(image.src))),
         `${song.id} score ${index + 1} should exist`
       );
     });
@@ -179,6 +188,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
+  assert.match(indexSource, /assets\/data\.js\?v=20260703-rsl-clean/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);

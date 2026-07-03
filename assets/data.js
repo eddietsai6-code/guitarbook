@@ -116,6 +116,8 @@
     g8: "RSLAcousticG8.pdf"
   };
 
+  const scoreAssetVersion = "20260703-rsl-clean";
+
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
     makeSong({ id: "rsl-acoustic-debut-chasing-cars", title: "Chasing Cars", artist: "Snow Patrol", level: "debut", pdfPages: "13-14", scoreImageCount: 2 }),
@@ -259,7 +261,7 @@
       const number = String(index + 1).padStart(2, "0");
       return {
         title: `${title} score ${number}`,
-        src: `./scores/acoustic-guitar/${songId}/score-${number}.png`
+        src: `./scores/acoustic-guitar/${songId}/score-${number}.png?v=${scoreAssetVersion}`
       };
     });
   }
