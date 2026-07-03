@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>节奏游戏</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2328a9f4'/%3E%3Ccircle cx='32' cy='32' r='17' fill='white'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="practice-card" aria-label="节奏游戏">
+        <header class="topbar">
+          <div class="brand-lockup">
+            <div class="brand-mark" aria-hidden="true"></div>
+            <div>
+              <h1>节奏游戏</h1>
+              <p id="levelTitle">第 1 / 30 关</p>
+            </div>
+          </div>
+          <div class="level-summary" aria-live="polite">
+            <strong id="levelMeta">4 组合 / 78 BPM</strong>
+          </div>
+        </header>
+
+        <div class="beat-dots" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <section class="stage-panel">
+          <div class="chain-area">
+            <div class="chain-label">
+              <span>目标</span>
+              <strong id="targetBeatCount">4 拍</strong>
+            </div>
+            <div class="chain-row target-chain" id="targetChain"></div>
+
+            <div class="chain-label player-label">
+              <span>我的链条</span>
+              <strong id="playerBeatCount">0 拍</strong>
+            </div>
+            <div class="chain-row player-chain" id="playerChain"></div>
+
+            <section class="slot-picker" id="slotPicker" aria-label="选择节拍" hidden>
+              <div class="slot-picker-head">
+                <strong id="slotPickerTitle">选择节拍</strong>
+                <button class="slot-picker-close" id="closeSlotPickerButton" type="button" aria-label="关闭节拍选择">×</button>
+              </div>
+              <div class="slot-picker-grid" id="slotPickerGrid"></div>
+            </section>
+          </div>
+
+          <div class="drill-footer">
+            <div class="drill-progress">
+              <button class="level-nav-button prev-level-button" id="prevLevelButton" type="button" aria-label="上一关">UP</button>
+              <strong id="drillLabel">关卡 1</strong>
+              <button class="level-nav-button next-level-button" id="nextLevelButton" type="button" aria-label="下一关">NEXT</button>
+            </div>
+            <span id="statusText" aria-live="polite">准备</span>
+          </div>
+
+          <div class="stage-toolbar" aria-label="功能控制">
+            <label class="control-pill" for="soundSelect">
+              <span>音效</span>
+              <select id="soundSelect" aria-label="选择音效"></select>
+            </label>
+            <label class="control-pill" for="speedSelect">
+              <span>速度</span>
+              <select id="speedSelect" aria-label="选择速度"></select>
+            </label>
+            <button class="play-control" id="playControlButton" type="button" aria-label="播放目标节奏">
+              <span aria-hidden="true">▶</span>
+              <strong>播放</strong>
+            </button>
+            <button class="tap-control" id="tapButton" type="button" aria-label="TAP">
+              <span>TAP</span>
+              <strong id="tapTempoLabel">-- BPM</strong>
+            </button>
+
+            <div class="legacy-controls" hidden>
+              <div class="readouts">
+                <div>
+                  <span>Combos</span>
+                  <strong id="comboReadout">0 / 4</strong>
+                </div>
+                <div>
+                  <span>Beats</span>
+                  <strong id="beatReadout">4</strong>
+                </div>
+                <div>
+                  <span>Score</span>
+                  <strong id="accuracyReadout">0%</strong>
+                </div>
+              </div>
+              <div class="transport">
+                <button class="icon-button" id="playTargetButton" type="button" title="Play target" aria-label="Play target">Target</button>
+                <button class="icon-button" id="playPlayerButton" type="button" title="Play your chain" aria-label="Play your chain">Mine</button>
+                <button class="icon-button check" id="checkButton" type="button" title="Check" aria-label="Check">Check</button>
+                <button class="icon-only" id="undoButton" type="button" title="Undo" aria-label="Undo">Undo</button>
+                <button class="icon-only" id="clearButton" type="button" title="Clear" aria-label="Clear">Clear</button>
+                <button class="icon-only next" id="nextButton" type="button" title="Next level" aria-label="Next level">Next</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="library-panel" hidden>
+          <div class="library-head">
+            <div>
+              <span class="panel-label">节奏卡片</span>
+              <strong id="libraryCount">4</strong>
+            </div>
+            <button class="ghost-button" id="previewDeckButton" type="button">试听</button>
+          </div>
+          <div class="pattern-library" id="patternLibrary"></div>
+        </aside>
+
+        <aside class="level-panel" hidden>
+          <div class="panel-label">30 关</div>
+          <div class="level-grid" id="levelList"></div>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>

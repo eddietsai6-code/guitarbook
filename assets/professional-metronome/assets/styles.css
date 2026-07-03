@@ -1,0 +1,658 @@
+:root {
+  color-scheme: dark;
+  --bg: #101012;
+  --device: #2f302d;
+  --device-dark: #1f1f21;
+  --device-face: #292a28;
+  --screen: #030604;
+  --screen-soft: #071108;
+  --crt-green: #79f25d;
+  --crt-green-dim: #347b31;
+  --control-orange: #ef823e;
+  --orange-dark: #a64e25;
+  --text: #f4f1ea;
+  --muted: #9c9f9e;
+  --line: rgba(255, 255, 255, 0.14);
+  --screen-line: rgba(121, 242, 93, 0.36);
+  --shadow: rgba(0, 0, 0, 0.52);
+  --rest: #4d5350;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, #151517 0, #0d0d0f 100%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Bahnschrift", "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select {
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #151518;
+  color: var(--text);
+  font: inherit;
+}
+
+button {
+  padding: 0 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0 10px;
+}
+
+button:hover,
+input:focus,
+select:focus,
+summary:focus-visible {
+  border-color: var(--crt-green);
+  outline: none;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h2 {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.metronome-app {
+  width: min(860px, calc(100% - 24px));
+  min-height: calc(100vh - 48px);
+  margin: 24px auto;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.rhythm-shell {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, #353734 0, var(--device) 54%, #262625 100%);
+  box-shadow:
+    0 30px 80px var(--shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.45);
+}
+
+.device-header {
+  order: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 4px 8px 10px;
+}
+
+.brand-mark {
+  display: grid;
+  gap: 3px;
+}
+
+.brand-mark strong {
+  color: var(--text);
+  font-size: 1.48rem;
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.brand-mark strong::first-letter {
+  color: var(--control-orange);
+}
+
+.display-panel,
+.control-panel,
+.tool-grid,
+.pattern-panel {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #1d1d20;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.22);
+  padding: 16px;
+}
+
+.display-panel {
+  order: 1;
+  display: grid;
+  gap: 12px;
+  border-color: #070907;
+  background:
+    linear-gradient(rgba(121, 242, 93, 0.045) 1px, transparent 1px),
+    var(--screen);
+  background-size: 100% 5px;
+  box-shadow:
+    inset 0 0 0 2px #000,
+    inset 0 0 24px rgba(121, 242, 93, 0.14),
+    0 0 0 1px rgba(121, 242, 93, 0.2);
+}
+
+.topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(94px, 0.55fr) minmax(128px, 0.75fr);
+  gap: 12px;
+  align-items: end;
+}
+
+.label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+#tempoReadout {
+  display: block;
+  width: fit-content;
+  color: var(--crt-green);
+  cursor: pointer;
+  font-size: 5.25rem;
+  font-weight: 900;
+  line-height: 0.9;
+  text-shadow: 0 0 18px rgba(121, 242, 93, 0.4);
+}
+
+#tempoReadout:hover,
+#tempoReadout:focus-visible {
+  outline: 1px solid var(--crt-green);
+  outline-offset: 6px;
+  text-shadow: 0 0 24px rgba(121, 242, 93, 0.55);
+}
+
+#meterReadout,
+#subdivisionReadout {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.beat-grid {
+  --beat-count: 4;
+  display: grid;
+  grid-template-columns: repeat(var(--beat-count), minmax(34px, 1fr));
+  align-items: end;
+  gap: 8px;
+  min-height: 142px;
+  margin: 2px 0;
+}
+
+.beat {
+  display: grid;
+  place-items: end center;
+  width: 100%;
+  min-height: 76px;
+  padding: 10px 4px;
+  border-color: rgba(121, 242, 93, 0.24);
+  background: #102112;
+  color: var(--crt-green);
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(121, 242, 93, 0.28);
+  transition:
+    border-color 120ms ease,
+    filter 120ms ease,
+    transform 120ms ease;
+}
+
+.beat-accent {
+  min-height: 138px;
+  background: linear-gradient(180deg, #8aff65, #3b8b35);
+  color: #061006;
+}
+
+.beat-secondary {
+  min-height: 116px;
+  background: linear-gradient(180deg, #c7ee57, #68892f);
+  color: #081008;
+}
+
+.beat-normal {
+  min-height: 94px;
+  background: linear-gradient(180deg, #244f23, #143015);
+}
+
+.beat-rest {
+  min-height: 76px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--rest),
+    var(--rest) 8px,
+    #353a38 8px,
+    #353a38 16px
+  );
+  color: #d1d6d2;
+}
+
+.beat.is-active {
+  border-color: var(--control-orange);
+  filter: brightness(1.28);
+  transform: translateY(-6px);
+}
+
+.pendulum {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--control-orange), transparent);
+}
+
+.status {
+  min-height: 1.4em;
+  color: var(--crt-green);
+}
+
+.pattern-panel {
+  order: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border-color: #070907;
+  background:
+    linear-gradient(rgba(121, 242, 93, 0.04) 1px, transparent 1px),
+    var(--screen-soft);
+  background-size: 100% 5px;
+  box-shadow:
+    inset 0 0 0 2px #000,
+    inset 0 0 28px rgba(121, 242, 93, 0.12);
+}
+
+.pattern-panel h2,
+.beat-rhythm-editor,
+.pattern-details,
+.pattern-panel > button {
+  grid-column: 1 / -1;
+}
+
+.beat-rhythm-editor {
+  display: grid;
+  gap: 10px;
+}
+
+.beat-rhythm-chain {
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+  gap: 8px;
+  border-color: rgba(121, 242, 93, 0.28);
+  background:
+    linear-gradient(180deg, rgba(121, 242, 93, 0.09), rgba(121, 242, 93, 0.025)),
+    #071009;
+}
+
+.beat-rhythm-slot {
+  min-width: 0;
+}
+
+.beat-rhythm-current {
+  width: 100%;
+  min-height: 68px;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 4px;
+  align-items: center;
+  border-color: rgba(121, 242, 93, 0.24);
+  background: #0a120c;
+  color: rgba(186, 236, 177, 0.88);
+}
+
+.beat-rhythm-index {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(121, 242, 93, 0.12);
+  color: var(--crt-green);
+  font-weight: 900;
+}
+
+.beat-rhythm-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(74px, 1fr));
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(121, 242, 93, 0.28);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, rgba(121, 242, 93, 0.12), rgba(121, 242, 93, 0.03)),
+    #050b06;
+  box-shadow: inset 0 0 18px rgba(121, 242, 93, 0.13);
+}
+
+.beat-rhythm-option {
+  min-height: 60px;
+  padding: 0;
+  border-color: rgba(121, 242, 93, 0.22);
+  background: #0b120d;
+  color: rgba(186, 236, 177, 0.86);
+  line-height: 1;
+}
+
+.rhythm-card-svg {
+  width: 70px;
+  height: 52px;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.rhythm-note-head,
+.rhythm-beam,
+.rhythm-dot,
+.rhythm-rest-dot,
+.rhythm-tuplet-number {
+  fill: currentColor;
+}
+
+.rhythm-stem,
+.rhythm-rest,
+.rhythm-flag,
+.rhythm-tuplet-bracket {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rhythm-stem {
+  stroke-width: 3.4;
+}
+
+.rhythm-rest,
+.rhythm-flag {
+  stroke-width: 4;
+}
+
+.rhythm-tuplet-bracket {
+  stroke-width: 2;
+  opacity: 0.9;
+}
+
+.rhythm-tuplet-number {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.beat-rhythm-current:hover,
+.beat-rhythm-current:focus-visible,
+.beat-rhythm-current[aria-expanded="true"],
+.beat-rhythm-option:hover,
+.beat-rhythm-option:focus-visible,
+.beat-rhythm-option.is-selected {
+  border-color: var(--crt-green);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(121, 242, 93, 0.2), transparent 66%),
+    #0e1a10;
+  color: var(--crt-green);
+  box-shadow:
+    inset 0 0 14px rgba(121, 242, 93, 0.18),
+    0 0 12px rgba(121, 242, 93, 0.24);
+}
+
+.beat-rhythm-chain:focus-within,
+.beat-rhythm-picker:focus-within {
+  border-color: var(--crt-green);
+  box-shadow:
+    inset 0 0 18px rgba(121, 242, 93, 0.16),
+    0 0 14px rgba(121, 242, 93, 0.28);
+}
+
+.play-button {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: linear-gradient(180deg, var(--control-orange), #c76530);
+  color: #fff7ef;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+
+.pattern-details {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(121, 242, 93, 0.18);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.pattern-segments {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.pattern-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+  align-items: end;
+  padding: 10px;
+  border: 1px solid rgba(121, 242, 93, 0.18);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.pattern-remove {
+  color: var(--muted);
+}
+
+.control-panel {
+  order: 3;
+  display: grid;
+  gap: 12px;
+}
+
+.tempo-controls {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 58px;
+  gap: 10px;
+  align-items: end;
+}
+
+.tempo-controls button {
+  font-size: 1.45rem;
+}
+
+.transport {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) repeat(2, minmax(76px, 0.7fr));
+  gap: 10px;
+}
+
+#tapTempo,
+#muteToggle,
+.pattern-panel > button {
+  background: linear-gradient(180deg, #55565a, #3d3d41);
+  color: #f1f1f1;
+}
+
+#muteToggle[aria-pressed="true"] {
+  background: linear-gradient(180deg, #f0c351, #b67d25);
+  color: #1a1204;
+}
+
+.tool-grid {
+  order: 4;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
+  gap: 10px;
+  background: var(--device-dark);
+}
+
+input[type="checkbox"] {
+  width: 44px;
+  accent-color: var(--crt-green);
+}
+
+input[type="range"] {
+  accent-color: var(--control-orange);
+}
+
+@media (min-width: 880px) {
+  .tool-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .metronome-app {
+    width: calc(100% - 16px);
+    min-height: calc(100vh - 16px);
+    margin: 8px auto;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .device-header,
+  .topline,
+  .transport {
+    grid-template-columns: 1fr;
+  }
+
+  .transport,
+  .tempo-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.55fr);
+  }
+
+  .tempo-controls {
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+  }
+
+  .device-header {
+    display: grid;
+  }
+
+  .display-panel,
+  .control-panel,
+  .tool-grid,
+  .pattern-panel {
+    padding: 12px;
+  }
+
+  #tempoReadout {
+    font-size: 4rem;
+  }
+
+  .beat-grid {
+    gap: 6px;
+    min-height: 122px;
+  }
+
+  .beat-accent {
+    min-height: 112px;
+  }
+
+  .beat-secondary {
+    min-height: 98px;
+  }
+
+  .beat-normal {
+    min-height: 82px;
+  }
+
+  .beat-rhythm-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .beat-rhythm-chain,
+  .beat-rhythm-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  .metronome-app {
+    width: min(1120px, calc(100% - 20px));
+    min-height: auto;
+    margin: 10px auto;
+    grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.05fr);
+    align-items: start;
+  }
+
+  .device-header {
+    grid-column: 1 / -1;
+  }
+
+  .display-panel {
+    order: 1;
+  }
+
+  .pattern-panel {
+    order: 2;
+  }
+
+  .control-panel,
+  .tool-grid {
+    grid-column: 1 / -1;
+  }
+
+  #tempoReadout {
+    font-size: 3.8rem;
+  }
+
+  .beat-grid {
+    min-height: 104px;
+  }
+}

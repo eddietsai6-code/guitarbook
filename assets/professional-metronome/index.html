@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Professional Metronome</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body>
+    <main class="metronome-app rhythm-shell" aria-labelledby="appTitle">
+      <header class="device-header" aria-label="Application mode">
+        <div class="brand-mark">
+          <span class="label">Professional</span>
+          <strong>Eddie.RHYTHM</strong>
+        </div>
+      </header>
+
+      <section class="display-panel" aria-labelledby="appTitle">
+        <header class="topline">
+          <div>
+            <span class="label" id="tempoModeLabel">BPM</span>
+            <output id="tempoReadout" for="tempoInput">120</output>
+          </div>
+          <div>
+            <span class="label">Meter</span>
+            <output id="meterReadout" for="meterBeats meterUnit">4/4</output>
+          </div>
+          <div>
+            <span class="label">Subdivision</span>
+            <output id="subdivisionReadout" for="subdivisionSelect">Quarter</output>
+          </div>
+        </header>
+
+        <h1 id="appTitle">Professional Metronome</h1>
+        <div id="beatGrid" class="beat-grid" role="group" aria-label="Beat accents"></div>
+        <div id="pendulum" class="pendulum" aria-hidden="true"></div>
+        <p id="statusText" class="status" role="status" aria-live="polite">Ready</p>
+      </section>
+
+      <section class="control-panel" aria-labelledby="transportHeading">
+        <h2 id="transportHeading">Transport</h2>
+        <div class="transport">
+          <button id="playToggle" class="play-button" type="button">Play</button>
+          <button id="tapTempo" type="button">Tap</button>
+          <button id="muteToggle" type="button" aria-pressed="false">Mute</button>
+        </div>
+
+        <div class="tempo-controls">
+          <button id="tempoDown" type="button" aria-label="Decrease tempo">-</button>
+          <label>
+            <span class="label">Tempo</span>
+            <input id="tempoInput" type="number" min="30" max="280" step="1" value="120" inputmode="numeric">
+          </label>
+          <button id="tempoUp" type="button" aria-label="Increase tempo">+</button>
+        </div>
+      </section>
+
+      <section class="tool-grid" aria-labelledby="toolsHeading">
+        <h2 id="toolsHeading">Tools</h2>
+        <label>
+          <span class="label">Tempo mode</span>
+          <select id="tempoMode">
+            <option value="BPM" selected>BPM</option>
+            <option value="QPM">QPM</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label">Beats</span>
+          <input id="meterBeats" type="number" min="1" max="16" step="1" value="4" inputmode="numeric">
+        </label>
+
+        <label>
+          <span class="label">Beat unit</span>
+          <select id="meterUnit">
+            <option value="2">2</option>
+            <option value="4" selected>4</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label">Subdivision</span>
+          <select id="subdivisionSelect">
+            <option value="none" selected>Quarter</option>
+            <option value="eighth">Eighth</option>
+            <option value="triplet">Triplet</option>
+            <option value="sixteenth">Sixteenth</option>
+            <option value="quintuplet">Quintuplet</option>
+            <option value="sextuplet">Sextuplet</option>
+            <option value="septuplet">Septuplet</option>
+            <option value="thirtysecond">Thirty-second</option>
+            <option value="dotted">Dotted</option>
+            <option value="shuffle">Shuffle</option>
+            <option value="swung-sixteenth">Swung sixteenth</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label">Visual mode</span>
+          <select id="visualMode">
+            <option value="all" selected>All beats</option>
+            <option value="accent">Accent</option>
+            <option value="accent-secondary">Accent + secondary</option>
+            <option value="pendulum">Pendulum</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label">Sound</span>
+          <select id="soundStyle">
+            <option value="digital" selected>Digital</option>
+            <option value="wood">Wood</option>
+            <option value="stick">Stick</option>
+            <option value="beep">Beep</option>
+            <option value="voice-count">Voice Count</option>
+          </select>
+        </label>
+
+        <label>
+          <span class="label">Volume</span>
+          <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.8">
+        </label>
+
+        <label>
+          <span class="label">Count-in bars</span>
+          <input id="countInBars" type="number" min="0" max="8" step="1" value="0" inputmode="numeric">
+        </label>
+      </section>
+
+      <section class="pattern-panel beat-rhythm-panel" aria-labelledby="patternHeading">
+        <h2 id="patternHeading">Beat Rhythm</h2>
+        <div id="beatRhythmEditor" class="beat-rhythm-editor" aria-label="Per-beat rhythm editor"></div>
+        <details class="pattern-details">
+          <summary>Pattern Chain</summary>
+          <label class="inline-toggle">
+            <span class="label">Loop segments</span>
+            <input id="patternEnabled" type="checkbox">
+          </label>
+          <div id="patternSegments" class="pattern-segments" aria-label="Pattern chain segments"></div>
+          <button id="addPatternSegment" type="button">Add custom 7/8</button>
+        </details>
+      </section>
+    </main>
+
+    <script type="module" src="assets/app.js"></script>
+  </body>
+</html>

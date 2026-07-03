@@ -197,6 +197,78 @@ test("homepage does not render the song overview card grid shell", () => {
   assert.doesNotMatch(indexSource, /0 labels/);
 });
 
+test("evidence tab embeds the local professional metronome", () => {
+  const appSource = readAssetSource("app.js");
+  const styles = readAssetSource("styles.css");
+  const shellRule = cssBlock(styles, ".lesson-metronome-shell");
+  const frameRule = cssBlock(styles, ".lesson-metronome-frame");
+  const metronomeDir = new URL("../assets/professional-metronome/", import.meta.url);
+
+  assert.match(appSource, /class="lesson-metronome-frame"/);
+  assert.match(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
+  assert.doesNotMatch(appSource, /professional-metronome-c0k\.pages\.dev/);
+  assert.match(shellRule, /overflow:\s*hidden/);
+  assert.match(frameRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);
+  assert.ok(fs.existsSync(new URL("index.html", metronomeDir)), "metronome index should exist");
+  assert.ok(fs.existsSync(new URL("assets/app.js", metronomeDir)), "metronome app bundle should exist");
+  assert.ok(fs.existsSync(new URL("assets/metronome-core.js", metronomeDir)), "metronome core bundle should exist");
+  assert.ok(fs.existsSync(new URL("assets/styles.css", metronomeDir)), "metronome styles should exist");
+  assert.ok(fs.existsSync(new URL("assets/voice-count/one.wav", metronomeDir)), "voice count audio should exist");
+});
+
+test("starter grades module embeds the rhythm chain game inside a console shell without replacing motion hooks", () => {
+  const indexSource = readIndexSource();
+  const styles = readAssetSource("styles.css");
+  const hoverRule = cssBlock(styles, ".showcase-object:hover .mini-notebook");
+  const cardRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card");
+  const screenRule = cssBlock(styles, ".rhythm-game-screen");
+  const viewportRule = cssBlock(styles, ".rhythm-game-viewport");
+  const dpadRule = cssBlock(styles, ".rhythm-game-dpad");
+  const actionRule = cssBlock(styles, ".rhythm-game-actions span");
+  const speakerRule = cssBlock(styles, ".rhythm-game-speaker");
+  const frameRule = cssBlock(styles, ".rhythm-game-frame");
+  const rhythmDir = new URL("../assets/rhythm-chain-game/", import.meta.url);
+  const rhythmIndexSource = fs.readFileSync(new URL("index.html", rhythmDir), "utf8");
+  const rhythmAppSource = fs.readFileSync(new URL("assets/app.js", rhythmDir), "utf8");
+  const rhythmStyles = fs.readFileSync(new URL("assets/styles.css", rhythmDir), "utf8");
+
+  assert.match(indexSource, /class="mini-notebook rhythm-game-card"/);
+  assert.match(indexSource, /class="rhythm-game-screen"/);
+  assert.match(indexSource, /class="rhythm-game-viewport"/);
+  assert.match(indexSource, /src="\.\/assets\/rhythm-chain-game\/index\.html"/);
+  assert.doesNotMatch(indexSource, /embed=console/);
+  assert.match(indexSource, /class="rhythm-game-frame"/);
+  assert.match(indexSource, /class="rhythm-game-dpad"/);
+  assert.match(indexSource, /class="rhythm-game-actions"/);
+  assert.match(indexSource, /class="rhythm-game-speaker"/);
+  assert.ok(fs.existsSync(new URL("index.html", rhythmDir)), "rhythm game index should exist");
+  assert.ok(fs.existsSync(new URL("assets/app.js", rhythmDir)), "rhythm game app bundle should exist");
+  assert.ok(fs.existsSync(new URL("assets/rhythm-core.js", rhythmDir)), "rhythm game core bundle should exist");
+  assert.ok(fs.existsSync(new URL("assets/styles.css", rhythmDir)), "rhythm game styles should exist");
+  assert.match(cardRule, /width:\s*356px/);
+  assert.match(cardRule, /height:\s*690px/);
+  assert.match(cardRule, /overflow:\s*hidden/);
+  assert.match(cardRule, /linear-gradient\(145deg,\s*#454b55/);
+  assert.match(styles, /\.notebook-blue\s+\.mini-notebook\.rhythm-game-card::before\s*\{/);
+  assert.match(styles, /\.notebook-blue\s+\.mini-notebook\.rhythm-game-card::after\s*\{/);
+  assert.match(screenRule, /width:\s*304px/);
+  assert.match(screenRule, /height:\s*494px/);
+  assert.match(viewportRule, /position:\s*absolute/);
+  assert.match(viewportRule, /inset:\s*0/);
+  assert.match(viewportRule, /transform:\s*scale\(0\.706\)/);
+  assert.match(dpadRule, /bottom:\s*26px/);
+  assert.match(actionRule, /border-radius:\s*50%/);
+  assert.match(speakerRule, /transform:\s*rotate\(-8deg\)/);
+  assert.match(frameRule, /height:\s*700px/);
+  assert.doesNotMatch(rhythmIndexSource, /console-embed/);
+  assert.doesNotMatch(rhythmIndexSource, /embed-console/);
+  assert.doesNotMatch(rhythmAppSource, /embed-console/);
+  assert.doesNotMatch(rhythmStyles, /:root\.embed-console/);
+  assert.match(rhythmStyles, /--page-gutter:\s*10px/);
+  assert.match(rhythmStyles, /--app-radius:\s*28px/);
+  assert.match(hoverRule, /rotate\(-3deg\)\s*translateY\(-6px\)/);
+});
+
 test("score sheet images preserve white source rendering", () => {
   const styles = readAssetSource("styles.css");
   const imageRule = cssBlock(styles, ".score-card img");

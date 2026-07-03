@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GuitarBook Template</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./assets/styles.css?v=20260701-readout" />
+    <link rel="stylesheet" href="./assets/styles.css?v=20260704-metronome" />
     <script type="module" src="https://eddietsai6-code.github.io/audio-speed-player/dist/audio-speed-player-pro.js"></script>
   </head>
   <body>
@@ -128,9 +128,29 @@
             <path d="M9 18 C42 11, 76 20, 104 54" />
             <path d="M98 44 L106 58 L89 55" />
           </svg>
-          <div class="mini-notebook">
-            <span>Debut-G2</span>
-            <strong>chord book</strong>
+          <div class="mini-notebook rhythm-game-card">
+            <div class="rhythm-game-led" aria-hidden="true"></div>
+            <div class="rhythm-game-brand" aria-hidden="true">RHYTHM-01</div>
+            <div class="rhythm-game-screen">
+              <div class="rhythm-game-viewport">
+                <iframe
+                  class="rhythm-game-frame"
+                  src="./assets/rhythm-chain-game/index.html"
+                  title="Rhythm chain card game"
+                ></iframe>
+              </div>
+            </div>
+            <div class="rhythm-game-dpad" aria-hidden="true"><span></span></div>
+            <div class="rhythm-game-actions" aria-hidden="true">
+              <span></span>
+              <span></span>
+            </div>
+            <div class="rhythm-game-speaker" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
         <div class="showcase-copy">
@@ -241,7 +261,7 @@
     </footer>
 
     <script src="./assets/data.js?v=20260703-rsl-clean"></script>
-    <script src="./assets/app.js"></script>
+    <script src="./assets/app.js?v=20260704-metronome"></script>
     <script type="module" src="./assets/guitar-tuner.js"></script>
   </body>
 </html>

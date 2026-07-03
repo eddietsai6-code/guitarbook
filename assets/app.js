@@ -1641,13 +1641,13 @@
 
   function renderEvidence(song, level) {
     return `
-      <div class="evidence-tags">
-        <div><span>grade</span><strong>${level.label}</strong><small>${level.core}</small></div>
-        <div><span>source</span><strong>${song.source}</strong><small>${song.category}</small></div>
-        <div><span>style</span><strong>${song.style}</strong><small>${song.artist || "Template Original"}</small></div>
+      <div class="lesson-metronome-shell">
+        <iframe
+          class="lesson-metronome-frame"
+          src="./assets/professional-metronome/index.html"
+          title="Professional metronome"
+        ></iframe>
       </div>
-      <p>${level.boundary}</p>
-      <div class="song-tags">${techButtonMarkup(song.techniques)}</div>
     `;
   }
 

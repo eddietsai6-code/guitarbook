@@ -1034,6 +1034,10 @@ main {
   animation: pageRise 600ms ease both;
 }
 
+.showcase-object.notebook-blue {
+  min-height: 820px;
+}
+
 .showcase-object .scribble-caption {
   top: 0;
   left: 24px;
@@ -1063,6 +1067,242 @@ main {
 
 .notebook-blue .mini-notebook {
   background: var(--color-sky-sticker);
+}
+
+.notebook-blue .mini-notebook.rhythm-game-card {
+  width: 356px;
+  height: 690px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 18% 9%, rgba(255, 255, 255, 0.24), transparent 18%),
+    radial-gradient(circle at 82% 91%, rgba(46, 198, 240, 0.18), transparent 22%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.035) 0 1px,
+      transparent 1px 7px
+    ),
+    linear-gradient(145deg, #454b55 0%, #252a33 48%, #0d1118 100%);
+  border-color: #070a0f;
+  border-radius: 38px 38px 48px 48px;
+  box-shadow:
+    0 30px 46px rgba(22, 24, 29, 0.22),
+    0 8px 0 #07090d,
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 0 0 8px rgba(7, 10, 15, 0.48),
+    inset 0 -18px 28px rgba(0, 0, 0, 0.3);
+  display: block;
+}
+
+.notebook-blue .mini-notebook.rhythm-game-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 29px 29px 38px 38px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    inset 0 0 0 3px rgba(0, 0, 0, 0.3),
+    inset 0 18px 26px rgba(255, 255, 255, 0.08);
+}
+
+.notebook-blue .mini-notebook.rhythm-game-card::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 20px;
+  z-index: 2;
+  height: 2px;
+  pointer-events: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.rhythm-game-brand {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  z-index: 3;
+  color: #f5f0dc;
+  font-family: var(--font-geist);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
+}
+
+.rhythm-game-brand::after {
+  content: "";
+  display: inline-block;
+  width: 38px;
+  height: 5px;
+  margin-left: 9px;
+  border-top: 2px solid #2ec6f0;
+  border-bottom: 2px solid #ffcf54;
+  transform: translateY(-1px);
+}
+
+.rhythm-game-led {
+  position: absolute;
+  top: 22px;
+  right: 30px;
+  z-index: 3;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #fff6bd 0 12%, transparent 13%),
+    radial-gradient(circle, #fb584d 0 45%, #801912 72%, #2a0705 100%);
+  box-shadow:
+    0 0 0 3px rgba(5, 7, 10, 0.65),
+    0 0 18px rgba(251, 88, 77, 0.42);
+}
+
+.rhythm-game-screen {
+  position: absolute;
+  top: 56px;
+  left: 26px;
+  z-index: 2;
+  width: 304px;
+  height: 494px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #07090c;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.1),
+    0 0 0 8px #090b10,
+    0 15px 24px rgba(0, 0, 0, 0.34),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.rhythm-game-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
+  mix-blend-mode: screen;
+}
+
+.rhythm-game-viewport {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 430px;
+  height: 700px;
+  transform: scale(0.706);
+  transform-origin: 0 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #f7f4eb;
+}
+
+.rhythm-game-dpad {
+  position: absolute;
+  left: 42px;
+  bottom: 26px;
+  z-index: 3;
+  width: 68px;
+  height: 68px;
+  filter: drop-shadow(0 8px 6px rgba(0, 0, 0, 0.26));
+}
+
+.rhythm-game-dpad::before,
+.rhythm-game-dpad span {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 66px;
+  height: 24px;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 38%),
+    #11151c;
+  box-shadow:
+    inset 0 -4px 0 rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translate(-50%, -50%);
+}
+
+.rhythm-game-dpad span {
+  display: block;
+  color: transparent;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.rhythm-game-actions {
+  position: absolute;
+  right: 38px;
+  bottom: 40px;
+  z-index: 3;
+  display: flex;
+  gap: 11px;
+  transform: rotate(-10deg);
+}
+
+.rhythm-game-actions span {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: transparent;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.45), transparent 18%),
+    linear-gradient(180deg, #ff665e 0%, #d92731 100%);
+  box-shadow:
+    0 6px 0 #7f1118,
+    0 12px 14px rgba(0, 0, 0, 0.22),
+    inset 0 -4px 0 rgba(96, 0, 8, 0.25);
+}
+
+.rhythm-game-actions span:last-child {
+  margin-top: -11px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.45), transparent 18%),
+    linear-gradient(180deg, #37c9f4 0%, #0879c4 100%);
+  box-shadow:
+    0 6px 0 #064d7d,
+    0 12px 14px rgba(0, 0, 0, 0.22),
+    inset 0 -4px 0 rgba(2, 45, 85, 0.28);
+}
+
+.rhythm-game-speaker {
+  position: absolute;
+  left: 138px;
+  bottom: 34px;
+  z-index: 3;
+  display: flex;
+  gap: 6px;
+  transform: rotate(-8deg);
+}
+
+.rhythm-game-speaker span {
+  display: block;
+  width: 5px;
+  height: 40px;
+  border-radius: 999px;
+  color: transparent;
+  background: #080b10;
+  box-shadow:
+    inset 0 2px 2px rgba(255, 255, 255, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.rhythm-game-frame {
+  display: block;
+  width: 430px;
+  height: 700px;
+  border: 0;
+  background: #efefef;
 }
 
 .notebook-pink .mini-notebook {
@@ -2529,6 +2769,23 @@ main {
   line-height: 1.4;
 }
 
+.lesson-metronome-shell {
+  overflow: hidden;
+  min-width: 0;
+  border: 1.5px solid var(--color-charcoal);
+  border-radius: 8px;
+  background: #101012;
+  box-shadow: 0 16px 28px rgba(43, 26, 7, 0.14);
+}
+
+.lesson-metronome-frame {
+  display: block;
+  width: 100%;
+  height: clamp(640px, 82vh, 820px);
+  border: 0;
+  background: #101012;
+}
+
 .footer-band {
   margin-top: 20px;
   padding: 42px 0 46px;
@@ -3412,6 +3669,108 @@ main {
 
   .showcase-object {
     min-height: 300px;
+  }
+
+  .showcase-object.notebook-blue {
+    min-height: 700px;
+  }
+
+  .notebook-blue .mini-notebook.rhythm-game-card {
+    width: 292px;
+    height: 592px;
+    min-height: 0;
+    border-radius: 31px 31px 40px 40px;
+  }
+
+  .notebook-blue .mini-notebook.rhythm-game-card::before {
+    inset: 10px;
+    border-radius: 23px 23px 32px 32px;
+  }
+
+  .notebook-blue .mini-notebook.rhythm-game-card::after {
+    left: 22px;
+    right: 22px;
+    bottom: 17px;
+  }
+
+  .rhythm-game-brand {
+    top: 22px;
+    left: 26px;
+    font-size: 9px;
+  }
+
+  .rhythm-game-brand::after {
+    width: 30px;
+    margin-left: 7px;
+  }
+
+  .rhythm-game-led {
+    top: 20px;
+    right: 25px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .rhythm-game-screen {
+    top: 52px;
+    left: 20px;
+    width: 252px;
+    height: 410px;
+    border-radius: 20px;
+  }
+
+  .rhythm-game-viewport {
+    inset: 0 auto auto 0;
+    transform: scale(0.586);
+    border-radius: 18px;
+  }
+
+  .rhythm-game-dpad {
+    left: 31px;
+    bottom: 24px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .rhythm-game-dpad::before,
+  .rhythm-game-dpad span {
+    width: 57px;
+    height: 20px;
+    border-radius: 7px;
+  }
+
+  .rhythm-game-actions {
+    right: 28px;
+    bottom: 34px;
+    gap: 9px;
+  }
+
+  .rhythm-game-actions span {
+    width: 33px;
+    height: 33px;
+    box-shadow:
+      0 6px 0 #7f1118,
+      0 11px 13px rgba(0, 0, 0, 0.2),
+      inset 0 -3px 0 rgba(96, 0, 8, 0.25);
+  }
+
+  .rhythm-game-actions span:last-child {
+    margin-top: -10px;
+    box-shadow:
+      0 6px 0 #064d7d,
+      0 11px 13px rgba(0, 0, 0, 0.2),
+      inset 0 -3px 0 rgba(2, 45, 85, 0.28);
+  }
+
+  .rhythm-game-speaker {
+    left: 111px;
+    bottom: 29px;
+    gap: 5px;
+  }
+
+  .rhythm-game-speaker span {
+    width: 4px;
+    height: 34px;
   }
 
   .level-board,
