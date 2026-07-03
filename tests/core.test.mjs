@@ -180,6 +180,7 @@ test("audio tab does not expose internal source/debug text", () => {
   const appSource = readAssetSource("app.js");
 
   assert.doesNotMatch(appSource, /placeholder source/);
+  assert.doesNotMatch(appSource, /audio placeholder/);
   assert.doesNotMatch(appSource, /audio-template-note/);
   assert.doesNotMatch(appSource, /Add licensed demo/);
   assert.doesNotMatch(appSource, /<strong>\$\{escapeHtml\(activeSlot\.src\)\}<\/strong>/);

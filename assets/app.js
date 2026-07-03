@@ -1555,7 +1555,7 @@
         <div class="audio-player-frame">
           <div class="audio-version-head">
             <div>
-              <span>audio placeholder</span>
+              <span>practice audio</span>
               <strong>${escapeHtml(activeSlot.title)}</strong>
               <em>${escapeHtml(playerLabel)}</em>
             </div>
