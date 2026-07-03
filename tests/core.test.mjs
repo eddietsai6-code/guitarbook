@@ -110,7 +110,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
-  assert.equal(data.songs.length, 54);
+  assert.equal(data.songs.length, 55);
 
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
@@ -146,7 +146,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260703-rsl-clean$/,
+        /\?v=20260704-g3-solo$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -159,6 +159,33 @@ test("songs expose real playable audio versions and mapped score assets", () => 
     const scoreFiles = fs.readdirSync(scoreDir).filter((name) => /^score-\d+\.png$/.test(name));
     assert.equal(scoreFiles.length, song.scoreImages.length, `${song.id} should not have extra score images`);
   });
+});
+
+test("Romance de Amor is cataloged as a Grade 3 独奏 with audio", () => {
+  const data = loadGuitarData();
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-romance-de-amor");
+
+  assert.ok(song, "Romance de Amor should be present");
+  assert.equal(song.title, "Romance de Amor");
+  assert.equal(song.artist, "Traditional");
+  assert.equal(song.level, "g3");
+  assert.equal(song.category, "独奏");
+  assert.equal(song.style, "Classical Guitar Solo");
+  assert.equal(song.source, "Teacher Upload");
+  assert.equal(song.sourcePdf, "Romance_de_Amor#1.png + Romance_de_Amor#2.png");
+  assert.equal(song.pdfPages, "1-2");
+  assert.deepEqual(
+    Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
+    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-romance-de-amor/solo.mp3"]
+  );
+  assert.equal(song.scoreImages.length, 2);
+  assert.deepEqual(
+    Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
+    [
+      "scores/acoustic-guitar/rsl-acoustic-g3-romance-de-amor/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g3-romance-de-amor/score-02.png"
+    ]
+  );
 });
 
 test("audio tab renders the external speed-player component contract", () => {
@@ -189,7 +216,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260703-rsl-clean/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260704-g3-type-cn/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);
@@ -233,6 +260,8 @@ test("starter grades module embeds the rhythm chain game inside a console shell 
   const rhythmStyles = fs.readFileSync(new URL("assets/styles.css", rhythmDir), "utf8");
 
   assert.match(indexSource, /class="mini-notebook rhythm-game-card"/);
+  assert.match(indexSource, /测试下节奏感/);
+  assert.doesNotMatch(indexSource, /starter grades/);
   assert.match(indexSource, /class="rhythm-game-screen"/);
   assert.match(indexSource, /class="rhythm-game-viewport"/);
   assert.match(indexSource, /src="\.\/assets\/rhythm-chain-game\/index\.html"/);

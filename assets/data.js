@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260703-rsl-clean";
+  const scoreAssetVersion = "20260704-g3-solo";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -146,6 +146,22 @@
     makeSong({ id: "rsl-acoustic-g3-i-dont-want-to-miss-a-thing", title: "I Don't Want To Miss A Thing", artist: "Aerosmith", level: "g3", pdfPages: "21-22", scoreImageCount: 2 }),
     makeSong({ id: "rsl-acoustic-g3-when-you-say-nothing-at-all", title: "When You Say Nothing At All", artist: "Alison Krauss", level: "g3", pdfPages: "25-30", scoreImageCount: 6 }),
     makeSong({ id: "rsl-acoustic-g3-bless-the-broken-road", title: "Bless The Broken Road", artist: "Rascal Flatts", level: "g3", pdfPages: "33-38", scoreImageCount: 6 }),
+    makeSong({
+      id: "rsl-acoustic-g3-romance-de-amor",
+      title: "Romance de Amor",
+      artist: "Traditional",
+      level: "g3",
+      source: "Teacher Upload",
+      sourcePdf: "Romance_de_Amor#1.png + Romance_de_Amor#2.png",
+      category: "独奏",
+      style: "Classical Guitar Solo",
+      techniques: ["classical guitar", "fingerstyle", "solo", "arpeggio"],
+      pdfPages: "1-2",
+      scoreImageCount: 2,
+      practiceOrder: ["Map the arpeggio pattern", "Practice melody and bass balance", "Learn the score page by page", "Play the full solo slowly"],
+      commonIssues: ["Letting the bass overpower the melody", "Rushing the triplet arpeggio", "Changing positions before the left hand is prepared"],
+      passStandard: "Perform the solo with steady triplet flow, clear melody, and balanced bass notes."
+    }),
 
     makeSong({ id: "rsl-acoustic-g4-nothing-else-matters", title: "Nothing Else Matters", artist: "Metallica", level: "g4", pdfPages: "9-12", scoreImageCount: 4 }),
     makeSong({ id: "rsl-acoustic-g4-fearless", title: "Fearless", artist: "Taylor Swift", level: "g4", pdfPages: "15-18", scoreImageCount: 4 }),
@@ -206,6 +222,7 @@
     "rsl-acoustic-g3-bless-the-broken-road": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-everything-has-changed": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-i-dont-want-to-miss-a-thing": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-romance-de-amor": ["solo.mp3"],
     "rsl-acoustic-g3-thinking-out-loud": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-when-you-say-nothing-at-all": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g4-baby-now-that-ive-found-you": ["full-mix.mp3", "backing-track.mp3"],
@@ -271,20 +288,20 @@
     const level = levels.find((item) => item.id === song.level);
     const levelLabel = level ? level.label : song.level;
     const teaching = {
-      goal: `Study the ${levelLabel} acoustic arrangement of "${song.title}" from the official score pages.`,
-      focus: "Read the notation and TAB first, then isolate rhythm, fingering, tone, and transitions.",
-      practiceOrder: ["Map the song form", "Clap and count the rhythm", "Learn the score page by page", "Rehearse with backing track"],
-      commonIssues: ["Skipping score reading before playing", "Letting position shifts break the pulse", "Practicing full tempo before fingering is secure"],
-      passStandard: "Perform the assessed acoustic part with steady time, clear articulation, and controlled dynamics."
+      goal: song.goal || `Study the ${levelLabel} acoustic arrangement of "${song.title}" from the official score pages.`,
+      focus: song.focus || "Read the notation and TAB first, then isolate rhythm, fingering, tone, and transitions.",
+      practiceOrder: song.practiceOrder || ["Map the song form", "Clap and count the rhythm", "Learn the score page by page", "Rehearse with backing track"],
+      commonIssues: song.commonIssues || ["Skipping score reading before playing", "Letting position shifts break the pulse", "Practicing full tempo before fingering is secure"],
+      passStandard: song.passStandard || "Perform the assessed acoustic part with steady time, clear articulation, and controlled dynamics."
     };
 
     return {
       ...songData,
-      source: sourceByLevel[song.level],
-      sourcePdf: sourcePdfByLevel[song.level],
-      category: "Hit Tune",
-      style: "Acoustic Exam Piece",
-      techniques: ["RSL Acoustic", levelLabel, "score reading", "performance"],
+      source: song.source || sourceByLevel[song.level],
+      sourcePdf: song.sourcePdf || sourcePdfByLevel[song.level],
+      category: song.category || "Hit Tune",
+      style: song.style || "Acoustic Exam Piece",
+      techniques: song.techniques || ["RSL Acoustic", levelLabel, "score reading", "performance"],
       goal: teaching.goal,
       focus: teaching.focus,
       practiceOrder: teaching.practiceOrder,

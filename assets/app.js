@@ -1545,6 +1545,17 @@
   }
 
   function renderAudio(song) {
+    const audioItems = Array.isArray(song.audio) ? song.audio : [];
+    if (!audioItems.length) {
+      return `
+        <div class="resource-note">
+          <span>practice audio</span>
+          <strong>Audio not attached</strong>
+          <small>Use the score tab for this solo piece.</small>
+        </div>
+      `;
+    }
+
     const slots = audioVersionSlots(song);
     const activeIndex = activeAudioVersionIndex(song, slots);
     const activeSlot = slots[activeIndex];
