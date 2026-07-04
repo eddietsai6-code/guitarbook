@@ -1716,7 +1716,7 @@
         <button type="button" class="${state.detailTab === "lesson" ? "is-active" : ""}" data-tab="lesson">Lesson</button>
         <button type="button" class="${state.detailTab === "audio" ? "is-active" : ""}" data-tab="audio">Audio</button>
         <button type="button" class="${state.detailTab === "score" ? "is-active" : ""}" data-tab="score">Score</button>
-        <button type="button" class="${state.detailTab === "evidence" ? "is-active" : ""}" data-tab="evidence">Evidence</button>
+        <button type="button" class="${state.detailTab === "evidence" ? "is-active" : ""}" data-tab="evidence">Metro</button>
       </div>
       <div class="lesson-pane lesson-audio-pane" data-audio-pane ${state.detailTab === "audio" ? "" : "hidden"}>${renderAudio(song)}</div>
       <div class="lesson-pane" data-content-pane ${state.detailTab === "audio" ? "hidden" : ""}>${state.detailTab === "audio" ? "" : renderContentPane(song, level)}</div>

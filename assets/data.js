@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260704-g3-solo";
+  const scoreAssetVersion = "20260704-g1-sound-silence";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -132,6 +132,22 @@
     makeSong({ id: "rsl-acoustic-g1-let-it-be", title: "Let It Be", artist: "The Beatles", level: "g1", pdfPages: "21-22", scoreImageCount: 2 }),
     makeSong({ id: "rsl-acoustic-g1-someone-like-you", title: "Someone Like You", artist: "Adele", level: "g1", pdfPages: "25-26", scoreImageCount: 2 }),
     makeSong({ id: "rsl-acoustic-g1-free-fallin", title: "Free Fallin'", artist: "Tom Petty", level: "g1", pdfPages: "29-30", scoreImageCount: 2 }),
+    makeSong({
+      id: "rsl-acoustic-g1-the-sound-of-silence",
+      title: "The Sound of Silence",
+      artist: "P. Simon",
+      level: "g1",
+      source: "Teacher Upload",
+      sourcePdf: "The_Sound_Of_Silence#1.png",
+      category: "独奏",
+      style: "Classical Guitar Solo",
+      techniques: ["classical guitar", "fingerstyle", "solo", "arpeggio"],
+      pdfPages: "1",
+      scoreImageCount: 1,
+      practiceOrder: ["Map the arpeggio pattern", "Practice melody and bass balance", "Learn the full score slowly", "Play the solo with steady pulse"],
+      commonIssues: ["Letting accompaniment notes cover the melody", "Changing position before the beat is stable", "Rushing the 84 BPM arpeggio"],
+      passStandard: "Perform the solo with clear melody, steady arpeggio flow, and balanced bass notes."
+    }),
 
     makeSong({ id: "rsl-acoustic-g2-all-along-the-watchtower", title: "All Along The Watchtower", artist: "Jimi Hendrix", level: "g2", pdfPages: "9-10", scoreImageCount: 2 }),
     makeSong({ id: "rsl-acoustic-g2-the-a-team", title: "The A Team", artist: "Ed Sheeran", level: "g2", pdfPages: "13-16", scoreImageCount: 4 }),
@@ -211,6 +227,7 @@
     "rsl-acoustic-g1-let-it-be": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g1-someone-like-you": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g1-stella-by-starlight": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g1-the-sound-of-silence": ["solo.mp3"],
     "rsl-acoustic-g1-the-unforgiven": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g2-all-along-the-watchtower": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g2-lover-you-shouldve-come-over": ["full-mix.mp3", "backing-track.mp3"],

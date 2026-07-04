@@ -110,12 +110,14 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
-  assert.equal(data.songs.length, 55);
+  assert.equal(data.songs.length, 56);
 
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
     assert.ok(Array.isArray(song.audio), `${song.id} should expose audio versions`);
-    assert.ok(song.audio.length >= 1, `${song.id} should include at least one real audio version`);
+    if (song.category !== "独奏") {
+      assert.ok(song.audio.length >= 1, `${song.id} should include at least one real audio version`);
+    }
     assert.equal(song.scoreImages.length, song.scoreImageCount, `${song.id} should match its score image count`);
 
     song.audio.forEach((version) => {
@@ -146,7 +148,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260704-g3-solo$/,
+        /\?v=20260704-g1-sound-silence$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -188,6 +190,30 @@ test("Romance de Amor is cataloged as a Grade 3 独奏 with audio", () => {
   );
 });
 
+test("The Sound of Silence is cataloged as a Grade 1 独奏 score", () => {
+  const data = loadGuitarData();
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g1-the-sound-of-silence");
+
+  assert.ok(song, "The Sound of Silence should be present");
+  assert.equal(song.title, "The Sound of Silence");
+  assert.equal(song.artist, "P. Simon");
+  assert.equal(song.level, "g1");
+  assert.equal(song.category, "独奏");
+  assert.equal(song.style, "Classical Guitar Solo");
+  assert.equal(song.source, "Teacher Upload");
+  assert.equal(song.sourcePdf, "The_Sound_Of_Silence#1.png");
+  assert.equal(song.pdfPages, "1");
+  assert.deepEqual(
+    Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
+    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g1-the-sound-of-silence/solo.mp3"]
+  );
+  assert.equal(song.scoreImages.length, 1);
+  assert.deepEqual(
+    Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
+    ["scores/acoustic-guitar/rsl-acoustic-g1-the-sound-of-silence/score-01.png"]
+  );
+});
+
 test("audio tab renders the external speed-player component contract", () => {
   const indexSource = readIndexSource();
   const appSource = readAssetSource("app.js");
@@ -216,7 +242,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260704-g3-type-cn/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260704-g1-sound-silence/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);
@@ -231,6 +257,8 @@ test("evidence tab embeds the local professional metronome", () => {
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
   const metronomeDir = new URL("../assets/professional-metronome/", import.meta.url);
 
+  assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
+  assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
   assert.match(appSource, /class="lesson-metronome-frame"/);
   assert.match(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
   assert.doesNotMatch(appSource, /professional-metronome-c0k\.pages\.dev/);
