@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260705-canon-g3";
+  const scoreAssetVersion = "20260706-you-raise-me-up-g3";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -147,6 +147,22 @@
       practiceOrder: ["Map the arpeggio pattern", "Practice melody and bass balance", "Learn the full score slowly", "Play the solo with steady pulse"],
       commonIssues: ["Letting accompaniment notes cover the melody", "Changing position before the beat is stable", "Rushing the 84 BPM arpeggio"],
       passStandard: "Perform the solo with clear melody, steady arpeggio flow, and balanced bass notes."
+    }),
+    makeSong({
+      id: "rsl-acoustic-g3-you-raise-me-up",
+      title: "You Raise Me Up",
+      artist: "Secret Garden",
+      level: "g3",
+      source: "Teacher Upload",
+      sourcePdf: "You Raise Me Up#1.png",
+      category: "独奏",
+      style: "Fingerstyle Solo",
+      techniques: ["fingerstyle", "solo", "ballad", "arpeggio"],
+      pdfPages: "1",
+      scoreImageCount: 1,
+      practiceOrder: ["Map the key and meter changes", "Practice melody and bass separately", "Learn the score line by line", "Play the full solo slowly"],
+      commonIssues: ["Losing pulse across the 3/8 to 4/4 change", "Letting sustained melody notes disappear", "Rushing fills before bar lines"],
+      passStandard: "Perform the solo with steady pulse, clear melody sustain, and balanced accompaniment."
     }),
 
     makeSong({ id: "rsl-acoustic-g2-all-along-the-watchtower", title: "All Along The Watchtower", artist: "Jimi Hendrix", level: "g2", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -259,6 +275,7 @@
     "rsl-acoustic-g4-romance-de-amor": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-thinking-out-loud": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-when-you-say-nothing-at-all": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-you-raise-me-up": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g4-baby-now-that-ive-found-you": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g4-big-yellow-taxi": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g4-fearless": ["full-mix.mp3", "backing-track.mp3"],

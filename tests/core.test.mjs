@@ -110,7 +110,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
-  assert.equal(data.songs.length, 57);
+  assert.equal(data.songs.length, 58);
 
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
@@ -148,7 +148,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260705-canon-g3$/,
+        /\?v=20260706-you-raise-me-up-g3$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -222,6 +222,34 @@ test("The Sound of Silence is cataloged as a Grade 2 独奏 score", () => {
   );
 });
 
+test("You Raise Me Up is cataloged as a Grade 3 独奏 score", () => {
+  const data = loadGuitarData();
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-you-raise-me-up");
+
+  assert.ok(song, "You Raise Me Up should be present");
+  assert.equal(song.title, "You Raise Me Up");
+  assert.equal(song.artist, "Secret Garden");
+  assert.equal(song.level, "g3");
+  assert.equal(song.category, "独奏");
+  assert.equal(song.style, "Fingerstyle Solo");
+  assert.equal(song.source, "Teacher Upload");
+  assert.equal(song.sourcePdf, "You Raise Me Up#1.png");
+  assert.equal(song.pdfPages, "1");
+  assert.deepEqual(
+    Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
+    [
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-you-raise-me-up/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-you-raise-me-up/solo-click.mp3"
+    ]
+  );
+  assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
+  assert.equal(song.scoreImages.length, 1);
+  assert.deepEqual(
+    Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
+    ["scores/acoustic-guitar/rsl-acoustic-g3-you-raise-me-up/score-01.png"]
+  );
+});
+
 test("Canon is cataloged as a Grade 3 独奏 score", () => {
   const data = loadGuitarData();
   const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-canon");
@@ -281,7 +309,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260705-canon-g3/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260706-you-raise-me-up-g3/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);
