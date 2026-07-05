@@ -110,7 +110,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
-  assert.equal(data.songs.length, 56);
+  assert.equal(data.songs.length, 57);
 
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
@@ -148,7 +148,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260704-g1-sound-silence$/,
+        /\?v=20260705-canon-g3$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -163,14 +163,14 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   });
 });
 
-test("Romance de Amor is cataloged as a Grade 3 独奏 with audio", () => {
+test("Romance de Amor is cataloged as a Grade 4 独奏 with audio", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-romance-de-amor");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-romance-de-amor");
 
   assert.ok(song, "Romance de Amor should be present");
   assert.equal(song.title, "Romance de Amor");
   assert.equal(song.artist, "Traditional");
-  assert.equal(song.level, "g3");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Classical Guitar Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -178,39 +178,78 @@ test("Romance de Amor is cataloged as a Grade 3 独奏 with audio", () => {
   assert.equal(song.pdfPages, "1-2");
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
-    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-romance-de-amor/solo.mp3"]
+    [
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/solo-click.mp3"
+    ]
   );
+  assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
   assert.equal(song.scoreImages.length, 2);
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
     [
-      "scores/acoustic-guitar/rsl-acoustic-g3-romance-de-amor/score-01.png",
-      "scores/acoustic-guitar/rsl-acoustic-g3-romance-de-amor/score-02.png"
+      "scores/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/score-02.png"
     ]
   );
 });
 
-test("The Sound of Silence is cataloged as a Grade 1 独奏 score", () => {
+test("The Sound of Silence is cataloged as a Grade 2 独奏 score", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g1-the-sound-of-silence");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g2-the-sound-of-silence");
 
   assert.ok(song, "The Sound of Silence should be present");
   assert.equal(song.title, "The Sound of Silence");
   assert.equal(song.artist, "P. Simon");
-  assert.equal(song.level, "g1");
+  assert.equal(song.level, "g2");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Classical Guitar Solo");
   assert.equal(song.source, "Teacher Upload");
-  assert.equal(song.sourcePdf, "The_Sound_Of_Silence#1.png");
+  assert.equal(song.sourcePdf, "The Sound Of Silence.png");
   assert.equal(song.pdfPages, "1");
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
-    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g1-the-sound-of-silence/solo.mp3"]
+    [
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g2-the-sound-of-silence/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g2-the-sound-of-silence/solo-click.mp3"
+    ]
   );
+  assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
   assert.equal(song.scoreImages.length, 1);
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
-    ["scores/acoustic-guitar/rsl-acoustic-g1-the-sound-of-silence/score-01.png"]
+    ["scores/acoustic-guitar/rsl-acoustic-g2-the-sound-of-silence/score-01.png"]
+  );
+});
+
+test("Canon is cataloged as a Grade 3 独奏 score", () => {
+  const data = loadGuitarData();
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-canon");
+
+  assert.ok(song, "Canon should be present");
+  assert.equal(song.title, "Canon");
+  assert.equal(song.artist, "J. Pachelbel");
+  assert.equal(song.level, "g3");
+  assert.equal(song.category, "独奏");
+  assert.equal(song.style, "Classical Guitar Solo");
+  assert.equal(song.source, "Teacher Upload");
+  assert.equal(song.sourcePdf, "Canon#1.png + Canon#2.png");
+  assert.equal(song.pdfPages, "1-2");
+  assert.deepEqual(
+    Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
+    [
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-canon/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-canon/solo-click.mp3"
+    ]
+  );
+  assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
+  assert.equal(song.scoreImages.length, 2);
+  assert.deepEqual(
+    Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
+    [
+      "scores/acoustic-guitar/rsl-acoustic-g3-canon/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g3-canon/score-02.png"
+    ]
   );
 });
 
@@ -242,7 +281,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260704-g1-sound-silence/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260705-canon-g3/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);
@@ -271,59 +310,54 @@ test("evidence tab embeds the local professional metronome", () => {
   assert.ok(fs.existsSync(new URL("assets/voice-count/one.wav", metronomeDir)), "voice count audio should exist");
 });
 
-test("starter grades module embeds the rhythm chain game inside a console shell without replacing motion hooks", () => {
+test("rhythm module embeds the latest remote rhythm chain game as the only source", () => {
   const indexSource = readIndexSource();
   const styles = readAssetSource("styles.css");
-  const hoverRule = cssBlock(styles, ".showcase-object:hover .mini-notebook");
-  const cardRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card");
-  const screenRule = cssBlock(styles, ".rhythm-game-screen");
-  const viewportRule = cssBlock(styles, ".rhythm-game-viewport");
-  const dpadRule = cssBlock(styles, ".rhythm-game-dpad");
-  const actionRule = cssBlock(styles, ".rhythm-game-actions span");
-  const speakerRule = cssBlock(styles, ".rhythm-game-speaker");
-  const frameRule = cssBlock(styles, ".rhythm-game-frame");
-  const rhythmDir = new URL("../assets/rhythm-chain-game/", import.meta.url);
-  const rhythmIndexSource = fs.readFileSync(new URL("index.html", rhythmDir), "utf8");
-  const rhythmAppSource = fs.readFileSync(new URL("assets/app.js", rhythmDir), "utf8");
-  const rhythmStyles = fs.readFileSync(new URL("assets/styles.css", rhythmDir), "utf8");
+  const showcaseRule = cssBlock(styles, ".showcase-object.notebook-blue.rhythm-remote-showcase");
+  const cardRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card.rhythm-remote-card");
+  const frameOverlayRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card.rhythm-remote-card::before");
+  const frameBadgeRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card.rhythm-remote-card::after");
+  const iframeRule = cssBlock(styles, ".rhythm-remote-card iframe");
+  const hoverRule = cssBlock(styles, ".showcase-object:hover .mini-notebook.rhythm-remote-card");
 
-  assert.match(indexSource, /class="mini-notebook rhythm-game-card"/);
+  assert.match(indexSource, /class="[^"]*mini-notebook[^"]*rhythm-game-card[^"]*rhythm-remote-card[^"]*"/);
+  assert.match(indexSource, /rhythm-remote-showcase/);
+  assert.match(indexSource, /rhythm-remote-card/);
   assert.match(indexSource, /测试下节奏感/);
   assert.doesNotMatch(indexSource, /starter grades/);
-  assert.match(indexSource, /class="rhythm-game-screen"/);
-  assert.match(indexSource, /class="rhythm-game-viewport"/);
-  assert.match(indexSource, /src="\.\/assets\/rhythm-chain-game\/index\.html"/);
+  assert.match(
+    indexSource,
+    /src="https:\/\/rhythm-chain-game\.pages\.dev\/\?v=9b2fb40e4f8464391cf81b13aaeca281f1704efd"/
+  );
+  assert.match(indexSource, /style="width:430px;height:844px;border:0;max-width:100%;"/);
+  assert.doesNotMatch(indexSource, /src="\.\/assets\/rhythm-chain-game\//);
+  assert.doesNotMatch(indexSource, /showcase-level/);
+  assert.doesNotMatch(indexSource, /RHYTHM POCKET/);
+  assert.doesNotMatch(indexSource, /class="rhythm-game-screen"/);
+  assert.doesNotMatch(indexSource, /class="rhythm-game-viewport"/);
   assert.doesNotMatch(indexSource, /embed=console/);
-  assert.match(indexSource, /class="rhythm-game-frame"/);
-  assert.match(indexSource, /class="rhythm-game-dpad"/);
-  assert.match(indexSource, /class="rhythm-game-actions"/);
-  assert.match(indexSource, /class="rhythm-game-speaker"/);
-  assert.ok(fs.existsSync(new URL("index.html", rhythmDir)), "rhythm game index should exist");
-  assert.ok(fs.existsSync(new URL("assets/app.js", rhythmDir)), "rhythm game app bundle should exist");
-  assert.ok(fs.existsSync(new URL("assets/rhythm-core.js", rhythmDir)), "rhythm game core bundle should exist");
-  assert.ok(fs.existsSync(new URL("assets/styles.css", rhythmDir)), "rhythm game styles should exist");
-  assert.match(cardRule, /width:\s*356px/);
-  assert.match(cardRule, /height:\s*690px/);
-  assert.match(cardRule, /overflow:\s*hidden/);
-  assert.match(cardRule, /linear-gradient\(145deg,\s*#454b55/);
-  assert.match(styles, /\.notebook-blue\s+\.mini-notebook\.rhythm-game-card::before\s*\{/);
-  assert.match(styles, /\.notebook-blue\s+\.mini-notebook\.rhythm-game-card::after\s*\{/);
-  assert.match(screenRule, /width:\s*304px/);
-  assert.match(screenRule, /height:\s*494px/);
-  assert.match(viewportRule, /position:\s*absolute/);
-  assert.match(viewportRule, /inset:\s*0/);
-  assert.match(viewportRule, /transform:\s*scale\(0\.706\)/);
-  assert.match(dpadRule, /bottom:\s*26px/);
-  assert.match(actionRule, /border-radius:\s*50%/);
-  assert.match(speakerRule, /transform:\s*rotate\(-8deg\)/);
-  assert.match(frameRule, /height:\s*700px/);
-  assert.doesNotMatch(rhythmIndexSource, /console-embed/);
-  assert.doesNotMatch(rhythmIndexSource, /embed-console/);
-  assert.doesNotMatch(rhythmAppSource, /embed-console/);
-  assert.doesNotMatch(rhythmStyles, /:root\.embed-console/);
-  assert.match(rhythmStyles, /--page-gutter:\s*10px/);
-  assert.match(rhythmStyles, /--app-radius:\s*28px/);
-  assert.match(hoverRule, /rotate\(-3deg\)\s*translateY\(-6px\)/);
+  assert.doesNotMatch(indexSource, /class="rhythm-game-dpad"/);
+  assert.doesNotMatch(indexSource, /class="rhythm-game-actions"/);
+  assert.doesNotMatch(indexSource, /class="rhythm-game-speaker"/);
+  assert.match(showcaseRule, /min-height:\s*1080px/);
+  assert.match(cardRule, /width:\s*min\(494px,\s*calc\(100vw - 40px\)\)/);
+  assert.match(cardRule, /padding:\s*clamp\(20px,\s*5vw,\s*32px\)/);
+  assert.match(cardRule, /border:\s*4px solid #17324b/);
+  assert.match(cardRule, /background:[\s\S]*linear-gradient\(180deg,\s*#fbfffd/);
+  assert.match(cardRule, /box-shadow:[\s\S]*0 0 0 9px rgba\(99,\s*237,\s*219,\s*0\.34\)/);
+  assert.match(cardRule, /display:\s*grid/);
+  assert.match(cardRule, /transform:\s*translateX\(-50%\) rotate\(-3deg\)/);
+  assert.match(frameOverlayRule, /inset:\s*14px 14px 52px/);
+  assert.match(frameBadgeRule, /content:\s*"CHAIN \/ CARDS"/);
+  assert.match(frameBadgeRule, /background:\s*#fff2c9/);
+  assert.match(iframeRule, /width:\s*100% !important/);
+  assert.match(iframeRule, /height:\s*auto !important/);
+  assert.match(iframeRule, /aspect-ratio:\s*430 \/ 844/);
+  assert.match(iframeRule, /background:\s*#ffffff/);
+  assert.match(hoverRule, /translateX\(-50%\)\s*rotate\(-2deg\)\s*translateY\(-6px\)/);
+  assert.match(styles, /\.product-row\s*\{[\s\S]*grid-template-columns:\s*minmax\(494px,\s*1fr\)\s*minmax\(280px,\s*360px\)\s*minmax\(250px,\s*1fr\)/);
+  assert.match(styles, /@media \(max-width:\s*1180px\)[\s\S]*\.product-row\s*\{[\s\S]*grid-template-columns:\s*1fr/);
+  assert.match(styles, /@media \(max-width:\s*640px\)[\s\S]*rhythm-remote-showcase[\s\S]*min-height:\s*clamp\(800px,\s*210vw,\s*950px\)/);
 });
 
 test("score sheet images preserve white source rendering", () => {

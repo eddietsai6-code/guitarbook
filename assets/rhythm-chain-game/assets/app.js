@@ -17,9 +17,13 @@ import {
 } from "./rhythm-core.js";
 
 const storageKey = "rhythm-chain-game-progress-v1";
+const searchParams = new URLSearchParams(window.location.search);
+const showcaseLevel = searchParams.has("showcase-level") ? Number(searchParams.get("showcase-level")) : null;
+const hasShowcaseLevel = Number.isFinite(showcaseLevel);
 const REST_SYMBOLS = new Set(["𝄽", "𝄾", "𝄿"]);
 const svgNamespace = "http://www.w3.org/2000/svg";
 const selectors = {
+  practiceCard: document.querySelector(".practice-card"),
   levelTitle: document.querySelector("#levelTitle"),
   levelMeta: document.querySelector("#levelMeta"),
   comboReadout: document.querySelector("#comboReadout"),
@@ -28,6 +32,8 @@ const selectors = {
   levelList: document.querySelector("#levelList"),
   beatDots: document.querySelectorAll(".beat-dots span"),
   targetChain: document.querySelector("#targetChain"),
+  chainEntryButton: document.querySelector("#chainEntryButton"),
+  playerLabel: document.querySelector("#playerLabel"),
   playerChain: document.querySelector("#playerChain"),
   slotPicker: document.querySelector("#slotPicker"),
   slotPickerTitle: document.querySelector("#slotPickerTitle"),
@@ -57,7 +63,7 @@ const selectors = {
 
 const progress = loadProgress();
 const state = {
-  level: progress.currentLevel,
+  level: hasShowcaseLevel ? showcaseLevel : progress.currentLevel,
   targetChain: [],
   playerChain: [],
   soundId: resolveSoundId(progress.soundId),
@@ -72,6 +78,7 @@ const state = {
   playbackTimers: [],
   audioNodes: [],
   audioContext: null,
+  playbackKind: null,
 };
 
 function init() {
@@ -105,8 +112,9 @@ function renderControls() {
 function bindControls() {
   selectors.soundSelect.addEventListener("change", handleSoundChange);
   selectors.speedSelect.addEventListener("change", handleSpeedChange);
-  selectors.playControlButton.addEventListener("click", () => playChain("target"));
+  selectors.playControlButton.addEventListener("click", handlePlayControl);
   selectors.tapButton.addEventListener("click", handleTap);
+  selectors.chainEntryButton.addEventListener("click", openNextOpenSlot);
   selectors.closeSlotPickerButton.addEventListener("click", closeSlotPicker);
   selectors.playTargetButton.addEventListener("click", () => playChain("target"));
   selectors.playPlayerButton.addEventListener("click", () => playChain("player"));
@@ -117,6 +125,25 @@ function bindControls() {
   selectors.nextLevelButton.addEventListener("click", () => goToNextLevel());
   selectors.nextButton.addEventListener("click", () => goToNextLevel());
   selectors.previewDeckButton.addEventListener("click", previewDeck);
+}
+
+function handlePlayControl() {
+  if (state.playbackKind === "target") {
+    clearPlayback("stopped");
+    return;
+  }
+
+  playChain("target");
+}
+
+function openNextOpenSlot() {
+  const firstEmptySlot = findFirstEmptySlot();
+  if (firstEmptySlot === -1) {
+    setStatus("链条已满", "warn");
+    return;
+  }
+
+  openSlotPicker(firstEmptySlot);
 }
 
 async function handleSoundChange() {
@@ -204,14 +231,28 @@ function renderReadouts() {
   const playerBeats = calculateChainBeats(filledPlayerPatterns);
   const accuracy = state.lastResult ? `${Math.round(state.lastResult.accuracy * 100)}%` : "0%";
   const bpm = getPlaybackBpm();
+  const chainEntryStrong = selectors.chainEntryButton.querySelector("strong");
+  const chainEntryLabel = selectors.chainEntryButton.querySelector("span");
+  const filledCount = filledPlayerPatterns.length;
 
+  selectors.practiceCard.dataset.comboTier = String(state.config.comboCount);
   selectors.levelTitle.textContent = `第 ${state.level} / ${LEVEL_COUNT} 关`;
   selectors.levelMeta.textContent = `${state.config.comboCount} 组合 / ${bpm} BPM`;
-  selectors.comboReadout.textContent = `${filledPlayerPatterns.length} / ${state.config.comboCount}`;
+  selectors.comboReadout.textContent = `${filledCount} / ${state.config.comboCount}`;
   selectors.beatReadout.textContent = String(targetBeats);
   selectors.accuracyReadout.textContent = accuracy;
   selectors.targetBeatCount.textContent = `${targetBeats} 拍`;
   selectors.playerBeatCount.textContent = `${playerBeats} 拍`;
+  selectors.chainEntryButton.disabled = filledCount >= state.config.comboCount;
+  selectors.chainEntryButton.setAttribute(
+    "aria-label",
+    filledCount >= state.config.comboCount ? "我的链条已填满" : `填写我的链条 ${filledCount}/${state.config.comboCount}`
+  );
+  if (chainEntryLabel) chainEntryLabel.textContent = "我的链条";
+  if (chainEntryStrong) {
+    chainEntryStrong.textContent =
+      filledCount >= state.config.comboCount ? `${filledCount}/${state.config.comboCount}` : `填写 ${filledCount}/${state.config.comboCount}`;
+  }
   selectors.drillLabel.textContent = `关卡 ${state.level}`;
   selectors.prevLevelButton.disabled = state.level <= 1;
   selectors.nextLevelButton.disabled = state.level >= LEVEL_COUNT;
@@ -240,7 +281,17 @@ function renderChain(container, chain, role) {
 }
 
 function renderPlayerChain() {
-  const slots = Array.from({ length: state.config.comboCount }, (_, index) => {
+  const showPlayerChain = shouldShowPlayerChain();
+  selectors.playerLabel.hidden = !showPlayerChain;
+  selectors.playerChain.hidden = !showPlayerChain;
+
+  if (!showPlayerChain) {
+    selectors.playerChain.replaceChildren();
+    renderReadouts();
+    return;
+  }
+
+  const slots = getVisiblePlayerSlotIndexes().map((index) => {
     const patternId = state.playerChain[index];
     if (!patternId) {
       const empty = document.createElement("button");
@@ -266,6 +317,24 @@ function renderPlayerChain() {
 
   selectors.playerChain.replaceChildren(...slots);
   renderReadouts();
+}
+
+function shouldShowPlayerChain() {
+  return state.selectedSlotIndex !== null || state.playerChain.some(Boolean);
+}
+
+function getVisiblePlayerSlotIndexes() {
+  const indexes = new Set();
+  state.playerChain.forEach((patternId, index) => {
+    if (patternId) indexes.add(index);
+  });
+
+  if (state.selectedSlotIndex !== null) indexes.add(state.selectedSlotIndex);
+
+  const firstEmptySlot = findFirstEmptySlot();
+  if (firstEmptySlot !== -1) indexes.add(firstEmptySlot);
+
+  return [...indexes].sort((first, second) => first - second);
 }
 
 function renderLibrary() {
@@ -303,6 +372,7 @@ function renderSlotPicker() {
 
 function openSlotPicker(slotIndex) {
   state.selectedSlotIndex = Math.min(state.config.comboCount - 1, Math.max(0, Number(slotIndex) || 0));
+  renderPlayerChain();
   renderSlotPicker();
   setStatus(`选择第 ${state.selectedSlotIndex + 1} 格`, "idle");
   selectors.slotPicker.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -312,6 +382,7 @@ function closeSlotPicker() {
   state.selectedSlotIndex = null;
   selectors.slotPicker.hidden = true;
   selectors.slotPickerGrid.replaceChildren();
+  if (state.config) renderPlayerChain();
 }
 
 function setSlotPattern(slotIndex, patternId) {
@@ -361,6 +432,11 @@ function createPatternTile(pattern, options = {}) {
 }
 
 function appendSymbolNodes(symbol, pattern) {
+  if (pattern.glyph === "eighth-two-sixteenths" || pattern.glyph === "two-sixteenths-eighth") {
+    symbol.append(createMixedSixteenthGlyph(pattern.glyph));
+    return;
+  }
+
   if (pattern.glyph === "four-sixteenth-run") {
     symbol.append(createFourSixteenthGlyph());
     return;
@@ -456,6 +532,78 @@ function createFourSixteenthGlyph() {
       ry: "6",
       fill: "currentColor",
       transform: "rotate(-18 86 50)",
+    })
+  );
+  return svg;
+}
+
+function createMixedSixteenthGlyph(glyph) {
+  const svg = document.createElementNS(svgNamespace, "svg");
+  svg.classList.add("mixed-sixteenth-glyph");
+  svg.classList.add(glyph);
+  svg.setAttribute("viewBox", "0 0 96 64");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+
+  const lowerBeamStart = glyph === "eighth-two-sixteenths" ? 50 : 21;
+  const lowerBeamEnd = glyph === "eighth-two-sixteenths" ? 82 : 53;
+
+  svg.append(
+    createSvgElement("path", { d: "M22 12 L84 12 L84 19 L22 19 Z", fill: "currentColor" }),
+    createSvgElement("path", {
+      d: `M${lowerBeamStart} 25 L${lowerBeamEnd} 25 L${lowerBeamEnd} 32 L${lowerBeamStart} 32 Z`,
+      fill: "currentColor",
+    }),
+    createSvgElement("line", {
+      x1: "22",
+      y1: "16",
+      x2: "22",
+      y2: "49",
+      stroke: "currentColor",
+      "stroke-width": "5",
+      "stroke-linecap": "round",
+    }),
+    createSvgElement("line", {
+      x1: "53",
+      y1: "16",
+      x2: "53",
+      y2: "49",
+      stroke: "currentColor",
+      "stroke-width": "5",
+      "stroke-linecap": "round",
+    }),
+    createSvgElement("line", {
+      x1: "83",
+      y1: "16",
+      x2: "83",
+      y2: "49",
+      stroke: "currentColor",
+      "stroke-width": "5",
+      "stroke-linecap": "round",
+    }),
+    createSvgElement("ellipse", {
+      cx: "14",
+      cy: "50",
+      rx: "9",
+      ry: "6",
+      fill: "currentColor",
+      transform: "rotate(-18 14 50)",
+    }),
+    createSvgElement("ellipse", {
+      cx: "45",
+      cy: "50",
+      rx: "9",
+      ry: "6",
+      fill: "currentColor",
+      transform: "rotate(-18 45 50)",
+    }),
+    createSvgElement("ellipse", {
+      cx: "75",
+      cy: "50",
+      rx: "9",
+      ry: "6",
+      fill: "currentColor",
+      transform: "rotate(-18 75 50)",
     })
   );
   return svg;
@@ -599,6 +747,8 @@ async function playChain(kind) {
 
   clearPlayback();
   const audioContext = await getAudioContext();
+  state.playbackKind = kind;
+  updatePlayControl(kind === "target");
   const bpm = getPlaybackBpm();
   const beatDuration = 60 / bpm;
   const countInStartTime = audioContext.currentTime + 0.08;
@@ -864,9 +1014,11 @@ function scheduleHighlights(events, kind, startTime) {
   });
 
   const lastEvent = events.at(-1);
-  const endDelay = Math.max(0, (lastEvent.timeSeconds - startTime) * 1000 + 900);
+  const endDelay = Math.max(0, (lastEvent.timeSeconds - audioContext.currentTime) * 1000 + 900);
   state.playbackTimers.push(
     window.setTimeout(() => {
+      state.playbackKind = null;
+      updatePlayControl(false);
       state.activeTargetIndex = null;
       state.activePlayerIndex = null;
       renderChain(selectors.targetChain, state.targetChain, "target");
@@ -905,7 +1057,7 @@ function clearDeckHighlight() {
   selectors.patternLibrary.querySelectorAll(".active").forEach((card) => card.classList.remove("active"));
 }
 
-function clearPlayback() {
+function clearPlayback(reason = "reset") {
   state.playbackTimers.forEach((timer) => window.clearTimeout(timer));
   state.playbackTimers = [];
   state.audioNodes.forEach((node) => {
@@ -916,15 +1068,34 @@ function clearPlayback() {
     }
   });
   state.audioNodes = [];
+  state.playbackKind = null;
   state.activeTargetIndex = null;
   state.activePlayerIndex = null;
   clearCountInDots();
   clearDeckHighlight();
+  updatePlayControl(false);
+
+  if (reason === "stopped") {
+    setStatus("准备", "idle");
+  }
 }
 
 function setStatus(message, variant) {
   selectors.statusText.textContent = message;
   selectors.statusText.dataset.variant = variant;
+}
+
+function updatePlayControl(isPlaying) {
+  const icon = selectors.playControlButton.querySelector("span");
+  const strong = selectors.playControlButton.querySelector("strong");
+
+  selectors.playControlButton.dataset.playing = String(isPlaying);
+  selectors.playControlButton.setAttribute("aria-pressed", String(isPlaying));
+  selectors.playControlButton.setAttribute("aria-label", isPlaying ? "停止播放" : "播放目标节奏");
+  if (icon) icon.textContent = isPlaying ? "Ⅱ" : "▶";
+  if (strong) {
+    strong.textContent = isPlaying ? "暂停" : "播放";
+  }
 }
 
 function getPlaybackBpm() {
@@ -981,6 +1152,8 @@ function loadProgress() {
 }
 
 function saveProgress() {
+  if (hasShowcaseLevel) return;
+
   window.localStorage.setItem(
     storageKey,
     JSON.stringify({

@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260704-g1-sound-silence";
+  const scoreAssetVersion = "20260705-canon-g3";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -133,12 +133,12 @@
     makeSong({ id: "rsl-acoustic-g1-someone-like-you", title: "Someone Like You", artist: "Adele", level: "g1", pdfPages: "25-26", scoreImageCount: 2 }),
     makeSong({ id: "rsl-acoustic-g1-free-fallin", title: "Free Fallin'", artist: "Tom Petty", level: "g1", pdfPages: "29-30", scoreImageCount: 2 }),
     makeSong({
-      id: "rsl-acoustic-g1-the-sound-of-silence",
+      id: "rsl-acoustic-g2-the-sound-of-silence",
       title: "The Sound of Silence",
       artist: "P. Simon",
-      level: "g1",
+      level: "g2",
       source: "Teacher Upload",
-      sourcePdf: "The_Sound_Of_Silence#1.png",
+      sourcePdf: "The Sound Of Silence.png",
       category: "独奏",
       style: "Classical Guitar Solo",
       techniques: ["classical guitar", "fingerstyle", "solo", "arpeggio"],
@@ -163,10 +163,26 @@
     makeSong({ id: "rsl-acoustic-g3-when-you-say-nothing-at-all", title: "When You Say Nothing At All", artist: "Alison Krauss", level: "g3", pdfPages: "25-30", scoreImageCount: 6 }),
     makeSong({ id: "rsl-acoustic-g3-bless-the-broken-road", title: "Bless The Broken Road", artist: "Rascal Flatts", level: "g3", pdfPages: "33-38", scoreImageCount: 6 }),
     makeSong({
-      id: "rsl-acoustic-g3-romance-de-amor",
+      id: "rsl-acoustic-g3-canon",
+      title: "Canon",
+      artist: "J. Pachelbel",
+      level: "g3",
+      source: "Teacher Upload",
+      sourcePdf: "Canon#1.png + Canon#2.png",
+      category: "独奏",
+      style: "Classical Guitar Solo",
+      techniques: ["classical guitar", "fingerstyle", "solo", "arpeggio"],
+      pdfPages: "1-2",
+      scoreImageCount: 2,
+      practiceOrder: ["Map the chord sequence", "Practice melody and bass balance", "Learn the score page by page", "Play the full canon slowly"],
+      commonIssues: ["Letting repeated harmony become uneven", "Rushing the sixteenth-note passages", "Changing bass shapes before the melody is clear"],
+      passStandard: "Perform the solo with steady pulse, balanced voices, and clear melodic direction."
+    }),
+    makeSong({
+      id: "rsl-acoustic-g4-romance-de-amor",
       title: "Romance de Amor",
       artist: "Traditional",
-      level: "g3",
+      level: "g4",
       source: "Teacher Upload",
       sourcePdf: "Romance_de_Amor#1.png + Romance_de_Amor#2.png",
       category: "独奏",
@@ -227,7 +243,7 @@
     "rsl-acoustic-g1-let-it-be": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g1-someone-like-you": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g1-stella-by-starlight": ["full-mix.mp3", "backing-track.mp3"],
-    "rsl-acoustic-g1-the-sound-of-silence": ["solo.mp3"],
+    "rsl-acoustic-g2-the-sound-of-silence": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g1-the-unforgiven": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g2-all-along-the-watchtower": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g2-lover-you-shouldve-come-over": ["full-mix.mp3", "backing-track.mp3"],
@@ -237,9 +253,10 @@
     "rsl-acoustic-g2-wonderwall": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-best-of-you": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-bless-the-broken-road": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-canon": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-everything-has-changed": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-i-dont-want-to-miss-a-thing": ["full-mix.mp3", "backing-track.mp3"],
-    "rsl-acoustic-g3-romance-de-amor": ["solo.mp3"],
+    "rsl-acoustic-g4-romance-de-amor": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-thinking-out-loud": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-when-you-say-nothing-at-all": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g4-baby-now-that-ive-found-you": ["full-mix.mp3", "backing-track.mp3"],
@@ -279,7 +296,8 @@
     "backing-track.mp3": "Backing track",
     "backing-track-1.mp3": "Backing track 1",
     "backing-track-2.mp3": "Backing track 2",
-    "solo.mp3": "Solo"
+    "solo.mp3": "Solo",
+    "solo-click.mp3": "Solo (click)"
   };
 
   function audioVersionsFor(songId) {

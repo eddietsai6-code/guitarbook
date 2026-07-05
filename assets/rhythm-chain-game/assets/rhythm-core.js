@@ -127,10 +127,11 @@ const PATTERN_DEFINITIONS = [
     label: "Two sixteenths + eighth",
     name: "十六十六八",
     symbol: "♬♪",
+    glyph: "two-sixteenths-eighth",
     family: "division",
     color: "blue",
-    unlockLevel: 8,
-    difficulty: 3,
+    unlockLevel: 16,
+    difficulty: 4,
     beats: 1,
     syllables: "TA-KA-DI",
     description: "Quick start, then a longer second half.",
@@ -141,158 +142,39 @@ const PATTERN_DEFINITIONS = [
     label: "Eighth + two sixteenths",
     name: "八十六十六",
     symbol: "♪♬",
+    glyph: "eighth-two-sixteenths",
     family: "division",
     color: "green",
-    unlockLevel: 9,
+    unlockLevel: 11,
     difficulty: 3,
     beats: 1,
     syllables: "TA-DI-MI",
     description: "A held first half followed by two faster notes.",
     hits: [hit(0, "stick", 0.84, 0.14), hit(0.5, "wood", 0.72), hit(0.75, "stick", 0.74)],
   },
-  {
-    id: "dottedEighthSixteenth",
-    label: "Dotted eighth + sixteenth",
-    name: "附点八分加十六分",
-    symbol: "♪.♬",
-    family: "dotted",
-    color: "gold",
-    unlockLevel: 11,
-    difficulty: 4,
-    beats: 1,
-    syllables: "TA--MI",
-    description: "A long front note snapped by a late sixteenth.",
-    hits: [hit(0, "kick", 0.9, 0.22), hit(0.75, "wood", 0.82)],
-  },
-  {
-    id: "sixteenthDottedEighth",
-    label: "Sixteenth + dotted eighth",
-    name: "十六分加附点八分",
-    symbol: "♬♪.",
-    family: "dotted",
-    color: "gold",
-    unlockLevel: 12,
-    difficulty: 4,
-    beats: 1,
-    syllables: "TA-KA--",
-    description: "A tiny pickup into a longer sound.",
-    hits: [hit(0, "wood", 0.78), hit(0.25, "kick", 0.9, 0.22)],
-  },
-  {
-    id: "eighthRestTwoSixteenths",
-    label: "Eighth rest + two sixteenths",
-    name: "八分休止接两个十六分",
-    symbol: "𝄾♬",
-    family: "rests",
-    color: "silver",
-    unlockLevel: 14,
-    difficulty: 4,
-    beats: 1,
-    syllables: "shh-DI-MI",
-    description: "Hold the first half, then answer quickly.",
-    hits: [hit(0.5, "wood", 0.76), hit(0.75, "stick", 0.78)],
-  },
-  {
-    id: "dottedQuarterEighth",
-    label: "Dotted quarter + eighth",
-    name: "附点四分加八分",
-    symbol: "♩.♪",
-    family: "dotted",
-    color: "orange",
-    unlockLevel: 16,
-    difficulty: 5,
-    beats: 2,
-    syllables: "TA---KA",
-    description: "A two-beat card with a late answer.",
-    hits: [hit(0, "kick", 0.94, 0.38), hit(1.5, "wood", 0.82, 0.12)],
-  },
-  {
-    id: "triplet",
-    label: "Triplet",
-    name: "三连音",
-    symbol: "♩♩♩",
-    family: "triplet",
-    color: "lime",
-    unlockLevel: 19,
-    difficulty: 6,
-    beats: 1,
-    syllables: "TRI-PL-ET",
-    description: "Three evenly spaced sounds over one beat.",
-    hits: [hit(0, "stick", 0.84), hit(1 / 3, "wood", 0.73), hit(2 / 3, "stick", 0.76)],
-  },
-  {
-    id: "sixteenthRestRun",
-    label: "Sixteenth rest run",
-    name: "十六分休止跑动",
-    symbol: "𝄿♬♬",
-    family: "rests",
-    color: "silver",
-    unlockLevel: 21,
-    difficulty: 6,
-    beats: 1,
-    syllables: "shh-KA-DI-MI",
-    description: "Skip the downbeat and rush through the rest.",
-    hits: [hit(0.25, "wood", 0.76), hit(0.5, "stick", 0.78), hit(0.75, "wood", 0.72)],
-  },
-  {
-    id: "offbeatEighths",
-    label: "Offbeat eighths",
-    name: "后半拍八分",
-    symbol: "♪ ♪",
-    family: "syncopation",
-    color: "violet",
-    unlockLevel: 23,
-    difficulty: 7,
-    beats: 1,
-    syllables: "-KA-DA",
-    description: "Lean into the offbeat without a downbeat note.",
-    hits: [hit(0.5, "clap", 0.9), hit(0.75, "wood", 0.68)],
-  },
-  {
-    id: "syncopatedTie",
-    label: "Syncopated tie",
-    name: "切分连线",
-    symbol: "♪—♪",
-    family: "syncopation",
-    color: "violet",
-    unlockLevel: 25,
-    difficulty: 8,
-    beats: 2,
-    syllables: "-KA---TA",
-    description: "A tied offbeat pushes across the bar line.",
-    hits: [hit(0.5, "clap", 0.92, 0.42), hit(1.5, "kick", 0.86)],
-  },
-  {
-    id: "mixedSixteenthRest",
-    label: "Mixed sixteenth rests",
-    name: "混合十六分休止",
-    symbol: "♬𝄿♬",
-    family: "rests",
-    color: "black",
-    unlockLevel: 27,
-    difficulty: 8,
-    beats: 1,
-    syllables: "TA-shh-DI-MI",
-    description: "A gap inside a fast subdivision group.",
-    hits: [hit(0, "stick", 0.84), hit(0.5, "wood", 0.8), hit(0.75, "stick", 0.74)],
-  },
-  {
-    id: "anticipation",
-    label: "Anticipation",
-    name: "提前进入",
-    symbol: "♬—♩",
-    family: "syncopation",
-    color: "violet",
-    unlockLevel: 29,
-    difficulty: 9,
-    beats: 2,
-    syllables: "TA-KA--TA",
-    description: "A sixteenth pickup locks into the next beat.",
-    hits: [hit(0, "wood", 0.76), hit(0.25, "stick", 0.76), hit(1, "kick", 0.94, 0.22)],
-  },
 ];
 
-export const RHYTHM_PATTERNS = deepFreeze(PATTERN_DEFINITIONS.map((pattern) => ({ ...pattern })));
+const THEORY_SAFE_PATTERN_ORDER = [
+  "quarter",
+  "twoEighths",
+  "quarterRest",
+  "eighthRestEighth",
+  "eighthEighthRest",
+  "fourSixteenths",
+  "eighthTwoSixteenths",
+  "twoSixteenthsEighth",
+];
+
+export const RHYTHM_PATTERNS = deepFreeze(
+  THEORY_SAFE_PATTERN_ORDER.map((patternId) => {
+    const pattern = PATTERN_DEFINITIONS.find((definition) => definition.id === patternId);
+    if (!pattern) {
+      throw new Error(`Missing rhythm pattern: ${patternId}`);
+    }
+
+    return { ...pattern };
+  })
+);
 const PATTERN_BY_ID = new Map(RHYTHM_PATTERNS.map((pattern) => [pattern.id, pattern]));
 const LEVELS = deepFreeze(createLevels());
 
@@ -493,9 +375,9 @@ function normalizeDrumTone(tone, pattern, at) {
 }
 
 export function getComboCountForLevel(levelNumber) {
-  const zeroBasedLevel = levelNumber - 1;
-  const growth = zeroBasedLevel / (LEVEL_COUNT - 1);
-  return MIN_COMBO_COUNT + Math.round(growth * (MAX_COMBO_COUNT - MIN_COMBO_COUNT));
+  if (levelNumber >= 21) return MAX_COMBO_COUNT;
+  if (levelNumber >= 11) return 8;
+  return MIN_COMBO_COUNT;
 }
 
 function createLevels() {
