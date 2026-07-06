@@ -289,11 +289,12 @@ test("audio tab renders the external speed-player component contract", () => {
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
+  assert.match(indexSource, /assets\/app\.js\?v=20260707-audio-player-pro-src/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
   assert.match(appSource, /playerSrcAttribute/);
-  assert.doesNotMatch(appSource, /no-upload/);
+  assert.match(appSource, /no-upload/);
   assert.doesNotMatch(appSource, /version-selector/);
   assert.doesNotMatch(appSource, /min-rate=/);
   assert.doesNotMatch(appSource, /max-rate=/);

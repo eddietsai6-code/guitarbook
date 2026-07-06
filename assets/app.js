@@ -1580,6 +1580,7 @@
               ${playerSrcAttribute}
               label="${escapeAttribute(playerLabel)}"
               engine="rubberband"
+              no-upload
             ></audio-speed-player>
           </div>
         </div>
