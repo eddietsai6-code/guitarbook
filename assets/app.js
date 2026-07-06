@@ -1514,13 +1514,13 @@
 
   function audioVersionSlots(song) {
     const audioItems = Array.isArray(song.audio) ? song.audio : [];
-    const count = audioItems.length || AUDIO_VERSION_COUNT;
+    const count = audioItems.length || 1;
     return Array.from({ length: count }, (_, index) => {
       const item = audioItems[index] || {};
       return {
         index,
         number: String(index + 1).padStart(2, "0"),
-        title: item.title || item.label || item.name || `Version ${index + 1}`,
+        title: item.title || item.label || item.name || "Practice pad",
         src: item.src || ""
       };
     });
@@ -1545,21 +1545,11 @@
   }
 
   function renderAudio(song) {
-    const audioItems = Array.isArray(song.audio) ? song.audio : [];
-    if (!audioItems.length) {
-      return `
-        <div class="resource-note">
-          <span>practice audio</span>
-          <strong>Audio not attached</strong>
-          <small>Use the score tab for this solo piece.</small>
-        </div>
-      `;
-    }
-
     const slots = audioVersionSlots(song);
     const activeIndex = activeAudioVersionIndex(song, slots);
     const activeSlot = slots[activeIndex];
     const playerLabel = `${song.title} - ${activeSlot.title}`;
+    const playerSrcAttribute = activeSlot.src ? `src="${escapeAttribute(activeSlot.src)}"` : "";
 
     return `
       <div class="audio-workbench">
@@ -1587,15 +1577,9 @@
           </div>
           <div class="audio-speed-player-shell">
             <audio-speed-player
-              src="${escapeAttribute(activeSlot.src)}"
+              ${playerSrcAttribute}
               label="${escapeAttribute(playerLabel)}"
-              rate="1"
-              min-rate="0.5"
-              max-rate="1.5"
-              step="0.05"
               engine="rubberband"
-              no-upload
-              version-selector
             ></audio-speed-player>
           </div>
         </div>

@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260706-you-raise-me-up-g3";
+  const scoreAssetVersion = "20260706-romance-original-quality";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),

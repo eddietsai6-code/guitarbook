@@ -148,7 +148,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260706-you-raise-me-up-g3$/,
+        /\?v=20260706-romance-original-quality$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -285,15 +285,19 @@ test("audio tab renders the external speed-player component contract", () => {
   const indexSource = readIndexSource();
   const appSource = readAssetSource("app.js");
 
-  assert.match(indexSource, /audio-speed-player-pro\.js/);
+  assert.match(
+    indexSource,
+    /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
+  );
   assert.match(appSource, /<audio-speed-player/);
-  assert.match(appSource, /rate="1"/);
-  assert.match(appSource, /min-rate="0\.5"/);
-  assert.match(appSource, /max-rate="1\.5"/);
-  assert.match(appSource, /step="0\.05"/);
   assert.match(appSource, /engine="rubberband"/);
-  assert.match(appSource, /no-upload/);
-  assert.match(appSource, /version-selector/);
+  assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
+  assert.match(appSource, /playerSrcAttribute/);
+  assert.doesNotMatch(appSource, /no-upload/);
+  assert.doesNotMatch(appSource, /version-selector/);
+  assert.doesNotMatch(appSource, /min-rate=/);
+  assert.doesNotMatch(appSource, /max-rate=/);
+  assert.doesNotMatch(appSource, /step=/);
 });
 
 test("audio tab does not expose internal source/debug text", () => {
@@ -302,6 +306,7 @@ test("audio tab does not expose internal source/debug text", () => {
   assert.doesNotMatch(appSource, /placeholder source/);
   assert.doesNotMatch(appSource, /audio placeholder/);
   assert.doesNotMatch(appSource, /audio-template-note/);
+  assert.doesNotMatch(appSource, /Audio not attached/);
   assert.doesNotMatch(appSource, /Add licensed demo/);
   assert.doesNotMatch(appSource, /<strong>\$\{escapeHtml\(activeSlot\.src\)\}<\/strong>/);
 });
@@ -309,7 +314,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260706-you-raise-me-up-g3/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260706-romance-original-quality/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);
