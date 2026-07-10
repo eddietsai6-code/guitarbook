@@ -293,7 +293,7 @@ test("audio tab renders the external speed-player component contract", () => {
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-persistent-metronome/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-stable-metronome-dock/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
@@ -334,7 +334,7 @@ test("evidence tab embeds the remote professional metronome", () => {
   const shellRule = cssBlock(styles, ".lesson-metronome-shell");
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
 
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-persistent-metronome/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-stable-metronome-dock/);
   assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
   assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
   assert.match(appSource, /const metronomeSrc = `https:\/\/professional-metronome-c0k\.pages\.dev\/\?v=\$\{Date\.now\(\)\}`/);
@@ -356,10 +356,11 @@ test("metronome iframe stays mounted when switching detail tabs", () => {
 
   assert.match(stackRule, /position:\s*relative/);
   assert.match(parkedRule, /position:\s*fixed/);
-  assert.match(parkedRule, /width:\s*1px/);
-  assert.match(parkedRule, /height:\s*1px/);
+  assert.match(parkedRule, /width:\s*min\(360px,\s*calc\(100vw - 24px\)\)/);
+  assert.match(parkedRule, /height:\s*112px/);
   assert.match(parkedRule, /pointer-events:\s*none/);
-  assert.match(parkedRule, /opacity:\s*0/);
+  assert.match(parkedRule, /opacity:\s*1/);
+  assert.doesNotMatch(parkedRule, /z-index:\s*-1/);
 });
 
 test("professional metronome transport buttons use iPad-safe touch bindings", () => {
@@ -367,8 +368,9 @@ test("professional metronome transport buttons use iPad-safe touch bindings", ()
   const appSource = readProfessionalMetronomeAsset("assets/app.js");
   const styles = readProfessionalMetronomeAsset("assets/styles.css");
 
-  assert.match(indexSource, /assets\/styles\.css\?v=20260711-ipad-transport/);
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-ipad-transport/);
+  assert.match(indexSource, /assets\/styles\.css\?v=20260711-stable-scheduler/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-stable-scheduler/);
+  assert.match(appSource, /const LOOKAHEAD_SECONDS = 6;/);
   assert.match(appSource, /function bindTouchSafeButton\(button, handler\)/);
   assert.match(appSource, /addEventListener\("pointerup"/);
   assert.match(appSource, /addEventListener\(\s*"touchend"/);

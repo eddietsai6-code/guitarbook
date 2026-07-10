@@ -2518,16 +2518,19 @@ main {
 
 .lesson-metronome-pane.is-parked {
   position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 1px;
-  height: 1px;
-  min-width: 1px;
+  right: clamp(12px, 3vw, 24px);
+  bottom: clamp(12px, 3vw, 24px);
+  width: min(360px, calc(100vw - 24px));
+  height: 112px;
+  min-width: 0;
   overflow: hidden;
-  border: 0;
-  opacity: 0;
+  border: 1.5px solid var(--color-charcoal);
+  border-radius: 8px;
+  background: #101012;
+  opacity: 1;
   pointer-events: none;
-  z-index: -1;
+  z-index: 40;
+  box-shadow: 0 16px 32px rgba(43, 26, 7, 0.2);
 }
 
 .practice-steps {
@@ -2934,14 +2937,15 @@ main {
 }
 
 .lesson-metronome-pane.is-parked .lesson-metronome-shell {
-  width: 1px;
-  height: 1px;
+  width: 100%;
+  height: 640px;
   border: 0;
+  border-radius: 0;
   box-shadow: none;
 }
 
 .lesson-metronome-pane.is-parked .lesson-metronome-frame {
-  width: 430px;
+  width: 100%;
   height: 640px;
 }
 
