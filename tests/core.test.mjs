@@ -289,7 +289,7 @@ test("audio tab renders the external speed-player component contract", () => {
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
-  assert.match(indexSource, /assets\/app\.js\?v=20260707-audio-player-pro-src/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-remote-metronome/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
@@ -323,25 +323,21 @@ test("homepage does not render the song overview card grid shell", () => {
   assert.doesNotMatch(indexSource, /0 labels/);
 });
 
-test("evidence tab embeds the local professional metronome", () => {
+test("evidence tab embeds the remote professional metronome", () => {
+  const indexSource = readIndexSource();
   const appSource = readAssetSource("app.js");
   const styles = readAssetSource("styles.css");
   const shellRule = cssBlock(styles, ".lesson-metronome-shell");
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
-  const metronomeDir = new URL("../assets/professional-metronome/", import.meta.url);
 
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-remote-metronome/);
   assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
   assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
   assert.match(appSource, /class="lesson-metronome-frame"/);
-  assert.match(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
-  assert.doesNotMatch(appSource, /professional-metronome-c0k\.pages\.dev/);
+  assert.match(appSource, /src="https:\/\/professional-metronome-c0k\.pages\.dev\/"/);
+  assert.doesNotMatch(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
   assert.match(shellRule, /overflow:\s*hidden/);
   assert.match(frameRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);
-  assert.ok(fs.existsSync(new URL("index.html", metronomeDir)), "metronome index should exist");
-  assert.ok(fs.existsSync(new URL("assets/app.js", metronomeDir)), "metronome app bundle should exist");
-  assert.ok(fs.existsSync(new URL("assets/metronome-core.js", metronomeDir)), "metronome core bundle should exist");
-  assert.ok(fs.existsSync(new URL("assets/styles.css", metronomeDir)), "metronome styles should exist");
-  assert.ok(fs.existsSync(new URL("assets/voice-count/one.wav", metronomeDir)), "voice count audio should exist");
 });
 
 test("rhythm module embeds the latest local rhythm chain game without changing the outer console design", () => {

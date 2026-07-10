@@ -1640,7 +1640,7 @@
       <div class="lesson-metronome-shell">
         <iframe
           class="lesson-metronome-frame"
-          src="./assets/professional-metronome/index.html"
+          src="https://professional-metronome-c0k.pages.dev/"
           title="Professional metronome"
         ></iframe>
       </div>
