@@ -1644,6 +1644,7 @@
           class="lesson-metronome-frame"
           src="${metronomeSrc}"
           title="Professional metronome"
+          allow="autoplay"
         ></iframe>
       </div>
     `;

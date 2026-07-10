@@ -1393,6 +1393,42 @@ function togglePlayback() {
   }
 }
 
+function bindTouchSafeButton(button, handler) {
+  let handledTouchAt = 0;
+
+  function runFromTouch(event) {
+    handledTouchAt = Date.now();
+    if (event.cancelable) {
+      event.preventDefault();
+    }
+    handler(event);
+  }
+
+  button.addEventListener("pointerup", (event) => {
+    if (event.pointerType === "touch" || event.pointerType === "pen") {
+      runFromTouch(event);
+    }
+  });
+
+  button.addEventListener(
+    "touchend",
+    (event) => {
+      if (!window.PointerEvent) {
+        runFromTouch(event);
+      }
+    },
+    { passive: false }
+  );
+
+  button.addEventListener("click", (event) => {
+    if (Date.now() - handledTouchAt < 700) {
+      event.preventDefault();
+      return;
+    }
+    handler(event);
+  });
+}
+
 function handleShortcut(event) {
   const target = event.target;
   if (
@@ -1426,7 +1462,7 @@ function handleShortcut(event) {
 }
 
 function wireControls() {
-  elements.playToggle.addEventListener("click", togglePlayback);
+  bindTouchSafeButton(elements.playToggle, togglePlayback);
   elements.tempoDown.addEventListener("click", () => changeTempo(-1));
   elements.tempoUp.addEventListener("click", () => changeTempo(1));
   elements.tempoInput.addEventListener("input", handleTempoInput);
@@ -1438,8 +1474,8 @@ function wireControls() {
   elements.tempoReadout.setAttribute("aria-label", "Edit tempo");
   elements.tempoReadout.addEventListener("click", focusTempoInput);
   elements.tempoReadout.addEventListener("keydown", handleTempoReadoutKeydown);
-  elements.tapTempo.addEventListener("click", handleTapTempo);
-  elements.muteToggle.addEventListener("click", toggleMute);
+  bindTouchSafeButton(elements.tapTempo, handleTapTempo);
+  bindTouchSafeButton(elements.muteToggle, toggleMute);
 
   for (const control of [
     elements.countInBars,

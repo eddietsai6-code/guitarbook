@@ -38,6 +38,10 @@ function readAssetSource(name) {
   return fs.readFileSync(new URL(`../assets/${name}`, import.meta.url), "utf8");
 }
 
+function readProfessionalMetronomeAsset(name) {
+  return fs.readFileSync(new URL(`../assets/professional-metronome/${name}`, import.meta.url), "utf8");
+}
+
 function readIndexSource() {
   return fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 }
@@ -336,9 +340,27 @@ test("evidence tab embeds the remote professional metronome", () => {
   assert.match(appSource, /const metronomeSrc = `https:\/\/professional-metronome-c0k\.pages\.dev\/\?v=\$\{Date\.now\(\)\}`/);
   assert.match(appSource, /class="lesson-metronome-frame"/);
   assert.match(appSource, /src="\$\{metronomeSrc\}"/);
+  assert.match(appSource, /allow="autoplay"/);
   assert.doesNotMatch(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
   assert.match(shellRule, /overflow:\s*hidden/);
   assert.match(frameRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);
+});
+
+test("professional metronome transport buttons use iPad-safe touch bindings", () => {
+  const indexSource = readProfessionalMetronomeAsset("index.html");
+  const appSource = readProfessionalMetronomeAsset("assets/app.js");
+  const styles = readProfessionalMetronomeAsset("assets/styles.css");
+
+  assert.match(indexSource, /assets\/styles\.css\?v=20260711-ipad-transport/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-ipad-transport/);
+  assert.match(appSource, /function bindTouchSafeButton\(button, handler\)/);
+  assert.match(appSource, /addEventListener\("pointerup"/);
+  assert.match(appSource, /addEventListener\(\s*"touchend"/);
+  assert.match(appSource, /bindTouchSafeButton\(elements\.playToggle, togglePlayback\)/);
+  assert.match(appSource, /bindTouchSafeButton\(elements\.tapTempo, handleTapTempo\)/);
+  assert.match(appSource, /bindTouchSafeButton\(elements\.muteToggle, toggleMute\)/);
+  assert.match(styles, /touch-action:\s*manipulation/);
+  assert.match(styles, /-webkit-tap-highlight-color:\s*transparent/);
 });
 
 test("rhythm module embeds the latest local rhythm chain game without changing the outer console design", () => {
