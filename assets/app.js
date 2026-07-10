@@ -1650,9 +1650,9 @@
     `;
   }
 
-  function renderContentPane(song, level) {
-    if (state.detailTab === "score") return `<div class="score-grid">${renderScores(song)}</div>`;
-    if (state.detailTab === "evidence") return renderEvidence(song, level);
+  function renderContentPane(song, level, tab = state.detailTab) {
+    if (tab === "score") return `<div class="score-grid">${renderScores(song)}</div>`;
+    if (tab === "evidence") return renderEvidence(song, level);
     return renderLesson(song, level);
   }
 
@@ -1664,20 +1664,22 @@
 
   function updateSongDetailTab(song, level) {
     const audioPane = els.songDetail.querySelector("[data-audio-pane]");
-    const contentPane = els.songDetail.querySelector("[data-content-pane]");
+    const panels = els.songDetail.querySelectorAll("[data-tab-panel]");
 
     els.songDetail.querySelectorAll("[data-tab]").forEach((button) => {
       button.classList.toggle("is-active", button.dataset.tab === state.detailTab);
     });
 
     if (audioPane) audioPane.hidden = state.detailTab !== "audio";
-    if (contentPane) {
-      contentPane.hidden = state.detailTab === "audio";
-      if (state.detailTab !== "audio") {
-        contentPane.innerHTML = renderContentPane(song, level);
-        bindDetailTechButtons(contentPane);
+    panels.forEach((panel) => {
+      const isActive = panel.dataset.tabPanel === state.detailTab;
+      if (panel.dataset.tabPanel === "evidence") {
+        panel.hidden = false;
+        panel.classList.toggle("is-parked", !isActive);
+      } else {
+        panel.hidden = !isActive;
       }
-    }
+    });
   }
 
   function renderSongDetail() {
@@ -1707,7 +1709,11 @@
         <button type="button" class="${state.detailTab === "evidence" ? "is-active" : ""}" data-tab="evidence">Metro</button>
       </div>
       <div class="lesson-pane lesson-audio-pane" data-audio-pane ${state.detailTab === "audio" ? "" : "hidden"}>${renderAudio(song)}</div>
-      <div class="lesson-pane" data-content-pane ${state.detailTab === "audio" ? "hidden" : ""}>${state.detailTab === "audio" ? "" : renderContentPane(song, level)}</div>
+      <div class="lesson-content-stack" data-content-stack>
+        <div class="lesson-pane" data-tab-panel="lesson" ${state.detailTab === "lesson" ? "" : "hidden"}>${renderContentPane(song, level, "lesson")}</div>
+        <div class="lesson-pane" data-tab-panel="score" ${state.detailTab === "score" ? "" : "hidden"}>${renderContentPane(song, level, "score")}</div>
+        <div class="lesson-pane lesson-metronome-pane ${state.detailTab === "evidence" ? "" : "is-parked"}" data-tab-panel="evidence">${renderContentPane(song, level, "evidence")}</div>
+      </div>
     `;
 
     els.songDetail.querySelectorAll("[data-tab]").forEach((button) => {

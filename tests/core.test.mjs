@@ -293,7 +293,7 @@ test("audio tab renders the external speed-player component contract", () => {
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-ipad-metronome-transport/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-persistent-metronome/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
@@ -334,16 +334,32 @@ test("evidence tab embeds the remote professional metronome", () => {
   const shellRule = cssBlock(styles, ".lesson-metronome-shell");
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
 
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-ipad-metronome-transport/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-persistent-metronome/);
   assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
   assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
   assert.match(appSource, /const metronomeSrc = `https:\/\/professional-metronome-c0k\.pages\.dev\/\?v=\$\{Date\.now\(\)\}`/);
+  assert.match(appSource, /data-tab-panel="evidence"/);
+  assert.match(appSource, /lesson-metronome-pane \$\{state\.detailTab === "evidence" \? "" : "is-parked"\}/);
+  assert.doesNotMatch(appSource, /contentPane\.innerHTML\s*=\s*renderContentPane/);
   assert.match(appSource, /class="lesson-metronome-frame"/);
   assert.match(appSource, /src="\$\{metronomeSrc\}"/);
   assert.match(appSource, /allow="autoplay"/);
   assert.doesNotMatch(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
   assert.match(shellRule, /overflow:\s*hidden/);
   assert.match(frameRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);
+});
+
+test("metronome iframe stays mounted when switching detail tabs", () => {
+  const styles = readAssetSource("styles.css");
+  const stackRule = cssBlock(styles, ".lesson-content-stack");
+  const parkedRule = cssBlock(styles, ".lesson-metronome-pane.is-parked");
+
+  assert.match(stackRule, /position:\s*relative/);
+  assert.match(parkedRule, /position:\s*fixed/);
+  assert.match(parkedRule, /width:\s*1px/);
+  assert.match(parkedRule, /height:\s*1px/);
+  assert.match(parkedRule, /pointer-events:\s*none/);
+  assert.match(parkedRule, /opacity:\s*0/);
 });
 
 test("professional metronome transport buttons use iPad-safe touch bindings", () => {
