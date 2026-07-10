@@ -289,7 +289,7 @@ test("audio tab renders the external speed-player component contract", () => {
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-remote-metronome/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-remote-metronome-refresh/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
@@ -330,11 +330,12 @@ test("evidence tab embeds the remote professional metronome", () => {
   const shellRule = cssBlock(styles, ".lesson-metronome-shell");
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
 
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-remote-metronome/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-remote-metronome-refresh/);
   assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
   assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
+  assert.match(appSource, /const metronomeSrc = `https:\/\/professional-metronome-c0k\.pages\.dev\/\?v=\$\{Date\.now\(\)\}`/);
   assert.match(appSource, /class="lesson-metronome-frame"/);
-  assert.match(appSource, /src="https:\/\/professional-metronome-c0k\.pages\.dev\/"/);
+  assert.match(appSource, /src="\$\{metronomeSrc\}"/);
   assert.doesNotMatch(appSource, /src="\.\/assets\/professional-metronome\/index\.html"/);
   assert.match(shellRule, /overflow:\s*hidden/);
   assert.match(frameRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);

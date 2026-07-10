@@ -1636,11 +1636,13 @@
   }
 
   function renderEvidence(song, level) {
+    const metronomeSrc = `https://professional-metronome-c0k.pages.dev/?v=${Date.now()}`;
+
     return `
       <div class="lesson-metronome-shell">
         <iframe
           class="lesson-metronome-frame"
-          src="https://professional-metronome-c0k.pages.dev/"
+          src="${metronomeSrc}"
           title="Professional metronome"
         ></iframe>
       </div>
