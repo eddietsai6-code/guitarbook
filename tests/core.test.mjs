@@ -368,9 +368,9 @@ test("professional metronome transport buttons use iPad-safe touch bindings", ()
   const appSource = readProfessionalMetronomeAsset("assets/app.js");
   const styles = readProfessionalMetronomeAsset("assets/styles.css");
 
-  assert.match(indexSource, /assets\/styles\.css\?v=20260711-stable-scheduler/);
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-stable-scheduler/);
-  assert.match(appSource, /const LOOKAHEAD_SECONDS = 6;/);
+  assert.match(indexSource, /assets\/styles\.css\?v=20260711-safe-scheduler/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260711-safe-scheduler/);
+  assert.match(appSource, /const LOOKAHEAD_SECONDS = 0\.5;/);
   assert.match(appSource, /function bindTouchSafeButton\(button, handler\)/);
   assert.match(appSource, /addEventListener\("pointerup"/);
   assert.match(appSource, /addEventListener\(\s*"touchend"/);

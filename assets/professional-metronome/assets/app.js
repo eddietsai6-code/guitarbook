@@ -14,7 +14,7 @@ import {
 } from "./metronome-core.js";
 
 const TAP_SAMPLE_LIMIT = 6;
-const LOOKAHEAD_SECONDS = 6;
+const LOOKAHEAD_SECONDS = 0.5;
 const SCHEDULER_INTERVAL_MS = 25;
 const SCHEDULE_BARS = 64;
 const START_DELAY_SECONDS = 0.02;
