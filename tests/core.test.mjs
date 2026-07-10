@@ -344,9 +344,10 @@ test("evidence tab embeds the local professional metronome", () => {
   assert.ok(fs.existsSync(new URL("assets/voice-count/one.wav", metronomeDir)), "voice count audio should exist");
 });
 
-test("rhythm module embeds the latest remote rhythm chain game as the only source", () => {
+test("rhythm module embeds the latest local rhythm chain game without changing the outer console design", () => {
   const indexSource = readIndexSource();
   const styles = readAssetSource("styles.css");
+  const rhythmDir = new URL("../assets/rhythm-chain-game/", import.meta.url);
   const showcaseRule = cssBlock(styles, ".showcase-object.notebook-blue.rhythm-remote-showcase");
   const cardRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card.rhythm-remote-card");
   const frameOverlayRule = cssBlock(styles, ".notebook-blue .mini-notebook.rhythm-game-card.rhythm-remote-card::before");
@@ -361,10 +362,14 @@ test("rhythm module embeds the latest remote rhythm chain game as the only sourc
   assert.doesNotMatch(indexSource, /starter grades/);
   assert.match(
     indexSource,
-    /src="https:\/\/rhythm-chain-game\.pages\.dev\/\?v=9b2fb40e4f8464391cf81b13aaeca281f1704efd"/
+    /src="\.\/assets\/rhythm-chain-game\/index\.html\?v=20260710-rhythm-update"/
   );
   assert.match(indexSource, /style="width:430px;height:844px;border:0;max-width:100%;"/);
-  assert.doesNotMatch(indexSource, /src="\.\/assets\/rhythm-chain-game\//);
+  assert.doesNotMatch(indexSource, /rhythm-chain-game\.pages\.dev/);
+  assert.ok(fs.existsSync(new URL("index.html", rhythmDir)), "rhythm game index should exist");
+  assert.ok(fs.existsSync(new URL("assets/app.js", rhythmDir)), "rhythm game app bundle should exist");
+  assert.ok(fs.existsSync(new URL("assets/rhythm-core.js", rhythmDir)), "rhythm game core bundle should exist");
+  assert.ok(fs.existsSync(new URL("assets/styles.css", rhythmDir)), "rhythm game styles should exist");
   assert.doesNotMatch(indexSource, /showcase-level/);
   assert.doesNotMatch(indexSource, /RHYTHM POCKET/);
   assert.doesNotMatch(indexSource, /class="rhythm-game-screen"/);

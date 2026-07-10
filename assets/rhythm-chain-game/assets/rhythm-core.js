@@ -1,4 +1,4 @@
-export const LEVEL_COUNT = 30;
+export const LEVEL_COUNT = 40;
 export const SNARE_TONE = "snare";
 export const DEFAULT_SOUND_ID = SNARE_TONE;
 export const SOUND_PRESETS = deepFreeze([
@@ -19,7 +19,7 @@ export const SPEED_OPTIONS = deepFreeze([
 ]);
 const MIN_COMBO_COUNT = 4;
 const MAX_COMBO_COUNT = 16;
-const DEFAULT_BPM = 88;
+const DEFAULT_BPM = 80;
 export const COUNT_IN_BEATS = 4;
 
 function deepFreeze(value) {
@@ -152,6 +152,36 @@ const PATTERN_DEFINITIONS = [
     description: "A held first half followed by two faster notes.",
     hits: [hit(0, "stick", 0.84, 0.14), hit(0.5, "wood", 0.72), hit(0.75, "stick", 0.74)],
   },
+  {
+    id: "sixteenthEighthSixteenth",
+    label: "Sixteenth + eighth + sixteenth",
+    name: "十六八十六切分",
+    symbol: "♬♪",
+    glyph: "sixteenth-eighth-sixteenth",
+    family: "syncopation",
+    color: "gold",
+    unlockLevel: 31,
+    difficulty: 5,
+    beats: 1,
+    syllables: "TA-KA-MI",
+    description: "A one-beat syncopation with a longer middle sound.",
+    hits: [hit(0, "stick", 0.84), hit(0.25, "wood", 0.86, 0.14), hit(0.75, "stick", 0.78)],
+  },
+  {
+    id: "sixteenthRestThreeSixteenths",
+    label: "Sixteenth rest + three sixteenths",
+    name: "十六休止后三个十六",
+    symbol: "𝄿♬",
+    glyph: "sixteenth-rest-three-sixteenths",
+    family: "syncopation",
+    color: "orange",
+    unlockLevel: 31,
+    difficulty: 5,
+    beats: 1,
+    syllables: "shh-KA-DI-MI",
+    description: "Rest on the beat, then play the remaining three sixteenth subdivisions.",
+    hits: [hit(0.25, "wood", 0.78), hit(0.5, "stick", 0.84), hit(0.75, "wood", 0.76)],
+  },
 ];
 
 const THEORY_SAFE_PATTERN_ORDER = [
@@ -163,6 +193,8 @@ const THEORY_SAFE_PATTERN_ORDER = [
   "fourSixteenths",
   "eighthTwoSixteenths",
   "twoSixteenthsEighth",
+  "sixteenthEighthSixteenth",
+  "sixteenthRestThreeSixteenths",
 ];
 
 export const RHYTHM_PATTERNS = deepFreeze(
@@ -387,7 +419,7 @@ function createLevels() {
     return {
       level,
       comboCount,
-      bpm: 78 + Math.round(index * 2.05),
+      bpm: DEFAULT_BPM,
       maxPatternDifficulty: Math.min(9, 1 + Math.floor(index / 3)),
       targetStars: Math.max(6, comboCount + Math.floor(level / 5)),
       seed: 9137 + level * 7919,
