@@ -293,7 +293,8 @@ test("audio tab renders the external speed-player component contract", () => {
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-stable-metronome-dock/);
+  assert.match(indexSource, /assets\/styles\.css\?v=20260712-background-metronome/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260712-background-metronome/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
@@ -334,7 +335,8 @@ test("evidence tab embeds the remote professional metronome", () => {
   const shellRule = cssBlock(styles, ".lesson-metronome-shell");
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
 
-  assert.match(indexSource, /assets\/app\.js\?v=20260711-stable-metronome-dock/);
+  assert.match(indexSource, /assets\/styles\.css\?v=20260712-background-metronome/);
+  assert.match(indexSource, /assets\/app\.js\?v=20260712-background-metronome/);
   assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
   assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
   assert.match(appSource, /const metronomeSrc = `https:\/\/professional-metronome-c0k\.pages\.dev\/\?v=\$\{Date\.now\(\)\}`/);
@@ -349,17 +351,22 @@ test("evidence tab embeds the remote professional metronome", () => {
   assert.match(frameRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);
 });
 
-test("metronome iframe stays mounted when switching detail tabs", () => {
+test("metronome iframe stays mounted without a visible dock when switching detail tabs", () => {
   const styles = readAssetSource("styles.css");
   const stackRule = cssBlock(styles, ".lesson-content-stack");
   const parkedRule = cssBlock(styles, ".lesson-metronome-pane.is-parked");
+  const activePaneRule = cssBlock(styles, ".lesson-content-stack > .lesson-pane:not(.is-parked)");
 
   assert.match(stackRule, /position:\s*relative/);
-  assert.match(parkedRule, /position:\s*fixed/);
-  assert.match(parkedRule, /width:\s*min\(360px,\s*calc\(100vw - 24px\)\)/);
-  assert.match(parkedRule, /height:\s*112px/);
+  assert.match(parkedRule, /position:\s*absolute/);
+  assert.match(parkedRule, /inset:\s*0/);
+  assert.match(parkedRule, /height:\s*clamp\(640px,\s*82vh,\s*820px\)/);
+  assert.match(parkedRule, /opacity:\s*0/);
+  assert.match(parkedRule, /animation:\s*none/);
   assert.match(parkedRule, /pointer-events:\s*none/);
-  assert.match(parkedRule, /opacity:\s*1/);
+  assert.match(activePaneRule, /z-index:\s*1/);
+  assert.doesNotMatch(parkedRule, /position:\s*fixed/);
+  assert.doesNotMatch(parkedRule, /height:\s*112px/);
   assert.doesNotMatch(parkedRule, /z-index:\s*-1/);
 });
 
