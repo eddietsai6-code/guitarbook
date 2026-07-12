@@ -114,7 +114,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
-  assert.equal(data.songs.length, 58);
+  assert.equal(data.songs.length, 59);
 
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
@@ -152,7 +152,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260706-romance-original-quality$/,
+        /\?v=20260713-perfect-original-quality$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -285,6 +285,34 @@ test("Canon is cataloged as a Grade 3 独奏 score", () => {
   );
 });
 
+test("Perfect is cataloged as a Grade 3 独奏 score", () => {
+  const data = loadGuitarData();
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-perfect");
+
+  assert.ok(song, "Perfect should be present");
+  assert.equal(song.title, "Perfect");
+  assert.equal(song.artist, "Ed Sheeran");
+  assert.equal(song.level, "g3");
+  assert.equal(song.category, "独奏");
+  assert.equal(song.style, "Fingerstyle Solo");
+  assert.equal(song.source, "Teacher Upload");
+  assert.equal(song.sourcePdf, "Perfect#1.png + Perfect#2.png");
+  assert.equal(song.pdfPages, "1-2");
+  assert.deepEqual(
+    Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
+    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-perfect/solo.mp3"]
+  );
+  assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo"]);
+  assert.equal(song.scoreImages.length, 2);
+  assert.deepEqual(
+    Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
+    [
+      "scores/acoustic-guitar/rsl-acoustic-g3-perfect/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g3-perfect/score-02.png"
+    ]
+  );
+});
+
 test("audio tab renders the external speed-player component contract", () => {
   const indexSource = readIndexSource();
   const appSource = readAssetSource("app.js");
@@ -320,7 +348,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260706-romance-original-quality/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260713-perfect-original-quality/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);

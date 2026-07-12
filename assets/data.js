@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260706-romance-original-quality";
+  const scoreAssetVersion = "20260713-perfect-original-quality";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -193,6 +193,22 @@
       practiceOrder: ["Map the chord sequence", "Practice melody and bass balance", "Learn the score page by page", "Play the full canon slowly"],
       commonIssues: ["Letting repeated harmony become uneven", "Rushing the sixteenth-note passages", "Changing bass shapes before the melody is clear"],
       passStandard: "Perform the solo with steady pulse, balanced voices, and clear melodic direction."
+    }),
+    makeSong({
+      id: "rsl-acoustic-g3-perfect",
+      title: "Perfect",
+      artist: "Ed Sheeran",
+      level: "g3",
+      source: "Teacher Upload",
+      sourcePdf: "Perfect#1.png + Perfect#2.png",
+      category: "独奏",
+      style: "Fingerstyle Solo",
+      techniques: ["fingerstyle", "solo", "ballad", "arpeggio"],
+      pdfPages: "1-2",
+      scoreImageCount: 2,
+      practiceOrder: ["Map the 12/8 pulse", "Practice melody and bass separately", "Learn the score page by page", "Play the full solo slowly"],
+      commonIssues: ["Losing the 12/8 subdivision", "Letting sustained melody notes disappear", "Rushing fills before bar lines"],
+      passStandard: "Perform the solo with steady 12/8 pulse, clear melody sustain, and balanced accompaniment."
     }),
     makeSong({
       id: "rsl-acoustic-g4-romance-de-amor",
@@ -272,6 +288,7 @@
     "rsl-acoustic-g3-canon": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-everything-has-changed": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-i-dont-want-to-miss-a-thing": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-perfect": ["solo.mp3"],
     "rsl-acoustic-g4-romance-de-amor": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-thinking-out-loud": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-when-you-say-nothing-at-all": ["full-mix.mp3", "backing-track.mp3"],
