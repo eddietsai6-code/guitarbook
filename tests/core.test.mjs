@@ -114,7 +114,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   const data = loadGuitarData();
   const levelIds = new Set(data.levels.map((level) => level.id));
 
-  assert.equal(data.songs.length, 59);
+  assert.equal(data.songs.length, 60);
 
   data.songs.forEach((song) => {
     assert.ok(levelIds.has(song.level), `${song.id} should reference an existing level`);
@@ -152,7 +152,7 @@ test("songs expose real playable audio versions and mapped score assets", () => 
       );
       assert.match(
         image.src,
-        /\?v=20260713-perfect-original-quality$/,
+        /\?v=20260713-wake-me-up-audio$/,
         `${song.id} score ${index + 1} should cache-bust cleaned RSL score images`
       );
       assert.ok(
@@ -313,6 +313,42 @@ test("Perfect is cataloged as a Grade 3 独奏 score", () => {
   );
 });
 
+test("Wake Me Up When September Ends is cataloged as a Grade 3 独奏 score", () => {
+  const data = loadGuitarData();
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-wake-me-up-when-september-ends");
+
+  assert.ok(song, "Wake Me Up When September Ends should be present");
+  assert.equal(song.title, "Wake Me Up When September Ends");
+  assert.equal(song.artist, "Green Day");
+  assert.equal(song.level, "g3");
+  assert.equal(song.category, "独奏");
+  assert.equal(song.style, "Fingerstyle Solo");
+  assert.equal(song.source, "Teacher Upload");
+  assert.equal(
+    song.sourcePdf,
+    "Wake Me Up When September Ends#1.png + Wake Me Up When September Ends#2.png + Wake Me Up When September Ends#3.png"
+  );
+  assert.equal(song.pdfPages, "1-3");
+  assert.equal(song.audio.length, 2);
+  assert.deepEqual(
+    Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
+    [
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/solo-click.mp3"
+    ]
+  );
+  assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
+  assert.equal(song.scoreImages.length, 3);
+  assert.deepEqual(
+    Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
+    [
+      "scores/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/score-02.png",
+      "scores/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/score-03.png"
+    ]
+  );
+});
+
 test("audio tab renders the external speed-player component contract", () => {
   const indexSource = readIndexSource();
   const appSource = readAssetSource("app.js");
@@ -348,7 +384,7 @@ test("audio tab does not expose internal source/debug text", () => {
 test("homepage does not render the song overview card grid shell", () => {
   const indexSource = readIndexSource();
 
-  assert.match(indexSource, /assets\/data\.js\?v=20260713-perfect-original-quality/);
+  assert.match(indexSource, /assets\/data\.js\?v=20260713-wake-me-up-audio/);
   assert.doesNotMatch(indexSource, /id="songList"/);
   assert.doesNotMatch(indexSource, /id="resultCount"/);
   assert.doesNotMatch(indexSource, /id="activeSummary"/);

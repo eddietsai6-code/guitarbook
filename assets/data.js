@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260713-perfect-original-quality";
+  const scoreAssetVersion = "20260713-wake-me-up-audio";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -211,6 +211,22 @@
       passStandard: "Perform the solo with steady 12/8 pulse, clear melody sustain, and balanced accompaniment."
     }),
     makeSong({
+      id: "rsl-acoustic-g3-wake-me-up-when-september-ends",
+      title: "Wake Me Up When September Ends",
+      artist: "Green Day",
+      level: "g3",
+      source: "Teacher Upload",
+      sourcePdf: "Wake Me Up When September Ends#1.png + Wake Me Up When September Ends#2.png + Wake Me Up When September Ends#3.png",
+      category: "独奏",
+      style: "Fingerstyle Solo",
+      techniques: ["fingerstyle", "solo", "arpeggio", "pop rock"],
+      pdfPages: "1-3",
+      scoreImageCount: 3,
+      practiceOrder: ["Map the 104 BPM pulse", "Practice bass and melody balance", "Learn the score page by page", "Play the full solo slowly"],
+      commonIssues: ["Rushing repeated arpeggio figures", "Letting bass notes cover the melody", "Losing continuity across repeated sections"],
+      passStandard: "Perform the solo with steady pulse, clear melody, and balanced accompaniment."
+    }),
+    makeSong({
       id: "rsl-acoustic-g4-romance-de-amor",
       title: "Romance de Amor",
       artist: "Traditional",
@@ -289,6 +305,7 @@
     "rsl-acoustic-g3-everything-has-changed": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-i-dont-want-to-miss-a-thing": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-perfect": ["solo.mp3"],
+    "rsl-acoustic-g3-wake-me-up-when-september-ends": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g4-romance-de-amor": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-thinking-out-loud": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-when-you-say-nothing-at-all": ["full-mix.mp3", "backing-track.mp3"],
