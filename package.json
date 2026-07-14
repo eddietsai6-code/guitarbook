@@ -11,6 +11,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "node --check assets/app.js && node --check assets/data.js && node --check assets/guitar-tuner.js && node --check assets/guitar-tuner-core.js && node --test tests/core.test.mjs"
+    "test": "node --check assets/app.js && node --check assets/bootstrap.js && node --check assets/catalog-runtime.js && node --check assets/data.js && node --check assets/guitar-tuner.js && node --check assets/guitar-tuner-core.js && node --check functions/_lib/auth.js && node --check functions/_lib/catalog.js && node --check functions/_lib/http.js && node --check functions/api/admin/activate.js && node --check functions/api/admin/publish.js && node --check functions/api/catalog/current.js && node --check functions/api/catalog/releases/[releaseId].js && node --check functions/media/[[path]].js && node --check scripts/build-site.mjs && node --check scripts/publish-content.mjs && node --test tests/core.test.mjs tests/catalog-runtime.test.mjs tests/content-api.test.mjs tests/content-publisher.test.mjs tests/build-site.test.mjs",
+    "build": "node scripts/build-site.mjs",
+    "content:publish": "node scripts/publish-content.mjs",
+    "content:activate": "node scripts/publish-content.mjs --activate"
   }
 }

@@ -2,10 +2,14 @@ node_modules/
 dist/
 .env
 .env.*
+.dev.vars
+.dev.vars.*
 *.log
 *.tmp
 tmp/
 screenshots/
 .wrangler/
+.playwright-cli/
+content/private/
 .DS_Store
 Thumbs.db

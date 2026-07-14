@@ -1,3 +1,5 @@
+import { compareCatalogSongs } from "./catalog-runtime.js";
+
 (function () {
   const data = window.GUITAR_LEVEL_DATA;
   const songTechProfiles = window.GUITAR_SONG_TECH_PROFILES || {};
@@ -168,7 +170,7 @@
   function songsForLevel(levelId) {
     return data.songs
       .filter((song) => song.level === levelId)
-      .sort((a, b) => a.title.localeCompare(b.title, "zh-CN"));
+      .sort(compareCatalogSongs);
   }
 
   function levelShort(level) {
@@ -330,7 +332,7 @@
       .sort((a, b) => {
         const levelDiff = levelById[a.level].order - levelById[b.level].order;
         if (levelDiff !== 0) return levelDiff;
-        return a.title.localeCompare(b.title, "zh-CN");
+        return compareCatalogSongs(a, b);
       });
   }
 

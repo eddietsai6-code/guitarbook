@@ -1,0 +1,12 @@
+name = "guitarbook"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-06-30"
+
+[[d1_databases]]
+binding = "GUITARBOOK_DB"
+database_name = "guitarbook-content"
+database_id = "94b5c915-96d4-45b5-a52d-8b87d7e10da1"
+
+[[r2_buckets]]
+binding = "GUITARBOOK_MEDIA"
+bucket_name = "guitarbook-media"

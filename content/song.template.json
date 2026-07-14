@@ -1,0 +1,26 @@
+{
+  "song": {
+    "id": "teacher-g3-song-title",
+    "title": "Song Title",
+    "artist": "Artist",
+    "level": "g3",
+    "sortOrder": 30,
+    "source": "Teacher Upload",
+    "category": "Teaching Piece",
+    "style": "Acoustic Guitar",
+    "techniques": ["fingerstyle", "steady pulse"],
+    "teaching": {
+      "goal": "Learn the complete assigned arrangement.",
+      "focus": "Keep melody, bass, and pulse balanced.",
+      "practiceOrder": ["Read the score", "Isolate difficult bars", "Connect sections", "Play the complete piece"],
+      "commonIssues": ["Rushing transitions", "Covering the melody with accompaniment"],
+      "passStandard": "Perform the full piece with secure rhythm and clear musical balance."
+    }
+  },
+  "audio": [
+    { "id": "solo", "title": "Solo", "file": "./solo.mp3" }
+  ],
+  "scores": [
+    { "title": "Page 1", "file": "./score-01.png" }
+  ]
+}

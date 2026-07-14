@@ -384,13 +384,15 @@ test("Wake Me Up When September Ends is cataloged as a Grade 3 独奏 score", ()
 test("audio tab renders the external speed-player component contract", () => {
   const indexSource = readIndexSource();
   const appSource = readAssetSource("app.js");
+  const bootstrapSource = readAssetSource("bootstrap.js");
 
   assert.match(
     indexSource,
     /<script type="module" src="https:\/\/eddietsai6-code\.github\.io\/audio-speed-player\/dist\/audio-speed-player-pro\.js"><\/script>/
   );
   assert.match(indexSource, /assets\/styles\.css\?v=20260712-background-metronome/);
-  assert.match(indexSource, /assets\/app\.js\?v=20260712-background-metronome/);
+  assert.match(indexSource, /assets\/bootstrap\.js\?v=20260714-content-runtime/);
+  assert.match(bootstrapSource, /import\("\.\/app\.js\?v=20260714-content-runtime"\)/);
   assert.match(appSource, /<audio-speed-player/);
   assert.match(appSource, /engine="rubberband"/);
   assert.match(appSource, /label="\$\{escapeAttribute\(playerLabel\)\}"/);
@@ -432,7 +434,7 @@ test("evidence tab embeds the remote professional metronome", () => {
   const frameRule = cssBlock(styles, ".lesson-metronome-frame");
 
   assert.match(indexSource, /assets\/styles\.css\?v=20260712-background-metronome/);
-  assert.match(indexSource, /assets\/app\.js\?v=20260712-background-metronome/);
+  assert.match(indexSource, /assets\/bootstrap\.js\?v=20260714-content-runtime/);
   assert.match(appSource, /data-tab="evidence">Metro<\/button>/);
   assert.doesNotMatch(appSource, /data-tab="evidence">Evidence<\/button>/);
   assert.match(appSource, /const metronomeSrc = `https:\/\/professional-metronome-c0k\.pages\.dev\/\?v=\$\{Date\.now\(\)\}`/);
