@@ -116,7 +116,7 @@
     g8: "RSLAcousticG8.pdf"
   };
 
-  const scoreAssetVersion = "20260713-wake-me-up-audio";
+  const scoreAssetVersion = "20260714-kiss-the-rain";
 
   const songs = [
     makeSong({ id: "rsl-acoustic-debut-learn-to-fly", title: "Learn To Fly", artist: "Foo Fighters", level: "debut", pdfPages: "9-10", scoreImageCount: 2 }),
@@ -209,6 +209,22 @@
       practiceOrder: ["Map the 12/8 pulse", "Practice melody and bass separately", "Learn the score page by page", "Play the full solo slowly"],
       commonIssues: ["Losing the 12/8 subdivision", "Letting sustained melody notes disappear", "Rushing fills before bar lines"],
       passStandard: "Perform the solo with steady 12/8 pulse, clear melody sustain, and balanced accompaniment."
+    }),
+    makeSong({
+      id: "rsl-acoustic-g3-kiss-the-rain",
+      title: "Kiss The Rain",
+      artist: "Yiruma",
+      level: "g3",
+      source: "Teacher Upload",
+      sourcePdf: "Kiss The Rain#1.png + Kiss The Rain#2.png",
+      category: "独奏",
+      style: "Fingerstyle Solo",
+      techniques: ["fingerstyle", "solo", "instrumental", "arpeggio"],
+      pdfPages: "1-2",
+      scoreImageCount: 2,
+      practiceOrder: ["Map the 6/8 pulse", "Practice melody and bass separately", "Learn the score page by page", "Play the full solo slowly"],
+      commonIssues: ["Losing the 6/8 subdivision", "Letting melody notes disappear inside the arpeggio", "Rushing transitions before bar lines"],
+      passStandard: "Perform the solo with steady 6/8 pulse, clear melodic sustain, and balanced accompaniment."
     }),
     makeSong({
       id: "rsl-acoustic-g3-wake-me-up-when-september-ends",
@@ -304,6 +320,7 @@
     "rsl-acoustic-g3-canon": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-everything-has-changed": ["full-mix.mp3", "backing-track.mp3"],
     "rsl-acoustic-g3-i-dont-want-to-miss-a-thing": ["full-mix.mp3", "backing-track.mp3"],
+    "rsl-acoustic-g3-kiss-the-rain": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g3-perfect": ["solo.mp3"],
     "rsl-acoustic-g3-wake-me-up-when-september-ends": ["solo.mp3", "solo-click.mp3"],
     "rsl-acoustic-g4-romance-de-amor": ["solo.mp3", "solo-click.mp3"],
