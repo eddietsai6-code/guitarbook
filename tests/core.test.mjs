@@ -167,14 +167,14 @@ test("songs expose real playable audio versions and mapped score assets", () => 
   });
 });
 
-test("Romance de Amor is cataloged as a Grade 4 独奏 with audio", () => {
+test("Romance de Amor is cataloged as a Grade 5 独奏 with audio", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-romance-de-amor");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g5-romance-de-amor");
 
   assert.ok(song, "Romance de Amor should be present");
   assert.equal(song.title, "Romance de Amor");
   assert.equal(song.artist, "Traditional");
-  assert.equal(song.level, "g4");
+  assert.equal(song.level, "g5");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Classical Guitar Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -183,8 +183,8 @@ test("Romance de Amor is cataloged as a Grade 4 独奏 with audio", () => {
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
     [
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/solo.mp3",
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/solo-click.mp3"
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g5-romance-de-amor/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g5-romance-de-amor/solo-click.mp3"
     ]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
@@ -192,20 +192,20 @@ test("Romance de Amor is cataloged as a Grade 4 独奏 with audio", () => {
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
     [
-      "scores/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/score-01.png",
-      "scores/acoustic-guitar/rsl-acoustic-g4-romance-de-amor/score-02.png"
+      "scores/acoustic-guitar/rsl-acoustic-g5-romance-de-amor/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g5-romance-de-amor/score-02.png"
     ]
   );
 });
 
-test("The Sound of Silence is cataloged as a Grade 2 独奏 score", () => {
+test("The Sound of Silence is cataloged as a Grade 4 独奏 score", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g2-the-sound-of-silence");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-the-sound-of-silence");
 
   assert.ok(song, "The Sound of Silence should be present");
   assert.equal(song.title, "The Sound of Silence");
   assert.equal(song.artist, "P. Simon");
-  assert.equal(song.level, "g2");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Classical Guitar Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -214,26 +214,26 @@ test("The Sound of Silence is cataloged as a Grade 2 独奏 score", () => {
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
     [
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g2-the-sound-of-silence/solo.mp3",
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g2-the-sound-of-silence/solo-click.mp3"
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-the-sound-of-silence/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-the-sound-of-silence/solo-click.mp3"
     ]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
   assert.equal(song.scoreImages.length, 1);
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
-    ["scores/acoustic-guitar/rsl-acoustic-g2-the-sound-of-silence/score-01.png"]
+    ["scores/acoustic-guitar/rsl-acoustic-g4-the-sound-of-silence/score-01.png"]
   );
 });
 
-test("You Raise Me Up is cataloged as a Grade 3 独奏 score", () => {
+test("You Raise Me Up is cataloged as a Grade 4 独奏 score", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-you-raise-me-up");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-you-raise-me-up");
 
   assert.ok(song, "You Raise Me Up should be present");
   assert.equal(song.title, "You Raise Me Up");
   assert.equal(song.artist, "Secret Garden");
-  assert.equal(song.level, "g3");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Fingerstyle Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -242,26 +242,26 @@ test("You Raise Me Up is cataloged as a Grade 3 独奏 score", () => {
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
     [
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-you-raise-me-up/solo.mp3",
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-you-raise-me-up/solo-click.mp3"
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-you-raise-me-up/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-you-raise-me-up/solo-click.mp3"
     ]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
   assert.equal(song.scoreImages.length, 1);
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
-    ["scores/acoustic-guitar/rsl-acoustic-g3-you-raise-me-up/score-01.png"]
+    ["scores/acoustic-guitar/rsl-acoustic-g4-you-raise-me-up/score-01.png"]
   );
 });
 
-test("Canon is cataloged as a Grade 3 独奏 score", () => {
+test("Canon is cataloged as a Grade 4 独奏 score", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-canon");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-canon");
 
   assert.ok(song, "Canon should be present");
   assert.equal(song.title, "Canon");
   assert.equal(song.artist, "J. Pachelbel");
-  assert.equal(song.level, "g3");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Classical Guitar Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -270,8 +270,8 @@ test("Canon is cataloged as a Grade 3 独奏 score", () => {
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
     [
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-canon/solo.mp3",
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-canon/solo-click.mp3"
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-canon/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-canon/solo-click.mp3"
     ]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
@@ -279,20 +279,20 @@ test("Canon is cataloged as a Grade 3 独奏 score", () => {
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
     [
-      "scores/acoustic-guitar/rsl-acoustic-g3-canon/score-01.png",
-      "scores/acoustic-guitar/rsl-acoustic-g3-canon/score-02.png"
+      "scores/acoustic-guitar/rsl-acoustic-g4-canon/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g4-canon/score-02.png"
     ]
   );
 });
 
-test("Perfect is cataloged as a Grade 3 独奏 score", () => {
+test("Perfect is cataloged as a Grade 4 独奏 score", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-perfect");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-perfect");
 
   assert.ok(song, "Perfect should be present");
   assert.equal(song.title, "Perfect");
   assert.equal(song.artist, "Ed Sheeran");
-  assert.equal(song.level, "g3");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Fingerstyle Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -300,27 +300,27 @@ test("Perfect is cataloged as a Grade 3 独奏 score", () => {
   assert.equal(song.pdfPages, "1-2");
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
-    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-perfect/solo.mp3"]
+    ["assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-perfect/solo.mp3"]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo"]);
   assert.equal(song.scoreImages.length, 2);
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
     [
-      "scores/acoustic-guitar/rsl-acoustic-g3-perfect/score-01.png",
-      "scores/acoustic-guitar/rsl-acoustic-g3-perfect/score-02.png"
+      "scores/acoustic-guitar/rsl-acoustic-g4-perfect/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g4-perfect/score-02.png"
     ]
   );
 });
 
-test("Kiss The Rain is cataloged as a Grade 3 独奏 score with audio", () => {
+test("Kiss The Rain is cataloged as a Grade 4 独奏 score with audio", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-kiss-the-rain");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-kiss-the-rain");
 
   assert.ok(song, "Kiss The Rain should be present");
   assert.equal(song.title, "Kiss The Rain");
   assert.equal(song.artist, "Yiruma");
-  assert.equal(song.level, "g3");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Fingerstyle Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -330,8 +330,8 @@ test("Kiss The Rain is cataloged as a Grade 3 独奏 score with audio", () => {
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
     [
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-kiss-the-rain/solo.mp3",
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-kiss-the-rain/solo-click.mp3"
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-kiss-the-rain/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-kiss-the-rain/solo-click.mp3"
     ]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
@@ -339,20 +339,20 @@ test("Kiss The Rain is cataloged as a Grade 3 独奏 score with audio", () => {
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
     [
-      "scores/acoustic-guitar/rsl-acoustic-g3-kiss-the-rain/score-01.png",
-      "scores/acoustic-guitar/rsl-acoustic-g3-kiss-the-rain/score-02.png"
+      "scores/acoustic-guitar/rsl-acoustic-g4-kiss-the-rain/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g4-kiss-the-rain/score-02.png"
     ]
   );
 });
 
-test("Wake Me Up When September Ends is cataloged as a Grade 3 独奏 score", () => {
+test("Wake Me Up When September Ends is cataloged as a Grade 4 独奏 score", () => {
   const data = loadGuitarData();
-  const song = data.songs.find((item) => item.id === "rsl-acoustic-g3-wake-me-up-when-september-ends");
+  const song = data.songs.find((item) => item.id === "rsl-acoustic-g4-wake-me-up-when-september-ends");
 
   assert.ok(song, "Wake Me Up When September Ends should be present");
   assert.equal(song.title, "Wake Me Up When September Ends");
   assert.equal(song.artist, "Green Day");
-  assert.equal(song.level, "g3");
+  assert.equal(song.level, "g4");
   assert.equal(song.category, "独奏");
   assert.equal(song.style, "Fingerstyle Solo");
   assert.equal(song.source, "Teacher Upload");
@@ -365,8 +365,8 @@ test("Wake Me Up When September Ends is cataloged as a Grade 3 独奏 score", ()
   assert.deepEqual(
     Array.from(song.audio, (item) => localAssetPathFromSrc(item.src)),
     [
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/solo.mp3",
-      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/solo-click.mp3"
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-wake-me-up-when-september-ends/solo.mp3",
+      "assets/audio/rockschool/acoustic-guitar/rsl-acoustic-g4-wake-me-up-when-september-ends/solo-click.mp3"
     ]
   );
   assert.deepEqual(Array.from(song.audio, (item) => item.title), ["Solo", "Solo (click)"]);
@@ -374,9 +374,9 @@ test("Wake Me Up When September Ends is cataloged as a Grade 3 独奏 score", ()
   assert.deepEqual(
     Array.from(song.scoreImages, (image) => localAssetPathFromSrc(image.src)),
     [
-      "scores/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/score-01.png",
-      "scores/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/score-02.png",
-      "scores/acoustic-guitar/rsl-acoustic-g3-wake-me-up-when-september-ends/score-03.png"
+      "scores/acoustic-guitar/rsl-acoustic-g4-wake-me-up-when-september-ends/score-01.png",
+      "scores/acoustic-guitar/rsl-acoustic-g4-wake-me-up-when-september-ends/score-02.png",
+      "scores/acoustic-guitar/rsl-acoustic-g4-wake-me-up-when-september-ends/score-03.png"
     ]
   );
 });
