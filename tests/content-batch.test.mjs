@@ -43,10 +43,14 @@ class Statement {
     if (this.sql.includes("site_state")) return { value: this.db.activeReleaseId };
     return this.db.releaseExists && this.sql.includes("catalog_releases") ? { id: this.params[0] } : null;
   }
+  async all() {
+    if (this.sql.includes("catalog_release_songs")) return { results: this.db.previousSongs || [] };
+    return { results: [] };
+  }
 }
 
 class Db {
-  constructor() { this.activeReleaseId = "release-old"; this.releaseExists = true; this.nonceUsed = false; this.batches = []; }
+  constructor() { this.activeReleaseId = "release-old"; this.releaseExists = true; this.nonceUsed = false; this.previousSongs = []; this.batches = []; }
   prepare(sql) { return new Statement(sql, this); }
   async batch(statements) { this.batches.push(statements); return statements.map(() => ({ success: true })); }
 }
@@ -79,5 +83,54 @@ test("publishReleaseBatch verifies every media object before one atomic D1 batch
 test("publishReleaseBatch leaves D1 untouched when one media object is missing", async () => {
   const db = new Db();
   await assert.rejects(publishReleaseBatch({ db, bucket: { head: async () => null }, payload: payload(), nonce: "nonce-batch-123457" }), /missing/i);
+  assert.equal(db.batches.length, 0);
+});
+
+test("publishReleaseBatch reuses active audio without re-uploading it for score-only batches", async () => {
+  const db = new Db();
+  const oldAudioKey = "release-old/morning-sketch/audio-01-aaaaaaaaaaaa.mp3";
+  const newReleaseId = "release-20260717-score-only";
+  const scoreKey = `${newReleaseId}/morning-sketch/score-01-page-bbbbbbbbbbbb.png`;
+  const previousSong = song("morning-sketch", "release-old", 0);
+  previousSong.audio[0].src = `/media/${oldAudioKey}`;
+  db.previousSongs = [{ song_id: previousSong.id, song_json: JSON.stringify(previousSong) }];
+  const scoreSong = { ...previousSong, scoreImages: [{ title: "Page 1", src: `/media/${scoreKey}` }] };
+  const payload = {
+    releaseId: newReleaseId,
+    createdAt: "2026-07-17T12:00:00.000Z",
+    reuseExistingAudio: true,
+    songs: [scoreSong],
+    media: [{ key: scoreKey, sha256: "b".repeat(64), size: 200, contentType: "image/png" }]
+  };
+  const headed = [];
+  const result = await publishReleaseBatch({
+    db,
+    bucket: { head: async (key) => { headed.push(key); return { size: 200, customMetadata: { sha256: "b".repeat(64) } }; } },
+    payload,
+    nonce: "nonce-score-only-123456"
+  });
+  assert.equal(result.releaseId, newReleaseId);
+  assert.deepEqual(headed, [scoreKey]);
+  assert.equal(db.batches.length, 1);
+  const songInsert = db.batches[0].find((statement) => statement.sql.includes("INSERT INTO catalog_release_songs") && statement.sql.includes("VALUES"));
+  assert.match(songInsert.params[4], new RegExp(oldAudioKey));
+  assert.match(songInsert.params[4], new RegExp(scoreKey));
+});
+
+test("publishReleaseBatch rejects changed audio in score-only reuse mode", async () => {
+  const db = new Db();
+  const previousSong = song("morning-sketch", "release-old", 0);
+  db.previousSongs = [{ song_id: previousSong.id, song_json: JSON.stringify(previousSong) }];
+  const scoreKey = "release-20260717-score-only/morning-sketch/score-01-page-bbbbbbbbbbbb.png";
+  const changedSong = { ...previousSong, audio: [{ ...previousSong.audio[0], src: "/media/release-old/morning-sketch/audio-01-cccccccccccc.mp3" }], scoreImages: [{ title: "Page 1", src: `/media/${scoreKey}` }] };
+  await assert.rejects(
+    publishReleaseBatch({
+      db,
+      bucket: { head: async () => ({ size: 200, customMetadata: { sha256: "b".repeat(64) } }) },
+      payload: { releaseId: "release-20260717-score-only-2", createdAt: "2026-07-17T12:00:00.000Z", reuseExistingAudio: true, songs: [changedSong], media: [{ key: scoreKey, sha256: "b".repeat(64), size: 200, contentType: "image/png" }] },
+      nonce: "nonce-score-only-123457"
+    }),
+    /cannot change audio/i
+  );
   assert.equal(db.batches.length, 0);
 });

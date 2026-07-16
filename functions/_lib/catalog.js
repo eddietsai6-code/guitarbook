@@ -84,7 +84,7 @@ function validateSong(song) {
   };
 }
 
-function validateMediaDescriptors(items, releaseId, songs) {
+function validateMediaDescriptors(items, releaseId, songs, { existingMediaKeys = new Set() } = {}) {
   if (!Array.isArray(items) || items.length === 0) throw new Error("media must contain at least one object.");
   if (items.length > MAX_BATCH_MEDIA) throw new Error(`media cannot exceed ${MAX_BATCH_MEDIA} objects per batch.`);
   const media = items.map((item, index) => {
@@ -111,7 +111,8 @@ function validateMediaDescriptors(items, releaseId, songs) {
   }
   for (const song of songs) {
     for (const item of [...song.audio, ...song.scoreImages]) {
-      if (!keys.has(item.src.slice("/media/".length))) {
+      const mediaKey = item.src.slice("/media/".length);
+      if (!keys.has(mediaKey) && !existingMediaKeys.has(mediaKey)) {
         throw new Error(`Song media URL is not declared in media: ${item.src}`);
       }
     }
@@ -119,7 +120,7 @@ function validateMediaDescriptors(items, releaseId, songs) {
   return media;
 }
 
-export function validatePublishBatchPayload(payload) {
+export function validatePublishBatchPayload(payload, options = {}) {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("Publish payload must be an object.");
   const releaseId = requiredText(payload.releaseId, "releaseId", 120);
   if (!RELEASE_ID_PATTERN.test(releaseId)) throw new Error("releaseId is invalid.");
@@ -132,7 +133,7 @@ export function validatePublishBatchPayload(payload) {
     if (songIds.has(song.id)) throw new Error(`duplicate song id: ${song.id}`);
     songIds.add(song.id);
   }
-  const media = validateMediaDescriptors(payload.media, releaseId, songs);
+  const media = validateMediaDescriptors(payload.media, releaseId, songs, options);
   return { releaseId, createdAt: new Date(createdAt).toISOString(), songs, media };
 }
 
@@ -165,11 +166,34 @@ async function verifyMediaObjects(bucket, media) {
 
 export async function publishReleaseBatch({ db, bucket, payload: input, nonce }) {
   if (!db || !bucket) throw new Error("Cloudflare content bindings are not configured.");
-  const payload = validatePublishBatchPayload(input);
+  const previousReleaseId = await activeReleaseId(db);
+  let existingMediaKeys = new Set();
+  let previousSongs = new Map();
+  if (input?.reuseExistingAudio) {
+    if (!previousReleaseId) throw new Error("Score-only reuse requires an active release.");
+    if (!Array.isArray(input.media) || input.media.some((item) => item?.contentType !== "image/png")) {
+      throw new Error("Score-only reuse accepts image/png media only.");
+    }
+    const previousResult = await db.prepare(
+      "SELECT song_id, song_json FROM catalog_release_songs WHERE release_id = ?"
+    ).bind(previousReleaseId).all();
+    previousSongs = new Map((previousResult.results || []).map((row) => [row.song_id, JSON.parse(row.song_json)]));
+    for (const song of input.songs || []) {
+      const previousSong = previousSongs.get(song?.id);
+      if (!previousSong) throw new Error(`Score-only reuse song is not in the active release: ${song?.id || "unknown"}`);
+      if (!Array.isArray(song.scoreImages) || song.scoreImages.length === 0) {
+        throw new Error(`Score-only reuse requires scoreImages: ${song.id}`);
+      }
+      const incomingAudio = JSON.stringify((song.audio || []).map(({ id, title, src }) => ({ id, title, src })));
+      const previousAudio = JSON.stringify((previousSong.audio || []).map(({ id, title, src }) => ({ id, title, src })));
+      if (incomingAudio !== previousAudio) throw new Error(`Score-only reuse cannot change audio: ${song.id}`);
+      for (const item of previousSong.audio || []) existingMediaKeys.add(String(item.src || "").slice("/media/".length));
+    }
+  }
+  const payload = validatePublishBatchPayload(input, { existingMediaKeys });
   await assertUnusedNonce(db, nonce);
   await verifyMediaObjects(bucket, payload.media);
 
-  const previousReleaseId = await activeReleaseId(db);
   const statements = [
     db.prepare("INSERT INTO catalog_releases (id, created_at, published_at) VALUES (?, ?, ?)")
       .bind(payload.releaseId, payload.createdAt, new Date().toISOString())
