@@ -1,6 +1,7 @@
 const LEVEL_IDS = new Set(["debut", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8"]);
 const RELEASE_ID_PATTERN = /^release-[a-z0-9-]{8,96}$/;
 const SONG_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const MAX_BATCH_MEDIA = 45;
 
 function requiredText(value, field, maxLength = 500) {
   const text = String(value || "").trim();
@@ -62,6 +63,10 @@ function validateSong(song) {
     passStandard: requiredText(teachingInput.passStandard, "song.teaching.passStandard")
   };
 
+  const audio = validateSongMedia(song.audio || [], "audio");
+  if (audio.length === 0) throw new Error("song.audio must contain at least one item.");
+  const scoreImages = validateSongMedia(song.scoreImages || [], "scoreImages");
+
   return {
     ...song,
     id,
@@ -73,22 +78,16 @@ function validateSong(song) {
     category: requiredText(song.category || "Teaching Piece", "song.category", 200),
     style: requiredText(song.style || "Acoustic Guitar", "song.style", 200),
     techniques: validateStringArray(song.techniques || [], "song.techniques"),
-    audio: validateSongMedia(song.audio || [], "audio"),
-    scoreImages: validateSongMedia(song.scoreImages || [], "scoreImages"),
+    audio,
+    scoreImages,
     teaching
   };
 }
 
-export function validatePublishPayload(payload) {
-  if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("Publish payload must be an object.");
-  const releaseId = requiredText(payload.releaseId, "releaseId", 120);
-  if (!RELEASE_ID_PATTERN.test(releaseId)) throw new Error("releaseId is invalid.");
-  const createdAt = requiredText(payload.createdAt, "createdAt", 40);
-  if (!Number.isFinite(Date.parse(createdAt))) throw new Error("createdAt must be an ISO timestamp.");
-  const song = validateSong(payload.song);
-  if (!Array.isArray(payload.media) || payload.media.length === 0) throw new Error("media must contain at least one object.");
-
-  const media = payload.media.map((item, index) => {
+function validateMediaDescriptors(items, releaseId, songs) {
+  if (!Array.isArray(items) || items.length === 0) throw new Error("media must contain at least one object.");
+  if (items.length > MAX_BATCH_MEDIA) throw new Error(`media cannot exceed ${MAX_BATCH_MEDIA} objects per batch.`);
+  const media = items.map((item, index) => {
     const size = Number(item?.size);
     if (!Number.isInteger(size) || size <= 0) throw new Error(`media[${index}].size must be a positive integer.`);
     const sha256 = requiredText(item.sha256, `media[${index}].sha256`, 64).toLowerCase();
@@ -98,22 +97,48 @@ export function validatePublishPayload(payload) {
       throw new Error(`media[${index}].contentType is not allowed.`);
     }
     const key = validateMediaKey(item.key);
-    if (!key.startsWith(`${releaseId}/${song.id}/`)) {
-      throw new Error(`media[${index}].key must stay inside its release and song prefix.`);
-    }
+    const owningSong = songs.find((song) => key.startsWith(`${releaseId}/${song.id}/`));
+    if (!owningSong) throw new Error(`media[${index}].key must stay inside a published song prefix.`);
     if (!key.split("/").at(-1).includes(sha256.slice(0, 12))) {
       throw new Error(`media[${index}].key must contain its SHA-256 hash prefix.`);
     }
     return { key, size, sha256, contentType };
   });
-
-  const declaredKeys = new Set(media.map((item) => item.key));
-  for (const item of [...song.audio, ...song.scoreImages]) {
-    if (!declaredKeys.has(item.src.slice("/media/".length))) {
-      throw new Error(`Song media URL is not declared in media: ${item.src}`);
+  const keys = new Set();
+  for (const item of media) {
+    if (keys.has(item.key)) throw new Error(`media key is duplicated: ${item.key}`);
+    keys.add(item.key);
+  }
+  for (const song of songs) {
+    for (const item of [...song.audio, ...song.scoreImages]) {
+      if (!keys.has(item.src.slice("/media/".length))) {
+        throw new Error(`Song media URL is not declared in media: ${item.src}`);
+      }
     }
   }
-  return { releaseId, createdAt: new Date(createdAt).toISOString(), song, media };
+  return media;
+}
+
+export function validatePublishBatchPayload(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("Publish payload must be an object.");
+  const releaseId = requiredText(payload.releaseId, "releaseId", 120);
+  if (!RELEASE_ID_PATTERN.test(releaseId)) throw new Error("releaseId is invalid.");
+  const createdAt = requiredText(payload.createdAt, "createdAt", 40);
+  if (!Number.isFinite(Date.parse(createdAt))) throw new Error("createdAt must be an ISO timestamp.");
+  if (!Array.isArray(payload.songs) || payload.songs.length === 0) throw new Error("songs must contain at least one object.");
+  const songs = payload.songs.map(validateSong);
+  const songIds = new Set();
+  for (const song of songs) {
+    if (songIds.has(song.id)) throw new Error(`duplicate song id: ${song.id}`);
+    songIds.add(song.id);
+  }
+  const media = validateMediaDescriptors(payload.media, releaseId, songs);
+  return { releaseId, createdAt: new Date(createdAt).toISOString(), songs, media };
+}
+
+export function validatePublishPayload(payload) {
+  const batch = validatePublishBatchPayload({ ...payload, songs: [payload?.song] });
+  return { releaseId: batch.releaseId, createdAt: batch.createdAt, song: batch.songs[0], media: batch.media };
 }
 
 async function activeReleaseId(db) {
@@ -126,12 +151,8 @@ async function assertUnusedNonce(db, nonce) {
   if (existing) throw new Error("Publish request nonce has already been used.");
 }
 
-export async function publishRelease({ db, bucket, payload: input, nonce }) {
-  if (!db || !bucket) throw new Error("Cloudflare content bindings are not configured.");
-  const payload = validatePublishPayload(input);
-  await assertUnusedNonce(db, nonce);
-
-  for (const descriptor of payload.media) {
+async function verifyMediaObjects(bucket, media) {
+  for (const descriptor of media) {
     const object = await bucket.head(descriptor.key);
     if (!object) throw new Error(`R2 media object is missing: ${descriptor.key}`);
     if (Number(object.size) !== descriptor.size) throw new Error(`R2 media size does not match: ${descriptor.key}`);
@@ -140,6 +161,13 @@ export async function publishRelease({ db, bucket, payload: input, nonce }) {
       throw new Error(`R2 media hash does not match: ${descriptor.key}`);
     }
   }
+}
+
+export async function publishReleaseBatch({ db, bucket, payload: input, nonce }) {
+  if (!db || !bucket) throw new Error("Cloudflare content bindings are not configured.");
+  const payload = validatePublishBatchPayload(input);
+  await assertUnusedNonce(db, nonce);
+  await verifyMediaObjects(bucket, payload.media);
 
   const previousReleaseId = await activeReleaseId(db);
   const statements = [
@@ -154,12 +182,16 @@ export async function publishRelease({ db, bucket, payload: input, nonce }) {
       ).bind(payload.releaseId, previousReleaseId)
     );
   }
+  for (const song of payload.songs) {
+    statements.push(
+      db.prepare("DELETE FROM catalog_release_songs WHERE release_id = ? AND song_id = ?")
+        .bind(payload.releaseId, song.id),
+      db.prepare(
+        "INSERT INTO catalog_release_songs (release_id, song_id, level_id, sort_order, song_json) VALUES (?, ?, ?, ?, ?)"
+      ).bind(payload.releaseId, song.id, song.level, song.sortOrder, JSON.stringify(song))
+    );
+  }
   statements.push(
-    db.prepare("DELETE FROM catalog_release_songs WHERE release_id = ? AND song_id = ?")
-      .bind(payload.releaseId, payload.song.id),
-    db.prepare(
-      "INSERT INTO catalog_release_songs (release_id, song_id, level_id, sort_order, song_json) VALUES (?, ?, ?, ?, ?)"
-    ).bind(payload.releaseId, payload.song.id, payload.song.level, payload.song.sortOrder, JSON.stringify(payload.song)),
     db.prepare(
       "INSERT INTO site_state (key, value, updated_at) VALUES ('active_release_id', ?, ?) " +
         "ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at"
@@ -168,7 +200,12 @@ export async function publishRelease({ db, bucket, payload: input, nonce }) {
       .bind(nonce, new Date().toISOString())
   );
   await db.batch(statements);
-  return { releaseId: payload.releaseId, previousReleaseId, songId: payload.song.id };
+  return { releaseId: payload.releaseId, previousReleaseId, songIds: payload.songs.map((song) => song.id) };
+}
+
+export async function publishRelease({ db, bucket, payload: input, nonce }) {
+  const result = await publishReleaseBatch({ db, bucket, payload: { ...input, songs: [input?.song] }, nonce });
+  return { ...result, songId: result.songIds[0] };
 }
 
 export async function activateRelease({ db, releaseId, nonce }) {
