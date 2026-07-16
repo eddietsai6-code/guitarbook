@@ -134,3 +134,34 @@ test("publishReleaseBatch rejects changed audio in score-only reuse mode", async
   );
   assert.equal(db.batches.length, 0);
 });
+
+test("publishReleaseBatch accepts an explicit multi-batch final score-only switch", async () => {
+  const db = new Db();
+  const previousSong = song("morning-sketch", "release-old", 0);
+  db.previousSongs = [{ song_id: previousSong.id, song_json: JSON.stringify(previousSong) }];
+  const scoreImages = [];
+  const media = [];
+  for (let index = 0; index < 46; index += 1) {
+    const hash = index.toString(16).padStart(64, "0");
+    const key = `release-20260717-score-final/morning-sketch/score-${String(index + 1).padStart(2, "0")}-${hash.slice(0, 12)}.png`;
+    scoreImages.push({ title: `Page ${index + 1}`, src: `/media/${key}` });
+    media.push({ key, sha256: hash, size: 200 + index, contentType: "image/png" });
+  }
+  const headed = [];
+  const result = await publishReleaseBatch({
+    db,
+    bucket: { head: async (key) => { headed.push(key); const item = media.find((entry) => entry.key === key); return { size: item.size, customMetadata: { sha256: item.sha256 } }; } },
+    payload: {
+      releaseId: "release-20260717-score-final",
+      createdAt: "2026-07-17T12:00:00.000Z",
+      reuseExistingAudio: true,
+      finalScoreOnly: true,
+      songs: [{ ...previousSong, scoreImages }],
+      media
+    },
+    nonce: "nonce-score-final-123456"
+  });
+  assert.equal(result.releaseId, "release-20260717-score-final");
+  assert.equal(headed.length, 46);
+  assert.equal(db.batches.length, 1);
+});

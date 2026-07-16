@@ -2,6 +2,7 @@ const LEVEL_IDS = new Set(["debut", "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g
 const RELEASE_ID_PATTERN = /^release-[a-z0-9-]{8,96}$/;
 const SONG_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_BATCH_MEDIA = 45;
+const MAX_FINAL_SCORE_MEDIA = 225;
 
 function requiredText(value, field, maxLength = 500) {
   const text = String(value || "").trim();
@@ -84,9 +85,9 @@ function validateSong(song) {
   };
 }
 
-function validateMediaDescriptors(items, releaseId, songs, { existingMediaKeys = new Set() } = {}) {
+function validateMediaDescriptors(items, releaseId, songs, { existingMediaKeys = new Set(), maxMediaCount = MAX_BATCH_MEDIA } = {}) {
   if (!Array.isArray(items) || items.length === 0) throw new Error("media must contain at least one object.");
-  if (items.length > MAX_BATCH_MEDIA) throw new Error(`media cannot exceed ${MAX_BATCH_MEDIA} objects per batch.`);
+  if (items.length > maxMediaCount) throw new Error(`media cannot exceed ${maxMediaCount} objects per batch.`);
   const media = items.map((item, index) => {
     const size = Number(item?.size);
     if (!Number.isInteger(size) || size <= 0) throw new Error(`media[${index}].size must be a positive integer.`);
@@ -167,6 +168,10 @@ async function verifyMediaObjects(bucket, media) {
 export async function publishReleaseBatch({ db, bucket, payload: input, nonce }) {
   if (!db || !bucket) throw new Error("Cloudflare content bindings are not configured.");
   const previousReleaseId = await activeReleaseId(db);
+  const finalScoreOnly = input?.finalScoreOnly === true;
+  if (finalScoreOnly && input?.reuseExistingAudio !== true) {
+    throw new Error("Final score-only release requires reuseExistingAudio.");
+  }
   let existingMediaKeys = new Set();
   let previousSongs = new Map();
   if (input?.reuseExistingAudio) {
@@ -190,7 +195,16 @@ export async function publishReleaseBatch({ db, bucket, payload: input, nonce })
       for (const item of previousSong.audio || []) existingMediaKeys.add(String(item.src || "").slice("/media/".length));
     }
   }
-  const payload = validatePublishBatchPayload(input, { existingMediaKeys });
+  const payload = validatePublishBatchPayload(input, {
+    existingMediaKeys,
+    maxMediaCount: finalScoreOnly ? MAX_FINAL_SCORE_MEDIA : MAX_BATCH_MEDIA
+  });
+  if (finalScoreOnly) {
+    if (payload.media.length <= MAX_BATCH_MEDIA || payload.media.length > MAX_FINAL_SCORE_MEDIA) {
+      throw new Error(`Final score-only release requires between ${MAX_BATCH_MEDIA + 1} and ${MAX_FINAL_SCORE_MEDIA} PNG media objects.`);
+    }
+    if (payload.media.some((item) => item.contentType !== "image/png")) throw new Error("Final score-only release accepts image/png media only.");
+  }
   await assertUnusedNonce(db, nonce);
   await verifyMediaObjects(bucket, payload.media);
 
